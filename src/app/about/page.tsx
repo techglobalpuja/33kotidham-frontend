@@ -217,7 +217,7 @@ const AboutUsPage: React.FC = () => {
                 Guiding Souls Since 2003
               </h3>
               <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600 font-['Lato'] mb-6 leading-relaxed">
-                Founded by a lineage of spiritual practitioners, Global Puja began as a small ashram in the foothills of the Himalayas. Our founder, Acharya Devanand, dedicated his life to mastering the ancient arts of Vedic astrology, palmistry, and numerology.
+                Founded by a lineage of spiritual practitioners, 33KotiDham began as a small ashram in the foothills of the Himalayas. Our founder, Acharya Devanand, dedicated his life to mastering the ancient arts of Vedic astrology, palmistry, and numerology.
               </p>
               <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600 font-['Lato'] mb-6 leading-relaxed">
                 Today, we have evolved into a global spiritual guidance center, serving thousands of seekers across continents. Our mission remains unchanged: to illuminate paths with cosmic wisdom and empower individuals to realize their highest potential.

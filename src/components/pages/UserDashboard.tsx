@@ -199,7 +199,7 @@ const UserDashboard: React.FC = () => {
                 />
                 <Image
                   src="/images/img_group_133643.svg"
-                  alt="Global Puja"
+                  alt="33KotiDham"
                   width={120}
                   height={21}
                   className="w-24 h-5"

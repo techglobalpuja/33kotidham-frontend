@@ -1,5 +1,5 @@
 // Application constants
-export const APP_NAME = 'Global Puja';
+export const APP_NAME = '33KotiDham';
 export const APP_DESCRIPTION = 'पूजा एवं ज्योतिष सेवाएं';
 
 export const ROUTES = {

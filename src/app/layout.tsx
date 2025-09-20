@@ -9,7 +9,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Global Puja - पूजा एवं ज्योतिष सेवाएं',
+  title: '33KotiDham - पूजा एवं ज्योतिष सेवाएं',
   description: 'Trusted by millions of devotees for authentic puja and astrology services',
   icons: {
     icon: '/favicon.ico',

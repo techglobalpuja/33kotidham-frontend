@@ -131,7 +131,7 @@ const Header: React.FC = () => {
         {/* Logo Section */}
         <div className="flex items-center">
           <Image
-            src="/images/img_group_133643.svg"
+            src="/images/logo.webp"
             alt="Logo Text"
             width={100}
             height={18}

@@ -25,27 +25,20 @@ const Footer: React.FC = () => {
           <div className="flex flex-col lg:flex-row justify-between items-start w-full mb-8 sm:mb-12 md:mb-16">
             
             {/* Logo and Description Section */}
-            <div className="flex flex-col gap-4 sm:gap-5 justify-start items-start w-full lg:w-1/5 mb-8 lg:mb-0">
-              <div className="flex gap-3 justify-start items-center w-auto">
+            <div className="flex flex-col gap-6 sm:gap-8 justify-center items-center w-full lg:w-1/5 mb-8 lg:mb-0">
+              <div className="flex justify-center items-center w-full">
                 <Image
-                  src="/images/img_group_133653_white_a700.svg"
+                  src="/images/logo.webp"
                   alt="Footer Logo Icon"
-                  width={56}
-                  height={52}
-                  className="w-[28px] h-[26px] sm:w-[42px] sm:h-[39px] md:w-[56px] md:h-[52px]"
-                />
-                <Image
-                  src="/images/img_group_133643.svg"
-                  alt="Footer Logo Text"
-                  width={174}
-                  height={30}
-                  className="w-[87px] h-[15px] sm:w-[131px] sm:h-[23px] md:w-[174px] md:h-[30px]"
+                  width={160}
+                  height={148}
+                  className="w-32 h-30 sm:w-40 sm:h-36 md:w-48 md:h-44 object-contain"
                 />
               </div>
-              <p className="text-sm sm:text-base md:text-[16px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-left text-white font-['Work_Sans'] w-full">
+              <p className="text-sm sm:text-base md:text-[16px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-white font-['Work_Sans'] w-full max-w-[250px] sm:max-w-[300px]">
                 Duis et neque non quam feugiat posuere. In eu vehicula dolor. Etiam faucibucidunt.
               </p>
-              <div className="flex gap-3 justify-start items-center w-auto">
+              <div className="flex gap-3 justify-center items-center w-auto">
                 <Image src="/images/img_group.svg" alt="Social 1" width={30} height={30} className="w-[24px] h-[24px] sm:w-[27px] sm:h-[27px] md:w-[30px] md:h-[30px]" />
                 <Image src="/images/img_group_deep_orange_900.svg" alt="Social 2" width={30} height={30} className="w-[24px] h-[24px] sm:w-[27px] sm:h-[27px] md:w-[30px] md:h-[30px]" />
                 <Image src="/images/img_group_deep_orange_900_30x30.svg" alt="Social 3" width={30} height={30} className="w-[24px] h-[24px] sm:w-[27px] sm:h-[27px] md:w-[30px] md:h-[30px]" />
