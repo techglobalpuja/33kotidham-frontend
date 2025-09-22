@@ -362,6 +362,68 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
     }
   ]);
 
+  // Blog management state
+  const [blogSubTab, setBlogSubTab] = useState<'all' | 'add'>('all');
+  
+  // Blog form data
+  const [blogForm, setBlogForm] = useState({
+    title: '',
+    excerpt: '',
+    content: '',
+    author: '',
+    category: 'spiritual',
+    tags: '',
+    image: '',
+    isActive: true
+  });
+  
+  // Blog image upload state
+  const [selectedBlogImage, setSelectedBlogImage] = useState<File | null>(null);
+  const [blogImagePreview, setBlogImagePreview] = useState<string>('');
+
+  // Mock blog items data
+  const [blogItems] = useState([
+    {
+      id: '1',
+      title: 'The Power of Mantras in Daily Life',
+      excerpt: 'Discover how chanting mantras can transform your daily routine and bring positive energy.',
+      content: 'Detailed content about mantras...',
+      author: 'Admin',
+      category: 'spiritual',
+      tags: 'mantras, spirituality, daily practice',
+      image: '/images/blog1.jpg',
+      isActive: true,
+      createdDate: '2024-01-15',
+      views: 1250
+    },
+    {
+      id: '2',
+      title: 'Astrological Remedies for Career Growth',
+      excerpt: 'Learn about effective astrological remedies to boost your career prospects.',
+      content: 'Detailed content about career remedies...',
+      author: 'Admin',
+      category: 'astrology',
+      tags: 'career, astrology, remedies',
+      image: '/images/blog2.jpg',
+      isActive: true,
+      createdDate: '2024-01-10',
+      views: 980
+    },
+    {
+      id: '3',
+      title: 'Benefits of Regular Puja Practices',
+      excerpt: 'Understanding the spiritual and psychological benefits of maintaining regular puja practices.',
+      content: 'Detailed content about puja benefits...',
+      author: 'Admin',
+      category: 'puja',
+      tags: 'puja, benefits, spirituality',
+      image: '/images/blog3.jpg',
+      isActive: true,
+      createdDate: '2024-01-05',
+      views: 1520
+    }
+  ]);
+
   // Mock products data
   const [products] = useState<Product[]>([
     {
@@ -579,6 +641,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
     return Math.round((inrAmount / 83) * 100) / 100;
   };
 
+  // Handle blog image upload
+  const handleBlogImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedBlogImage(file);
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBlogImagePreview(reader.result as string);
+        setBlogForm(prev => ({ ...prev, image: `/uploads/blogs/${file.name}` }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Reset blog image upload
+  const resetBlogImageUpload = () => {
+    setSelectedBlogImage(null);
+    setBlogImagePreview('');
+    setBlogForm(prev => ({ ...prev, image: '' }));
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -637,6 +722,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
               { id: 'users', name: 'Users', icon: '👥' },
               { id: 'chawada', name: 'Chawada Store', icon: '🛍️' },
               { id: 'orders', name: 'Orders', icon: '📦' },
+              { id: 'blogs', name: 'Blogs', icon: '📝' },
               { id: 'content', name: 'Content', icon: '📁' },
               { id: 'analytics', name: 'Analytics', icon: '📈' }
             ].map((tab) => (
@@ -2921,6 +3007,346 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'blogs' && (
+              <div className="space-y-6">
+                {/* Blog Management Sub-tabs */}
+                <div className="bg-white rounded-xl shadow-lg border border-orange-100">
+                  <div className="border-b border-gray-200">
+                    <nav className="flex space-x-8 px-6">
+                      <button
+                        onClick={() => setBlogSubTab('all')}
+                        className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                          blogSubTab === 'all'
+                            ? 'border-purple-500 text-purple-600'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span>📋</span>
+                          <span>All Blogs ({blogItems.length})</span>
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => setBlogSubTab('add')}
+                        className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                          blogSubTab === 'add'
+                            ? 'border-purple-500 text-purple-600'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span>➕</span>
+                          <span>Add New Blog</span>
+                        </span>
+                      </button>
+                    </nav>
+                  </div>
+
+                  {/* All Blogs Section */}
+                  {blogSubTab === 'all' && (
+                    <div className="p-6">
+                      <div className="flex justify-between items-center mb-6">
+                        <div>
+                          <h2 className="text-xl font-semibold text-gray-900 font-['Philosopher']">All Blogs</h2>
+                          <p className="text-sm text-gray-600 mt-1">Manage your blog posts</p>
+                        </div>
+                        <div className="flex gap-3">
+                          <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm">
+                            Export Blogs
+                          </button>
+                          <button 
+                            onClick={() => setBlogSubTab('add')}
+                            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm"
+                          >
+                            Add New Blog
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Filters and Search */}
+                      <div className="flex flex-wrap gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex-1 min-w-64">
+                          <input
+                            type="text"
+                            placeholder="Search blogs..."
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        </div>
+                        <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
+                          <option value="all">All Categories</option>
+                          <option value="spiritual">Spiritual</option>
+                          <option value="astrology">Astrology</option>
+                          <option value="puja">Puja</option>
+                          <option value="remedies">Remedies</option>
+                        </select>
+                        <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm">
+                          <option value="all">All Status</option>
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+
+                      {/* Blogs Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {blogItems.map((blog) => (
+                          <div key={blog.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all duration-200 bg-white">
+                            <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-200 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                              <span className="text-purple-600 text-3xl">📝</span>
+                              <div className={`absolute top-2 right-2 text-xs px-2 py-1 rounded-full font-medium ${
+                                blog.isActive ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                              }`}>
+                                {blog.isActive ? '● Active' : '● Inactive'}
+                              </div>
+                              <div className="absolute bottom-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                                {blog.views} views
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-start">
+                                <h4 className="font-semibold text-gray-900 text-lg font-['Philosopher'] leading-tight">{blog.title}</h4>
+                              </div>
+                              
+                              <p className="text-sm text-gray-600 line-clamp-3">{blog.excerpt}</p>
+                              
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">By {blog.author}</span>
+                                <span className="text-xs text-gray-400">•</span>
+                                <span className="text-xs text-gray-500">{new Date(blog.createdDate).toLocaleDateString()}</span>
+                              </div>
+                              
+                              <div className="flex items-center gap-2">
+                                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                                  blog.category === 'spiritual' ? 'bg-purple-100 text-purple-800' :
+                                  blog.category === 'astrology' ? 'bg-yellow-100 text-yellow-800' :
+                                  blog.category === 'puja' ? 'bg-orange-100 text-orange-800' :
+                                  blog.category === 'remedies' ? 'bg-green-100 text-green-800' :
+                                  'bg-gray-100 text-gray-800'
+                                }`}>
+                                  {blog.category.charAt(0).toUpperCase() + blog.category.slice(1)}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100">
+                              <button className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1">
+                                <span>✏️</span> Edit
+                              </button>
+                              <button className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-600 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-1">
+                                <span>👁️</span> View
+                              </button>
+                              <button className="bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200">
+                                🗑️
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Pagination */}
+                      <div className="flex justify-center items-center gap-2 mt-8">
+                        <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50" disabled>
+                          ←
+                        </button>
+                        <button className="px-3 py-2 bg-purple-500 text-white rounded-lg">1</button>
+                        <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">2</button>
+                        <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                          →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Add New Blog Section */}
+                  {blogSubTab === 'add' && (
+                    <div className="p-6">
+                      <div className="mb-6">
+                        <h2 className="text-xl font-semibold text-gray-900 font-['Philosopher']">Add New Blog</h2>
+                        <p className="text-sm text-gray-600 mt-1">Create a new blog post</p>
+                      </div>
+                      
+                      <form className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <EditText
+                            label="Blog Title"
+                            placeholder="Enter blog title"
+                            value={blogForm.title}
+                            onChange={(value) => setBlogForm(prev => ({ ...prev, title: value }))}
+                            required
+                          />
+                          
+                          <EditText
+                            label="Author"
+                            placeholder="Enter author name"
+                            value={blogForm.author}
+                            onChange={(value) => setBlogForm(prev => ({ ...prev, author: value }))}
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Blog Image</label>
+                          <div className="space-y-4">
+                            {/* Image Upload Box */}
+                            <div className="relative">
+                              <input
+                                type="file"
+                                id="blogImageUpload"
+                                accept="image/*"
+                                onChange={handleBlogImageUpload}
+                                className="hidden"
+                              />
+                              <label
+                                htmlFor="blogImageUpload"
+                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-purple-300 rounded-lg cursor-pointer bg-purple-50 hover:bg-purple-100 transition-colors duration-200"
+                              >
+                                {blogImagePreview ? (
+                                  <div className="relative w-full h-full">
+                                    <img
+                                      src={blogImagePreview}
+                                      alt="Blog preview"
+                                      className="w-full h-full object-cover rounded-lg"
+                                    />
+                                    <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
+                                      <span className="text-white text-sm font-medium">Click to change</span>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg className="w-8 h-8 mb-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                    <p className="mb-1 text-sm text-purple-600 font-medium">
+                                      <span>Click to upload</span>
+                                    </p>
+                                    <p className="text-xs text-purple-500">PNG, JPG, JPEG up to 10MB</p>
+                                  </div>
+                                )}
+                              </label>
+                            </div>
+                            
+                            {/* Image Info and Remove Button */}
+                            {selectedBlogImage && (
+                              <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900">{selectedBlogImage.name}</p>
+                                    <p className="text-xs text-gray-500">{(selectedBlogImage.size / 1024 / 1024).toFixed(2)} MB</p>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={resetBlogImageUpload}
+                                  className="text-red-600 hover:text-red-700 p-1 rounded-full hover:bg-red-100 transition-colors duration-200"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
+                          <textarea
+                            value={blogForm.excerpt}
+                            onChange={(e) => setBlogForm(prev => ({ ...prev, excerpt: e.target.value }))}
+                            rows={3}
+                            className="w-full px-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Enter a short excerpt for the blog post"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                          <textarea
+                            value={blogForm.content}
+                            onChange={(e) => setBlogForm(prev => ({ ...prev, content: e.target.value }))}
+                            rows={8}
+                            className="w-full px-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Enter the full blog content"
+                            required
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select
+                              value={blogForm.category}
+                              onChange={(e) => setBlogForm(prev => ({ ...prev, category: e.target.value }))}
+                              className="w-full px-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            >
+                              <option value="spiritual">Spiritual</option>
+                              <option value="astrology">Astrology</option>
+                              <option value="puja">Puja</option>
+                              <option value="remedies">Remedies</option>
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Tags (comma separated)</label>
+                            <input
+                              type="text"
+                              value={blogForm.tags}
+                              onChange={(e) => setBlogForm(prev => ({ ...prev, tags: e.target.value }))}
+                              className="w-full px-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                              placeholder="Enter tags separated by commas"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-6">
+                          <label className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={blogForm.isActive}
+                              onChange={(e) => setBlogForm(prev => ({ ...prev, isActive: e.target.checked }))}
+                              className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                            />
+                            <span className="text-sm font-medium text-gray-700">Publish Blog</span>
+                          </label>
+                        </div>
+
+                        <div className="flex gap-4">
+                          <Button className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-medium">
+                            Publish Blog
+                          </Button>
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              setBlogForm({
+                                title: '',
+                                excerpt: '',
+                                content: '',
+                                author: '',
+                                category: 'spiritual',
+                                tags: '',
+                                image: '',
+                                isActive: true
+                              });
+                              resetBlogImageUpload();
+                            }}
+                            className="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-medium"
+                          >
+                            Reset
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
