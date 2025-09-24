@@ -1,0 +1,53 @@
+/* Google Translate Widget Styles */
+
+/* Hide the Google Translate banner/frame */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Hide the Google Translate element container */
+#google_translate_element {
+  display: none !important;
+}
+
+/* Ensure body position is not affected by translate widget */
+body {
+  position: relative !important;
+  top: 0 !important;
+}
+
+/* Hide the translate iframe if it appears */
+iframe.goog-te-menu-frame {
+  display: none !important;
+}
+
+/* Additional styles to prevent any translate UI elements from showing */
+.skiptranslate {
+  display: none !important;
+}
+
+.goog-te-menu-frame {
+  display: none !important;
+}
+
+.goog-te-menu-value {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  display: none !important;
+}
+
+.goog-te-combo {
+  display: none !important;
+}
+
+/* Ensure no translate-related elements show in the viewport */
+div[role="complementary"][aria-label*="translation"] {
+  display: none !important;
+}
+
+/* Hide any translate-related iframes */
+iframe[src*="translate.google"] {
+  display: none !important;
+}
