@@ -74,7 +74,11 @@ const LanguageSwitcher: React.FC = () => {
     setCookie(null, COOKIE_NAME, '/auto/' + lang);
     setCurrentLanguage(lang);
     setShowLanguageDropdown(false);
-    window.location.reload();
+    
+    // Add a small delay to ensure the cookie is set before reloading
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   // Don't display anything if language information is unavailable
