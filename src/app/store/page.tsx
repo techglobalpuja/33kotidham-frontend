@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
@@ -30,6 +29,34 @@ const StorePage: React.FC = () => {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [cartItems, setCartItems] = useState<string[]>([]);
 
+  // Testimonials data
+  const testimonials = [
+    {
+      name: "Meera Joshi",
+      location: "Pune, Maharashtra",
+      rating: 5,
+      text: "The Ganesha idol I purchased is absolutely beautiful! The craftsmanship is excellent and it came blessed from the temple. Highly recommended!",
+      product: "Sacred Ganesha Idol",
+      image: "/images/testimonial-1.jpg"
+    },
+    {
+      name: "Rajat Gupta",
+      location: "Jaipur, Rajasthan",
+      rating: 5,
+      text: "The Rudraksha mala has brought peace to my meditation practice. The quality is genuine and the energy is amazing. Worth every penny!",
+      product: "Rudraksha Mala",
+      image: "/images/testimonial-2.jpg"
+    },
+    {
+      name: "Kavya Nair",
+      location: "Kerala, India",
+      rating: 5,
+      text: "Fast delivery and excellent packaging. All products are authentic and of premium quality. This is now my go-to store for spiritual items.",
+      product: "Multiple Products",
+      image: "/images/testimonial-3.jpg"
+    }
+  ];
+
   // Animation trigger on component mount
   useEffect(() => {
     setIsVisible(true);
@@ -41,7 +68,7 @@ const StorePage: React.FC = () => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   // Sacred benefits of spiritual products
   const sacredBenefits = [
@@ -171,34 +198,6 @@ const StorePage: React.FC = () => {
       reviews: 67,
       inStock: true,
       tags: ['silver', 'elegant', 'chain included']
-    }
-  ];
-
-  // Testimonials data
-  const testimonials = [
-    {
-      name: "Meera Joshi",
-      location: "Pune, Maharashtra",
-      rating: 5,
-      text: "The Ganesha idol I purchased is absolutely beautiful! The craftsmanship is excellent and it came blessed from the temple. Highly recommended!",
-      product: "Sacred Ganesha Idol",
-      image: "/images/testimonial-1.jpg"
-    },
-    {
-      name: "Rajat Gupta",
-      location: "Jaipur, Rajasthan",
-      rating: 5,
-      text: "The Rudraksha mala has brought peace to my meditation practice. The quality is genuine and the energy is amazing. Worth every penny!",
-      product: "Rudraksha Mala",
-      image: "/images/testimonial-2.jpg"
-    },
-    {
-      name: "Kavya Nair",
-      location: "Kerala, India",
-      rating: 5,
-      text: "Fast delivery and excellent packaging. All products are authentic and of premium quality. This is now my go-to store for spiritual items.",
-      product: "Multiple Products",
-      image: "/images/testimonial-3.jpg"
     }
   ];
 

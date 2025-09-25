@@ -79,7 +79,7 @@ const CareerPage: React.FC = () => {
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
               Join our mission to spread spiritual wisdom and divine guidance across the world.
               <br className="hidden sm:block" />
-              Be part of a team that makes a positive impact on people's spiritual journey.
+              Be part of a team that makes a positive impact on people&apos;s spiritual journey.
             </p>
           </div>
         </div>

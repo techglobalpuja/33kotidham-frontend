@@ -10,7 +10,6 @@ import '../../styles/horoscope-animations.css';
 const YearlyHoroscopePage: React.FC = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedZodiac, setSelectedZodiac] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   // Animation trigger on component mount
@@ -154,10 +153,9 @@ const YearlyHoroscopePage: React.FC = () => {
     }
   ];
 
-  const handleZodiacClick = (zodiacId: string) => {
-    setSelectedZodiac(zodiacId);
+  const handleZodiacClick = () => {
     // In a real app, this would navigate to a specific yearly horoscope for that sign
-    // router.push(`/yearly-horoscope/${zodiacId}`);
+    // router.push(`/yearly-horoscope/${_zodiacId}`);
   };
 
   const handleBackToHome = () => {
@@ -274,7 +272,7 @@ const YearlyHoroscopePage: React.FC = () => {
             </div>
             <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
               <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-                This Year's Cosmic Insights
+                This Year&apos;s Cosmic Insights
               </span>
             </h2>
             <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
@@ -287,7 +285,7 @@ const YearlyHoroscopePage: React.FC = () => {
             {horoscopeData.map((zodiac, index) => (
               <div
                 key={zodiac.id}
-                onClick={() => handleZodiacClick(zodiac.id)}
+                onClick={handleZodiacClick}
                 onMouseEnter={() => setHoveredCard(zodiac.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 className={`group relative cursor-pointer transform transition-all duration-700 hover:scale-105 hover:-translate-y-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
@@ -408,7 +406,7 @@ const YearlyHoroscopePage: React.FC = () => {
                 </h3>
               </div>
               <p className="text-gray-600 font-['Lato'] leading-relaxed">
-                This year brings transformative opportunities for deeper emotional connections. Single signs may encounter meaningful encounters, especially during the spring months. Those in relationships should focus on quality time together. Communication is key to resolving any misunderstandings. Express appreciation for your partner{`'`}s support throughout the year.
+                This year brings transformative opportunities for deeper emotional connections. Single signs may encounter meaningful encounters, especially during the spring months. Those in relationships should focus on quality time together. Communication is key to resolving any misunderstandings. Express appreciation for your partner&apos;s support throughout the year.
               </p>
             </div>
             
@@ -438,7 +436,7 @@ const YearlyHoroscopePage: React.FC = () => {
                 </h3>
               </div>
               <p className="text-gray-600 font-['Lato'] leading-relaxed">
-                Prioritize holistic wellness this year. Physical activity will boost your energy levels significantly. Pay attention to your diet and hydration, especially during the middle months. Meditation or yoga can help center your thoughts during busy periods. Listen to your body{`'`}s signals and rest when needed. Mental well-being requires extra attention this year.
+                Prioritize holistic wellness this year. Physical activity will boost your energy levels significantly. Pay attention to your diet and hydration, especially during the middle months. Meditation or yoga can help center your thoughts during busy periods. Listen to your body&apos;s signals and rest when needed. Mental well-being requires extra attention this year.
               </p>
             </div>
           </div>

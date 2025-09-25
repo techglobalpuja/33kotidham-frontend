@@ -42,19 +42,15 @@ class ApiService {
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
+        } catch {
           // If parsing fails, use the raw error text if available
           if (errorText) errorMessage += ` - ${errorText}`;
         }
         
         throw new Error(errorMessage);
-      } catch (e) {
+      } catch {
         // If any error occurs during error handling, throw the original error
-        if (e instanceof Error) {
-          throw e;
-        } else {
-          throw new Error(`API Error: ${response.status} ${response.statusText}`);
-        }
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
     }
     
@@ -92,7 +88,7 @@ class ApiService {
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.detail || errorData.error_description || errorData.error || errorMessage;
-        } catch (e) {
+        } catch {
           // If parsing fails, use the raw error text
           if (errorText) errorMessage += ` - ${errorText}`;
         }

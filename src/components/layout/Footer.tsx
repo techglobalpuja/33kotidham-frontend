@@ -9,13 +9,6 @@ const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
 
-  const handleEmailSubmit = () => {
-    if (email && agreeTerms) {
-      console.log('Newsletter subscription:', email);
-      // Handle newsletter subscription
-    }
-  };
-
   return (
     <footer className="w-full bg-[#f37335] border-t border-b border-[#5c4228] pt-4 pb-4">
       <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -121,7 +114,7 @@ const Footer: React.FC = () => {
                   <EditText
                     placeholder="Your email*"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(value: string) => setEmail(value)}
                     type="email"
                     className="w-full"
                     rightIcon={

@@ -12,27 +12,27 @@ const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const { isLoginModalOpen, isMobileMenuOpen } = useAppSelector((state) => state.ui);
+  const { isMobileMenuOpen } = useAppSelector((state) => state.ui);
   const { user } = useAppSelector((state) => state.auth);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('Home');
   const [showMoreDropdown, setShowMoreDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Handle scroll effect for glassmorphism
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     setIsScrolled(scrollPosition > 50);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   // Close mobile menu and dropdown when clicking outside
   useEffect(() => {

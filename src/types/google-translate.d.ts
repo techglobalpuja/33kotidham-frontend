@@ -3,7 +3,7 @@ interface Window {
   google?: {
     translate: {
       TranslateElement: new (
-        options: { pageLanguage: string; includedLanguages: string; layout: any },
+        options: { pageLanguage: string; includedLanguages: string; layout: number },
         element: string
       ) => void;
     };

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface EditTextProps {
   placeholder?: string;
@@ -16,7 +16,7 @@ interface EditTextProps {
   fullWidth?: boolean;
 }
 
-const EditText: React.FC<EditTextProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
+const EditText: React.FC<EditTextProps> = ({
   placeholder = '',
   value,
   onChange,
@@ -31,7 +31,7 @@ const EditText: React.FC<EditTextProps & React.InputHTMLAttributes<HTMLInputElem
   fullWidth = true,
   ...props
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
@@ -74,8 +74,8 @@ const EditText: React.FC<EditTextProps & React.InputHTMLAttributes<HTMLInputElem
           type={type}
           value={value}
           onChange={handleChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          // onFocus={() => setIsFocused(true)}
+          // onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           disabled={disabled}
           required={required}

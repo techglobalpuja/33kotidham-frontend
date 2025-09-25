@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { logout } from '@/store/slices/authSlice';
 import Button from '@/components/ui/Button';
@@ -190,7 +190,7 @@ const UserDashboard: React.FC = () => {
                 onClick={() => router.push('/')}
                 className="flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
-                <Image
+                {/* <Image
                   src="/images/img_group_133653_white_a700.svg"
                   alt="Logo Icon"
                   width={40}
@@ -203,7 +203,9 @@ const UserDashboard: React.FC = () => {
                   width={120}
                   height={21}
                   className="w-24 h-5"
-                />
+                /> */}
+                <div className="w-10 h-9 bg-gray-200 rounded"></div>
+                <div className="w-24 h-5 bg-gray-200 rounded"></div>
               </button>
             </div>
             <div className="flex items-center gap-4">
@@ -255,7 +257,7 @@ const UserDashboard: React.FC = () => {
                 ].map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id as any)}
+                    onClick={() => setActiveTab(item.id as 'overview' | 'profile' | 'pujas' | 'orders' | 'videos' | 'certificates')}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-['Lato'] transition-colors ${
                       activeTab === item.id
                         ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white'
@@ -306,13 +308,14 @@ const UserDashboard: React.FC = () => {
                   <div className="space-y-4">
                     {userPujas.slice(0, 3).map((puja) => (
                       <div key={puja.id} className="flex items-center gap-4 p-3 rounded-lg border border-gray-100">
-                        <Image
+                        {/* <Image
                           src={puja.image}
                           alt={puja.title}
                           width={60}
                           height={60}
                           className="w-15 h-15 rounded-lg object-cover"
-                        />
+                        /> */}
+                        <div className="w-15 h-15 rounded-lg bg-gray-200"></div>
                         <div className="flex-1">
                           <h4 className="font-medium text-gray-900">{puja.title}</h4>
                           <p className="text-sm text-gray-500">{puja.temple}</p>
@@ -432,13 +435,14 @@ const UserDashboard: React.FC = () => {
                   {userPujas.map((puja) => (
                     <div key={puja.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex gap-4">
-                        <Image
+                        {/* <Image
                           src={puja.image}
                           alt={puja.title}
                           width={80}
                           height={80}
                           className="w-20 h-20 rounded-lg object-cover"
-                        />
+                        /> */}
+                        <div className="w-20 h-20 rounded-lg bg-gray-200"></div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-gray-900 font-['Philosopher']">{puja.title}</h3>
                           <p className="text-sm text-gray-600">{puja.temple}</p>

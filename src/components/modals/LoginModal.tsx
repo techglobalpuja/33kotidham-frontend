@@ -1,17 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { setLoginModalOpen } from '@/store/slices/uiSlice';
-import { loginStart, loginSuccess, loginFailure, signupUser } from '@/store/slices/authSlice';
-import { apiService } from '@/services/api';
+// import { loginStart, loginSuccess, loginFailure, signupUser } from '@/store/slices/authSlice';
+// import { apiService } from '@/services/api';
 
 const LoginModal: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isLoginModalOpen } = useAppSelector((state) => state.ui);
-  const { isLoading, error } = useAppSelector((state) => state.auth);
+  // const { isLoading, error } = useAppSelector((state) => state.auth);
   
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
@@ -19,48 +19,48 @@ const LoginModal: React.FC = () => {
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [formError, setFormError] = useState<string | null>(null);
+  // const [formError, setFormError] = useState<string | null>(null);
 
   const handleClose = () => {
     dispatch(setLoginModalOpen(false));
   };
 
-  useEffect(() => {
-    if (error) {
-      setFormError(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     setFormError(error);
+  //   }
+  // }, [error]);
   
   // Close modal on successful signup/login
-  const { user } = useAppSelector((state) => state.auth);
-  useEffect(() => {
-    if (user && !isLoading) {
-      handleClose();
-    }
-  }, [user, isLoading]);
+  // const { user } = useAppSelector((state) => state.auth);
+  // useEffect(() => {
+  //   if (user && !isLoading) {
+  //     handleClose();
+  //   }
+  // }, [user, isLoading]);
 
-  const validateForm = () => {
-    setFormError(null);
-    
-    if (!isLogin) {
-      if (password !== confirmPassword) {
-        setFormError('Passwords do not match');
-        return false;
-      }
-      
-      if (!name.trim()) {
-        setFormError('Name is required');
-        return false;
-      }
-      
-      if (!mobile.trim()) {
-        setFormError('Mobile number is required');
-        return false;
-      }
-    }
-    
-    return true;
-  };
+  // const validateForm = () => {
+  //   setFormError(null);
+  //   
+  //   if (!isLogin) {
+  //     if (password !== confirmPassword) {
+  //       setFormError('Passwords do not match');
+  //       return false;
+  //     }
+  //     
+  //     if (!name.trim()) {
+  //       setFormError('Name is required');
+  //       return false;
+  //     }
+  //     
+  //     if (!mobile.trim()) {
+  //       setFormError('Mobile number is required');
+  //       return false;
+  //     }
+  //   }
+  //   
+  //   return true;
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -215,17 +215,17 @@ const LoginModal: React.FC = () => {
               />
             </div>
           )}
-          {formError && (
+          {/* {formError && (
             <div className="text-red-500 text-sm mt-2">
               {formError}
             </div>
-          )}
+          )} */}
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-orange-200/60 to-orange-300/70 text-black font-semibold py-2.5 rounded-lg hover:shadow-lg transition-all duration-200 font-['Work_Sans'] uppercase text-sm disabled:opacity-50"
+            // disabled={isLoading}
+            className="w-full bg-gradient-to-r from-orange-200/60 to-orange-300/70 text-black font-semibold py-2.5 rounded-lg hover:shadow-lg transition-all duration-200 font-['Work_Sans'] uppercase text-sm /*disabled:opacity-50*/"
           >
-            {isLoading ? 'Loading...' : (isLogin ? 'Login' : 'Sign Up')}
+            {isLogin ? 'Login' : 'Sign Up'}
           </button>
         </form>
 

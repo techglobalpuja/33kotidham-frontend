@@ -3,16 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { AdminStats, PujaFormData, ChawadaItem, AdminUser, ContentUpload, PlanFormData, Plan, ChawadaFormData, ProductFormData, Product } from '@/types';
+import { AdminStats, PujaFormData, ChawadaItem, PlanFormData, Plan, ChawadaFormData, ProductFormData, Product } from '@/types';
 import Button from '@/components/ui/Button';
 import EditText from '@/components/ui/EditText';
 
-interface AdminDashboardProps {}
+interface AdminDashboardProps {
+  // Add props here if needed in the future
+  [key: string]: unknown;
+}
 
 const AdminDashboard: React.FC<AdminDashboardProps> = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   // Mock admin stats data
   const adminStats: AdminStats = {
@@ -637,9 +640,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
   };
 
   // Calculate USD price (assuming 1 USD = 83 INR)
-  const convertToUSD = (inrAmount: number) => {
-    return Math.round((inrAmount / 83) * 100) / 100;
-  };
+  // const convertToUSD = (inrAmount: number) => {
+  //   return Math.round((inrAmount / 83) * 100) / 100;
+  // };
 
   // Handle blog image upload
   const handleBlogImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -662,6 +665,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
     setSelectedBlogImage(null);
     setBlogImagePreview('');
     setBlogForm(prev => ({ ...prev, image: '' }));
+  };
+
+  // Reset product image upload
+  const resetProductImageUpload = () => {
+    setSelectedProductImage(null);
+    setProductImagePreview('');
+    setProductForm(prev => ({ ...prev, image: '' }));
   };
 
   // Close dropdown when clicking outside
@@ -1362,11 +1372,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                   {pujaImagePreviews.map((preview, index) => (
                                     <div key={index} className="relative group">
-                                      <img
-                                        src={preview}
-                                        alt={`Puja ${index + 1}`}
-                                        className="w-full h-24 object-cover rounded-lg border border-gray-200"
-                                      />
+                                      <div className="w-full h-24 relative">
+                                        <Image
+                                          src={preview}
+                                          alt={`Puja ${index + 1}`}
+                                          className="rounded-lg border border-gray-200 object-cover"
+                                          fill
+                                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+                                      </div>
                                       <button
                                         type="button"
                                         onClick={() => removePujaImage(index)}
@@ -1410,11 +1424,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                                   >
                                     {templeImagePreview ? (
                                       <div className="relative w-full h-full">
-                                        <img
-                                          src={templeImagePreview}
-                                          alt="Temple preview"
-                                          className="w-full h-full object-cover rounded-lg"
-                                        />
+                                        <div className="relative w-full h-full">
+                                          <Image
+                                            src={templeImagePreview}
+                                            alt="Temple preview"
+                                            className="rounded-lg object-cover"
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                          />
+                                        </div>
                                         <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
                                           <span className="text-white text-sm font-medium">Click to change</span>
                                         </div>
@@ -2160,11 +2178,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                                 >
                                   {imagePreview ? (
                                     <div className="relative w-full h-full">
-                                      <img
-                                        src={imagePreview}
-                                        alt="Plan preview"
-                                        className="w-full h-full object-cover rounded-lg"
-                                      />
+                                      <div className="relative w-full h-full">
+                                        <Image
+                                          src={imagePreview}
+                                          alt="Plan preview"
+                                          className="rounded-lg object-cover"
+                                          fill
+                                          sizes="(max-width: 768px) 100vw, 50vw"
+                                        />
+                                      </div>
                                       <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
                                         <span className="text-white text-sm font-medium">Click to change</span>
                                       </div>
@@ -2549,11 +2571,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                               >
                                 {productImagePreview ? (
                                   <div className="relative w-full h-full">
-                                    <img
-                                      src={productImagePreview}
-                                      alt="Product preview"
-                                      className="w-full h-full object-cover rounded-lg"
-                                    />
+                                    <div className="relative w-full h-full">
+                                      <Image
+                                        src={productImagePreview}
+                                        alt="Product preview"
+                                        className="rounded-lg object-cover"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                      />
+                                    </div>
                                     <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
                                       <span className="text-white text-sm font-medium">Click to change</span>
                                     </div>
@@ -2843,11 +2869,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                               >
                                 {chawadaImagePreview ? (
                                   <div className="relative w-full h-full">
-                                    <img
-                                      src={chawadaImagePreview}
-                                      alt="Chawada preview"
-                                      className="w-full h-full object-cover rounded-lg"
-                                    />
+                                    <div className="relative w-full h-full">
+                                      <Image
+                                        src={chawadaImagePreview}
+                                        alt="Chawada preview"
+                                        className="rounded-lg object-cover"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                      />
+                                    </div>
                                     <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
                                       <span className="text-white text-sm font-medium">Click to change</span>
                                     </div>
@@ -3206,11 +3236,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = () => {
                               >
                                 {blogImagePreview ? (
                                   <div className="relative w-full h-full">
-                                    <img
-                                      src={blogImagePreview}
-                                      alt="Blog preview"
-                                      className="w-full h-full object-cover rounded-lg"
-                                    />
+                                    <div className="relative w-full h-full">
+                                      <Image
+                                        src={blogImagePreview}
+                                        alt="Blog preview"
+                                        className="rounded-lg object-cover"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                      />
+                                    </div>
                                     <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
                                       <span className="text-white text-sm font-medium">Click to change</span>
                                     </div>

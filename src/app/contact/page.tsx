@@ -65,7 +65,7 @@ const ContactPage: React.FC = () => {
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
               Have questions about our services? Need guidance for your spiritual journey?
               <br className="hidden sm:block" />
-              We're here to help you with all your astrological and spiritual needs.
+              We&apos;re here to help you with all your astrological and spiritual needs.
             </p>
           </div>
         </div>

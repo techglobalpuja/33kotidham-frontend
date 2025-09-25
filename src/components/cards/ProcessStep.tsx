@@ -8,7 +8,7 @@ interface ProcessStepProps {
   location: string;
   datetime: string;
   isHighlighted?: boolean;
-  imageSrc?: string;
+  // imageSrc?: string;
 }
 
 const ProcessStep: React.FC<ProcessStepProps> = ({ 
@@ -16,8 +16,8 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
   title, 
   location, 
   datetime, 
-  isHighlighted = false,
-  imageSrc
+  isHighlighted = false
+  // imageSrc
 }) => (
   <div className={`flex gap-4 sm:gap-6 md:gap-[28px] justify-start items-center w-full border rounded-[20px] sm:rounded-[30px] px-4 sm:px-6 md:px-[25px] py-4 sm:py-6 md:py-[25px] ${
     isHighlighted 

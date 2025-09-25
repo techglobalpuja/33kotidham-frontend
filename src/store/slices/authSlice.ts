@@ -51,26 +51,24 @@ const authSlice = createSlice({
       state.error = null;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(signupUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(signupUser.fulfilled, (state, action: PayloadAction<User>) => {
+        state.isLoading = false;
+        state.user = { ...action.payload, isAuthenticated: true };
+        state.error = null;
+      })
+      .addCase(signupUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+  }
 });
 
 export const { loginStart, loginSuccess, loginFailure, logout, clearError } = authSlice.actions;
-
-// Add extra reducers for async thunks
-const extraReducers = authSlice.extraReducers = (builder) => {
-  builder
-    .addCase(signupUser.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    })
-    .addCase(signupUser.fulfilled, (state, action: PayloadAction<User>) => {
-      state.isLoading = false;
-      state.user = { ...action.payload, isAuthenticated: true };
-      state.error = null;
-    })
-    .addCase(signupUser.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload as string;
-    });
-};
 
 export default authSlice.reducer;

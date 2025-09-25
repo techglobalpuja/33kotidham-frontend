@@ -79,7 +79,7 @@ const MatchMakingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
             <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-8 text-center">
-              Enter Both Partners' Details
+              Enter Both Partners&apos; Details
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-12">
@@ -88,7 +88,7 @@ const MatchMakingPage: React.FC = () => {
                 {/* Boy's Details */}
                 <div className="space-y-6">
                   <h3 className="text-2xl font-bold text-orange-600 font-['Philosopher'] text-center border-b-2 border-orange-200 pb-4">
-                    Boy's Details
+                    Boy&apos;s Details
                   </h3>
                   
                   <div>
@@ -153,7 +153,7 @@ const MatchMakingPage: React.FC = () => {
                 {/* Girl's Details */}
                 <div className="space-y-6">
                   <h3 className="text-2xl font-bold text-rose-600 font-['Philosopher'] text-center border-b-2 border-rose-200 pb-4">
-                    Girl's Details
+                    Girl&apos;s Details
                   </h3>
                   
                   <div>

@@ -14,6 +14,34 @@ const AllPujasPage: React.FC = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
+  // Testimonials data
+  const testimonials = [
+    {
+      name: "Rajesh Kumar",
+      location: "Mumbai, Maharashtra",
+      rating: 5,
+      text: "The Ganesh Puja performed here removed all obstacles from my business. Within 3 months, I saw tremendous growth and success. Truly divine experience!",
+      puja: "Ganesh Puja",
+      image: "/images/testimonial-1.jpg"
+    },
+    {
+      name: "Priya Sharma",
+      location: "Delhi, India",
+      rating: 5,
+      text: "After participating in the Lakshmi Puja, my family experienced unexpected financial blessings. The priests are genuine and the rituals are authentic.",
+      puja: "Lakshmi Puja",
+      image: "/images/testimonial-2.jpg"
+    },
+    {
+      name: "Amit Patel",
+      location: "Ahmedabad, Gujarat",
+      rating: 5,
+      text: "The Saraswati Puja helped my daughter excel in her studies. She topped her class and got admission to her dream college. Grateful to the divine!",
+      puja: "Saraswati Puja",
+      image: "/images/testimonial-3.jpg"
+    }
+  ];
+
   // Animation trigger on component mount
   useEffect(() => {
     setIsVisible(true);
@@ -25,7 +53,7 @@ const AllPujasPage: React.FC = () => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   // Sacred puja benefits data
   const sacredBenefits = [
@@ -86,34 +114,6 @@ const AllPujasPage: React.FC = () => {
       period: "6:00 PM - 8:00 PM",
       description: "Evening devotion for peace and spiritual fulfillment",
       icon: "🌅"
-    }
-  ];
-
-  // Testimonials data
-  const testimonials = [
-    {
-      name: "Rajesh Kumar",
-      location: "Mumbai, Maharashtra",
-      rating: 5,
-      text: "The Ganesh Puja performed here removed all obstacles from my business. Within 3 months, I saw tremendous growth and success. Truly divine experience!",
-      puja: "Ganesh Puja",
-      image: "/images/testimonial-1.jpg"
-    },
-    {
-      name: "Priya Sharma",
-      location: "Delhi, India",
-      rating: 5,
-      text: "After participating in the Lakshmi Puja, my family experienced unexpected financial blessings. The priests are genuine and the rituals are authentic.",
-      puja: "Lakshmi Puja",
-      image: "/images/testimonial-2.jpg"
-    },
-    {
-      name: "Amit Patel",
-      location: "Ahmedabad, Gujarat",
-      rating: 5,
-      text: "The Saraswati Puja helped my daughter excel in her studies. She topped her class and got admission to her dream college. Grateful to the divine!",
-      puja: "Saraswati Puja",
-      image: "/images/testimonial-3.jpg"
     }
   ];
 

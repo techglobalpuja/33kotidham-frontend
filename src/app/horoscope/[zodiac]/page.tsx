@@ -314,7 +314,7 @@ const ZodiacDetailPage: React.FC = () => {
               {['daily', 'weekly', 'monthly', 'yearly'].map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab as any)}
+                  onClick={() => setActiveTab(tab as 'daily' | 'weekly' | 'monthly' | 'yearly')}
                   className={`px-6 py-3 rounded-full text-sm font-medium uppercase font-['Work_Sans'] transition-all duration-300 ${
                     activeTab === tab
                       ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow-md'

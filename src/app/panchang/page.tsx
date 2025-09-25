@@ -45,7 +45,7 @@ const PanchangPage: React.FC = () => {
             </h1>
             
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
-              Discover today's auspicious timings, tithis, nakshatras, and divine guidance from ancient Vedic wisdom.
+              Discover today&apos;s auspicious timings, tithis, nakshatras, and divine guidance from ancient Vedic wisdom.
               <br className="hidden sm:block" />
               Plan your important activities according to cosmic energies.
             </p>
@@ -61,7 +61,7 @@ const PanchangPage: React.FC = () => {
             {/* Today's Panchang */}
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
               <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-6 text-center">
-                आज का पंचांग
+                Today&apos;s Panchang
               </h2>
               
               <div className="space-y-6">

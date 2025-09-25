@@ -10,7 +10,6 @@ import '../../styles/horoscope-animations.css';
 const DailyHoroscopePage: React.FC = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedZodiac, setSelectedZodiac] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   // Animation trigger on component mount
@@ -154,10 +153,9 @@ const DailyHoroscopePage: React.FC = () => {
     }
   ];
 
-  const handleZodiacClick = (zodiacId: string) => {
-    setSelectedZodiac(zodiacId);
+  const handleZodiacClick = () => {
     // In a real app, this would navigate to a specific daily horoscope for that sign
-    // router.push(`/daily-horoscope/${zodiacId}`);
+    // router.push(`/daily-horoscope/${_zodiacId}`);
   };
 
   const handleBackToHome = () => {
@@ -274,7 +272,7 @@ const DailyHoroscopePage: React.FC = () => {
             </div>
             <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
-                Today's Cosmic Insights
+                Today&apos;s Cosmic Insights
               </span>
             </h2>
             <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
@@ -287,7 +285,7 @@ const DailyHoroscopePage: React.FC = () => {
             {horoscopeData.map((zodiac, index) => (
               <div
                 key={zodiac.id}
-                onClick={() => handleZodiacClick(zodiac.id)}
+                onClick={handleZodiacClick}
                 onMouseEnter={() => setHoveredCard(zodiac.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 className={`group relative cursor-pointer transform transition-all duration-700 hover:scale-105 hover:-translate-y-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
@@ -383,7 +381,7 @@ const DailyHoroscopePage: React.FC = () => {
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="mb-6">
               <span className="inline-block px-6 py-2 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-700 rounded-full text-sm font-semibold mb-4">
-                🌟 Today's Predictions
+                🌟 Today&apos;s Predictions
               </span>
             </div>
             <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
@@ -438,7 +436,7 @@ const DailyHoroscopePage: React.FC = () => {
                 </h3>
               </div>
               <p className="text-gray-600 font-['Lato'] leading-relaxed">
-                Prioritize self-care and mindfulness practices today. Physical activity will boost your energy levels. Pay attention to your diet and hydration. Meditation or yoga can help center your thoughts. Listen to your body{`'`}s signals and rest when needed. Mental well-being is equally important.
+                Prioritize self-care and mindfulness practices today. Physical activity will boost your energy levels. Pay attention to your diet and hydration. Meditation or yoga can help center your thoughts. Listen to your body&apos;s signals and rest when needed. Mental well-being is equally important.
               </p>
             </div>
           </div>

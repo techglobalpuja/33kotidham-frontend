@@ -10,10 +10,10 @@ import ProcessSection from '@/components/sections/ProcessSection';
 import VideoSection from '@/components/sections/VideoSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ArticlesSection from '@/components/sections/ArticlesSection';
-import DownloadAppSection from '@/components/sections/DownloadAppSection';
+// import DownloadAppSection from '@/components/sections/DownloadAppSection';
 import { PujaCard, HoroscopeCard, ProcessStep, Testimonial, Article } from '@/types';
 import { getHoroscopeCards } from '@/utils/horoscope';
-import { FaTemple, FaCalendarAlt } from 'react-icons/fa';
+// import { FaTemple, FaCalendarAlt } from 'react-icons/fa';
 
 export default function HomePage() {
   const pujaCards: PujaCard[] = [

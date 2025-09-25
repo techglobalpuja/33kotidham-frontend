@@ -28,7 +28,7 @@ export const validatePhone = (phone: string): boolean => {
   return phoneRegex.test(phone);
 };
 
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {

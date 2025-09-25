@@ -14,8 +14,8 @@ interface LanguageDescriptor {
  
 // Global declaration for Google translation config
 declare global {
-  namespace globalThis {
-    var __GOOGLE_TRANSLATION_CONFIG__: {
+  interface Window {
+    __GOOGLE_TRANSLATION_CONFIG__: {
       languages: LanguageDescriptor[];
       defaultLanguage: string;
     };
@@ -24,7 +24,7 @@ declare global {
 
 const LanguageSwitcher: React.FC = () => {
   const [currentLanguage, setCurrentLanguage] = useState<string>();
-  const [languageConfig, setLanguageConfig] = useState<any>();
+  const [languageConfig, setLanguageConfig] = useState<{ languages: LanguageDescriptor[]; defaultLanguage: string } | undefined>();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -33,21 +33,22 @@ const LanguageSwitcher: React.FC = () => {
     const cookies = parseCookies();
     const existingLanguageCookieValue = cookies[COOKIE_NAME];
 
-    let languageValue;
+    let languageValue: string | undefined;
     if (existingLanguageCookieValue) {
       const sp = existingLanguageCookieValue.split('/');
       if (sp.length > 2) {
         languageValue = sp[2];
       }
     }
-    if (global.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
-      languageValue = global.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
+    const googleTranslationConfig = (window as unknown as { __GOOGLE_TRANSLATION_CONFIG__: { languages: LanguageDescriptor[]; defaultLanguage: string; } }).__GOOGLE_TRANSLATION_CONFIG__;
+    if (googleTranslationConfig && !languageValue) {
+      languageValue = googleTranslationConfig.defaultLanguage;
     }
     if (languageValue) {
       setCurrentLanguage(languageValue);
     }
-    if (global.__GOOGLE_TRANSLATION_CONFIG__) {
-      setLanguageConfig(global.__GOOGLE_TRANSLATION_CONFIG__);
+    if (googleTranslationConfig) {
+      setLanguageConfig(googleTranslationConfig);
     }
   }, []);
 

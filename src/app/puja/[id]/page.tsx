@@ -12,13 +12,8 @@ const PujaDetailPage: React.FC = () => {
   const pujaId = params.id as string;
   
   const [puja, setPuja] = useState<Puja | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [selectedDakshinaPrice, setSelectedDakshinaPrice] = useState<number | null>(null);
-  const [selectedManokamnaPrice, setSelectedManokamnaPrice] = useState<number | null>(null);
-  const [showBookingForm, setShowBookingForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   // Additional data for the enhanced puja page
@@ -85,173 +80,172 @@ const PujaDetailPage: React.FC = () => {
     }
   ];
 
-  // Mock data - In a real app, this would be fetched from API
-  const mockPujas: (Omit<Puja, 'selectedPlans'> & { selectedPlanIds: string[] })[] = [
-    {
-      id: '1',
-      pujaName: 'Sarv Dosh Nivaran Nav Grah Puja',
-      subHeading: 'For Success, Happiness, Prosperity, Offspring, and Wealth',
-      about: 'Do you know that it is essential to seek the blessings of the 9 planets before starting any auspicious work? The Puranas describe the Navagrahas as the rulers of life and the givers of all kinds of happiness. If you are waiting to begin something auspicious in your life—such as marriage, childbirth, starting a new business, traveling abroad, or pursuing higher education—you must perform the Navagraha Shanti Puja.\n\nAmong the 9 planets, Rahu and Ketu always create confusion, and Saturn can ruin things that are already set. If the Sun is displeased, you will not receive fame. Without Jupiter\'s blessings, prosperity will remain out of reach. If Venus becomes unfavorable for any reason, wealth, luxury, happiness, prosperity, and love will be hard to attain. And if the Moon turns malefic, you will suffer mental distress throughout life.\n\nWhen the positions of these planets turn adverse, you face many challenges in life. That is why you must perform the Navagraha Shanti Puja to protect your life from all directions, attract prosperity, and safeguard your happiness.',
-      date: '2025-09-10',
-      time: '15:00',
-      pujaImages: ['/images/navgrah-puja-1.jpg', '/images/navgrah-puja-2.jpg', '/images/navgrah-puja-3.jpg'],
-      templeImage: '/images/navgrah-shani-mandir.jpg',
-      templeAddress: 'Navgrah Shani Mandir, Avantika Tirth Kshetra, Ujjain',
-      templeDescription: 'This temple in Ujjain is over 2000 years old. Here, the Navagrahas (nine planets) are worshipped in the form of Shiva. Each planet\'s idol is shaped like a Shiva lingam. It is said that this temple was built by King Vikramaditya after experiencing the suffering caused by Saturn, to please Lord Shani. Afterward, he performed special worship of the Navagrahas and established all the Navagrahas in this temple. The temple is highly divine. Devotees come from far and wide to seek blessings from the Navagrahas and pray for their grace. Situated on the Triveni Ghat of the Shipra River, this temple is believed to provide special benefits from the worship of the Navagrahas. In many places, it is believed that worshipping here alleviates more than half of the devotee\'s suffering caused by Saturn at that very moment. Moreover, special worship of the Sun God here leads to the fulfillment of all tasks and ensures complete health improvement.',
-      benefits: [
-        {
-          title: 'Remove Negative Effects of Planets',
-          description: 'This grand puja brings peace to all planets. It removes the negative effects of planets like the Sun, Saturn, Rahu, Ketu, Mars, etc., and blesses you with the auspicious energy of all the planets.'
-        },
-        {
-          title: 'Eliminate Kundali Dosha',
-          description: 'This puja eliminates doshas in your horoscope, such as Pitru dosha, Manglik dosha, Rahu dosha, or Saturn dosha. It generates positive energy around you.'
-        },
-        {
-          title: 'Removes Unnecessary Fears',
-          description: 'If you are troubled by any kind of unnecessary fears, you must participate in the Sarv Dosh Nivaran Grah Shanti Puja. This puja creates a protective shield around you.'
-        },
-        {
-          title: 'Success, Prosperity, and Wealth',
-          description: 'If you seek success, prosperity, and wealth, you should definitely perform this special puja of the nine planets. This puja reduces the harmful effects of all the nine planets, including the Sun, and leads to success.'
-        }
-      ],
-      selectedPlanIds: ['1', '2'],
-      prasadPrice: 750,
-      prasadStatus: true,
-      dakshinaPrices: '501,1001,2001,5001',
-      dakshinaPricesUSD: '6,12,24,60',
-      dakshinaStatus: true,
-      manokamanaPrices: '101,251,501,1001',
-      manokamanaPricesUSD: '1.5,3,6,12',
-      manokamanaStatus: true,
-      category: 'prosperity',
-      isActive: true,
-      isFeatured: true,
-      createdDate: '2024-01-15'
-    },
-    {
-      id: '2',
-      pujaName: 'Lakshmi Puja',
-      subHeading: 'Attract Wealth & Abundance',
-      about: 'Divine Lakshmi puja for wealth, abundance and financial prosperity. This sacred ceremony is dedicated to Goddess Lakshmi, the deity of wealth, fortune, and prosperity. The ritual involves traditional prayers, offerings of lotus flowers, and chanting of powerful mantras that attract divine blessings for financial growth.\n\nThe puja includes special offerings like gold, silver coins, and prosperity-enhancing items. The ceremony creates a positive energy field that attracts wealth and removes financial obstacles from your life.\n\nGoddess Lakshmi blesses devotees with not just material wealth but also spiritual abundance, bringing harmony and prosperity to all aspects of life.',
-      date: '2025-09-15',
-      time: '07:00',
-      pujaImages: ['/images/lakshmi-puja-1.jpg', '/images/lakshmi-puja-2.jpg'],
-      templeImage: '/images/lakshmi-temple.jpg',
-      templeAddress: 'Mahalakshmi Temple, Kolhapur, Maharashtra',
-      templeDescription: 'The ancient Mahalakshmi Temple in Kolhapur is one of the most revered Shakti Peethas, known for bestowing wealth and prosperity upon devotees.',
-      benefits: [
-        {
-          title: 'Financial Prosperity',
-          description: 'Attracts wealth, money, and financial abundance into your life'
-        },
-        {
-          title: 'Business Success',
-          description: 'Enhances business growth, profits, and commercial success'
-        },
-        {
-          title: 'Debt Removal',
-          description: 'Helps in clearing debts and financial burdens'
-        },
-        {
-          title: 'Material Abundance',
-          description: 'Brings material comforts and luxury into your life'
-        }
-      ],
-      selectedPlanIds: ['1'],
-      prasadPrice: 500,
-      prasadStatus: true,
-      dakshinaPrices: '501,1001,2001',
-      dakshinaPricesUSD: '6,12,24',
-      dakshinaStatus: true,
-      manokamanaPrices: '201,501,1001',
-      manokamanaPricesUSD: '2.5,6,12',
-      manokamanaStatus: true,
-      category: 'prosperity',
-      isActive: true,
-      isFeatured: false,
-      createdDate: '2024-01-10'
-    },
-    {
-      id: '3',
-      pujaName: 'Saraswati Puja',
-      subHeading: 'Gain Knowledge & Wisdom',
-      about: 'Sacred Saraswati puja for knowledge, wisdom and academic success. This divine ceremony is dedicated to Goddess Saraswati, the deity of knowledge, arts, and learning. The ritual enhances intellectual abilities, improves concentration, and brings success in education and creative pursuits.\n\nThe puja includes offerings of white flowers, books, musical instruments, and knowledge-related items. Special mantras are chanted to invoke the blessings of the goddess for wisdom and learning.\n\nStudents, teachers, artists, and professionals benefit greatly from this puja, as it removes obstacles in learning and enhances creative abilities.',
-      date: '2025-02-14',
-      time: '06:30',
-      pujaImages: ['/images/saraswati-puja-1.jpg', '/images/saraswati-puja-2.jpg'],
-      templeImage: '/images/saraswati-temple.jpg',
-      templeAddress: 'Saraswati Temple, Varanasi, Uttar Pradesh',
-      templeDescription: 'This sacred temple on the banks of the Ganges is dedicated to Goddess Saraswati and is particularly powerful for students and seekers of knowledge.',
-      benefits: [
-        {
-          title: 'Academic Excellence',
-          description: 'Enhances learning abilities and academic performance'
-        },
-        {
-          title: 'Wisdom & Intelligence',
-          description: 'Increases wisdom, intelligence, and decision-making abilities'
-        },
-        {
-          title: 'Creative Enhancement',
-          description: 'Boosts creativity and artistic talents'
-        },
-        {
-          title: 'Communication Skills',
-          description: 'Improves speaking, writing, and communication abilities'
-        }
-      ],
-      selectedPlanIds: ['1', '2'],
-      prasadPrice: 300,
-      prasadStatus: true,
-      dakshinaPrices: '251,501,1001',
-      dakshinaPricesUSD: '3,6,12',
-      dakshinaStatus: true,
-      manokamanaPrices: '101,201,501',
-      manokamanaPricesUSD: '1.5,2.5,6',
-      manokamanaStatus: true,
-      category: 'education',
-      isActive: true,
-      isFeatured: true,
-      createdDate: '2024-01-08'
-    }
-  ];
-
-  const mockPlans: Plan[] = [
-    {
-      id: '1',
-      name: 'Basic Puja Package',
-      price: 5000,
-      image: '/images/basic-plan.jpg',
-      category: 'Normal',
-      description: {
-        feature1: 'Complete puja ceremony with traditional rituals',
-        feature2: 'Digital certificate of participation',
-        feature3: 'Photo gallery of your puja ceremony',
-        feature4: 'Basic prasad delivery to your location'
-      },
-      isActive: true,
-      createdDate: '2024-01-15'
-    },
-    {
-      id: '2',
-      name: 'Premium VIP Experience',
-      price: 15000,
-      image: '/images/vip-plan.jpg',
-      category: 'VIP',
-      description: {
-        feature1: 'Personalized puja ceremony with name inscription',
-        feature2: 'Live video streaming of your puja',
-        feature3: 'Premium prasad package with blessed items',
-        feature4: 'Personal consultation with temple priest'
-      },
-      isActive: true,
-      createdDate: '2024-01-12'
-    }
-  ];
-
   useEffect(() => {
+    // Mock data - In a real app, this would be fetched from API
+    const mockPujas: (Omit<Puja, 'selectedPlans'> & { selectedPlanIds: string[] })[] = [
+      {
+        id: '1',
+        pujaName: 'Sarv Dosh Nivaran Nav Grah Puja',
+        subHeading: 'For Success, Happiness, Prosperity, Offspring, and Wealth',
+        about: 'Do you know that it is essential to seek the blessings of the 9 planets before starting any auspicious work? The Puranas describe the Navagrahas as the rulers of life and the givers of all kinds of happiness. If you are waiting to begin something auspicious in your life—such as marriage, childbirth, starting a new business, traveling abroad, or pursuing higher education—you must perform the Navagraha Shanti Puja.\n\nAmong the 9 planets, Rahu and Ketu always create confusion, and Saturn can ruin things that are already set. If the Sun is displeased, you will not receive fame. Without Jupiter\'s blessings, prosperity will remain out of reach. If Venus becomes unfavorable for any reason, wealth, luxury, happiness, prosperity, and love will be hard to attain. And if the Moon turns malefic, you will suffer mental distress throughout life.\n\nWhen the positions of these planets turn adverse, you face many challenges in life. That is why you must perform the Navagraha Shanti Puja to protect your life from all directions, attract prosperity, and safeguard your happiness.',
+        date: '2025-09-10',
+        time: '15:00',
+        pujaImages: ['/images/navgrah-puja-1.jpg', '/images/navgrah-puja-2.jpg', '/images/navgrah-puja-3.jpg'],
+        templeImage: '/images/navgrah-shani-mandir.jpg',
+        templeAddress: 'Navgrah Shani Mandir, Avantika Tirth Kshetra, Ujjain',
+        templeDescription: 'This temple in Ujjain is over 2000 years old. Here, the Navagrahas (nine planets) are worshipped in the form of Shiva. Each planet\'s idol is shaped like a Shiva lingam. It is said that this temple was built by King Vikramaditya after experiencing the suffering caused by Saturn, to please Lord Shani. Afterward, he performed special worship of the Navagrahas and established all the Navagrahas in this temple. The temple is highly divine. Devotees come from far and wide to seek blessings from the Navagrahas and pray for their grace. Situated on the Triveni Ghat of the Shipra River, this temple is believed to provide special benefits from the worship of the Navagrahas. In many places, it is believed that worshipping here alleviates more than half of the devotee\'s suffering caused by Saturn at that very moment. Moreover, special worship of the Sun God here leads to the fulfillment of all tasks and ensures complete health improvement.',
+        benefits: [
+          {
+            title: 'Remove Negative Effects of Planets',
+            description: 'This grand puja brings peace to all planets. It removes the negative effects of planets like the Sun, Saturn, Rahu, Ketu, Mars, etc., and blesses you with the auspicious energy of all the planets.'
+          },
+          {
+            title: 'Eliminate Kundali Dosha',
+            description: 'This puja eliminates doshas in your horoscope, such as Pitru dosha, Manglik dosha, Rahu dosha, or Saturn dosha. It generates positive energy around you.'
+          },
+          {
+            title: 'Removes Unnecessary Fears',
+            description: 'If you are troubled by any kind of unnecessary fears, you must participate in the Sarv Dosh Nivaran Grah Shanti Puja. This puja creates a protective shield around you.'
+          },
+          {
+            title: 'Success, Prosperity, and Wealth',
+            description: 'If you seek success, prosperity, and wealth, you should definitely perform this special puja of the nine planets. This puja reduces the harmful effects of all the nine planets, including the Sun, and leads to success.'
+          }
+        ],
+        selectedPlanIds: ['1', '2'],
+        prasadPrice: 750,
+        prasadStatus: true,
+        dakshinaPrices: '501,1001,2001,5001',
+        dakshinaPricesUSD: '6,12,24,60',
+        dakshinaStatus: true,
+        manokamanaPrices: '101,251,501,1001',
+        manokamanaPricesUSD: '1.5,3,6,12',
+        manokamnaStatus: true,
+        category: 'prosperity',
+        isActive: true,
+        isFeatured: true,
+        createdDate: '2024-01-15'
+      },
+      {
+        id: '2',
+        pujaName: 'Lakshmi Puja',
+        subHeading: 'Attract Wealth & Abundance',
+        about: 'Divine Lakshmi puja for wealth, abundance and financial prosperity. This sacred ceremony is dedicated to Goddess Lakshmi, the deity of wealth, fortune, and prosperity. The ritual involves traditional prayers, offerings of lotus flowers, and chanting of powerful mantras that attract divine blessings for financial growth.\n\nThe puja includes special offerings like gold, silver coins, and prosperity-enhancing items. The ceremony creates a positive energy field that attracts wealth and removes financial obstacles from your life.\n\nGoddess Lakshmi blesses devotees with not just material wealth but also spiritual abundance, bringing harmony and prosperity to all aspects of life.',
+        date: '2025-09-15',
+        time: '07:00',
+        pujaImages: ['/images/lakshmi-puja-1.jpg', '/images/lakshmi-puja-2.jpg'],
+        templeImage: '/images/lakshmi-temple.jpg',
+        templeAddress: 'Mahalakshmi Temple, Kolhapur, Maharashtra',
+        templeDescription: 'The ancient Mahalakshmi Temple in Kolhapur is one of the most revered Shakti Peethas, known for bestowing wealth and prosperity upon devotees.',
+        benefits: [
+          {
+            title: 'Financial Prosperity',
+            description: 'Attracts wealth, money, and financial abundance into your life'
+          },
+          {
+            title: 'Business Success',
+            description: 'Enhances business growth, profits, and commercial success'
+          },
+          {
+            title: 'Debt Removal',
+            description: 'Helps in clearing debts and financial burdens'
+          },
+          {
+            title: 'Material Abundance',
+            description: 'Brings material comforts and luxury into your life'
+          }
+        ],
+        selectedPlanIds: ['1'],
+        prasadPrice: 500,
+        prasadStatus: true,
+        dakshinaPrices: '501,1001,2001',
+        dakshinaPricesUSD: '6,12,24',
+        dakshinaStatus: true,
+        manokamanaPrices: '201,501,1001',
+        manokamanaPricesUSD: '2.5,6,12',
+        manokamnaStatus: true,
+        category: 'prosperity',
+        isActive: true,
+        isFeatured: false,
+        createdDate: '2024-01-10'
+      },
+      {
+        id: '3',
+        pujaName: 'Saraswati Puja',
+        subHeading: 'Gain Knowledge & Wisdom',
+        about: 'Sacred Saraswati puja for knowledge, wisdom and academic success. This divine ceremony is dedicated to Goddess Saraswati, the deity of knowledge, arts, and learning. The ritual enhances intellectual abilities, improves concentration, and brings success in education and creative pursuits.\n\nThe puja includes offerings of white flowers, books, musical instruments, and knowledge-related items. Special mantras are chanted to invoke the blessings of the goddess for wisdom and learning.\n\nStudents, teachers, artists, and professionals benefit greatly from this puja, as it removes obstacles in learning and enhances creative abilities.',
+        date: '2025-02-14',
+        time: '06:30',
+        pujaImages: ['/images/saraswati-puja-1.jpg', '/images/saraswati-puja-2.jpg'],
+        templeImage: '/images/saraswati-temple.jpg',
+        templeAddress: 'Saraswati Temple, Varanasi, Uttar Pradesh',
+        templeDescription: 'This sacred temple on the banks of the Ganges is dedicated to Goddess Saraswati and is particularly powerful for students and seekers of knowledge.',
+        benefits: [
+          {
+            title: 'Academic Excellence',
+            description: 'Enhances learning abilities and academic performance'
+          },
+          {
+            title: 'Wisdom & Intelligence',
+            description: 'Increases wisdom, intelligence, and decision-making abilities'
+          },
+          {
+            title: 'Creative Enhancement',
+            description: 'Boosts creativity and artistic talents'
+          },
+          {
+            title: 'Communication Skills',
+            description: 'Improves speaking, writing, and communication abilities'
+          }
+        ],
+        selectedPlanIds: ['1', '2'],
+        prasadPrice: 300,
+        prasadStatus: true,
+        dakshinaPrices: '251,501,1001',
+        dakshinaPricesUSD: '3,6,12',
+        dakshinaStatus: true,
+        manokamanaPrices: '101,201,501',
+        manokamanaPricesUSD: '1.5,2.5,6',
+        manokamnaStatus: true,
+        category: 'education',
+        isActive: true,
+        isFeatured: true,
+        createdDate: '2024-01-08'
+      }
+    ];
+
+    const mockPlans: Plan[] = [
+      {
+        id: '1',
+        name: 'Basic Puja Package',
+        price: 5000,
+        image: '/images/basic-plan.jpg',
+        category: 'Normal',
+        description: {
+          feature1: 'Complete puja ceremony with traditional rituals',
+          feature2: 'Digital certificate of participation',
+          feature3: 'Photo gallery of your puja ceremony',
+          feature4: 'Basic prasad delivery to your location'
+        },
+        isActive: true,
+        createdDate: '2024-01-15'
+      },
+      {
+        id: '2',
+        name: 'Premium VIP Experience',
+        price: 15000,
+        image: '/images/vip-plan.jpg',
+        category: 'VIP',
+        description: {
+          feature1: 'Personalized puja ceremony with name inscription',
+          feature2: 'Live video streaming of your puja',
+          feature3: 'Premium prasad package with blessed items',
+          feature4: 'Personal consultation with temple priest'
+        },
+        isActive: true,
+        createdDate: '2024-01-12'
+      }
+    ];
     // Simulate API call
     const fetchPuja = async () => {
       setLoading(true);
@@ -270,9 +264,6 @@ const PujaDetailPage: React.FC = () => {
           };
           
           setPuja(pujaWithPlans);
-          if (associatedPlans.length > 0) {
-            setSelectedPlan(associatedPlans[0]);
-          }
         }
       } catch (error) {
         console.error('Error fetching puja:', error);
@@ -285,27 +276,6 @@ const PujaDetailPage: React.FC = () => {
       fetchPuja();
     }
   }, [pujaId]);
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
-  const getPriceArray = (priceString: string): number[] => {
-    return priceString.split(',').map(price => parseInt(price.trim())).filter(price => !isNaN(price));
-  };
-
-  const calculateTotal = () => {
-    let total = 0;
-    if (selectedPlan) total += selectedPlan.price;
-    if (puja?.prasadStatus) total += puja.prasadPrice;
-    if (selectedDakshinaPrice) total += selectedDakshinaPrice;
-    if (selectedManokamnaPrice) total += selectedManokamnaPrice;
-    return total;
-  };
 
   if (loading) {
     return (
@@ -458,7 +428,7 @@ const PujaDetailPage: React.FC = () => {
                   {/* Quick Book Button - Positioned over image */}
                   <div className="absolute bottom-6 left-6 right-6">
                     <button
-                      onClick={() => setShowBookingForm(true)}
+                      onClick={() => {}}
                       className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg backdrop-blur-sm"
                     >
                       Participate Now ₹5,000

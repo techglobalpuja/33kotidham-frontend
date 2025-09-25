@@ -62,7 +62,7 @@ const TermsOfUsagePage: React.FC = () => {
                 Introduction
               </h2>
               <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
-                These Terms of Usage govern your use of the content and services offered by Aardhya Pooja Private Limited through <a href="https://www.33kotidham.com" className="text-[#f37335] hover:underline">https://www.33kotidham.com</a> and the 33KotiDham mobile application (collectively referred to as "33KotiDham," "we," "us," or "our").
+                These Terms of Usage govern your use of the content and services offered by Aardhya Pooja Private Limited through <a href="https://www.33kotidham.com" className="text-[#f37335] hover:underline">https://www.33kotidham.com</a> and the 33KotiDham mobile application (collectively referred to as &quot;33KotiDham,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;).
               </p>
             </div>
 
@@ -82,7 +82,7 @@ const TermsOfUsagePage: React.FC = () => {
                 User Consent
               </h2>
               <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
-                By accessing or using 33KotiDham, you ("User," "Member") agree to these Terms unconditionally. If you do not agree, please do not click “I AGREE” or use the platform. Your continued usage signifies legal acceptance.
+                By accessing or using 33KotiDham, you (&quot;User,&quot; &quot;Member&quot;) agree to these Terms unconditionally. If you do not agree, please do not click &quot;I AGREE&quot; or use the platform. Your continued usage signifies legal acceptance.
               </p>
             </div>
 
@@ -156,7 +156,7 @@ const TermsOfUsagePage: React.FC = () => {
                 <li>You reside in a jurisdiction that prohibits such services</li>
                 <li>You are restricted by law, treaty, or religious practice</li>
                 <li>You have created multiple active accounts</li>
-                <li>You use the “Call with Astrologer” feature and consent to receive calls even if your number is registered under DND</li>
+                <li>You use the &quot;Call with Astrologer&quot; feature and consent to receive calls even if your number is registered under DND</li>
               </ul>
             </div>
 
@@ -221,7 +221,7 @@ const TermsOfUsagePage: React.FC = () => {
               <ul className="list-disc ml-6 space-y-2 text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
                 <li>Registration data is unverifiable, misleading, or incomplete</li>
                 <li>User actions may cause legal liability to 33KotiDham or its partners</li>
-                <li>User interferes with other users or violates 33KotiDham’s privacy policy</li>
+                <li>User interferes with other users or violates 33KotiDhams privacy policy</li>
               </ul>
             </div>
 
@@ -245,8 +245,8 @@ const TermsOfUsagePage: React.FC = () => {
                   Reports & Consultations
                 </h3>
                 <ul className="list-disc ml-6 space-y-2 text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
-                  <li>No refunds will be issued once the order reaches the “Processing” stage</li>
-                  <li>Cancellation is allowed only within one hour of payment and is subject to 33KotiDham’s discretion</li>
+                  <li>No refunds will be issued once the order reaches the &quot;Processing&quot; stage</li>
+                  <li>Cancellation is allowed only within one hour of payment and is subject to 33KotiDham&apos;s discretion</li>
                   <li>No refunds for incorrect data</li>
                   <li>Requests to correct data must be made within one hour</li>
                 </ul>
@@ -403,7 +403,7 @@ const TermsOfUsagePage: React.FC = () => {
                   No Warranty
                 </h3>
                 <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
-                  33KotiDham makes no guarantees for accuracy, reliability, or suitability of services. Everything is provided “as is.”
+                  33KotiDham makes no guarantees for accuracy, reliability, or suitability of services. Everything is provided &quot;as is.&quot;
                 </p>
               </div>
               <div className="mb-4">
