@@ -81,6 +81,103 @@ export interface TokenResponse {
   token_type: string;
 }
 
+// User Dashboard Types
+export interface UserPuja {
+  id: string;
+  title: string;
+  temple: string;
+  date: string;
+  time: string;
+  status: 'completed' | 'upcoming' | 'processing';
+  amount: number;
+  image: string;
+  videoUrl?: string;
+  certificateUrl?: string;
+}
+
+// Complete Puja Details Interface
+export interface Puja {
+  id: string;
+  pujaName: string;
+  subHeading: string;
+  about: string;
+  date: string;
+  time: string;
+  pujaImages: string[];
+  templeImage: string;
+  templeAddress: string;
+  templeDescription: string;
+  benefits: {
+    title: string;
+    description: string;
+  }[];
+  selectedPlanIds: string[];
+  prasadPrice: number;
+  prasadStatus: boolean;
+  dakshinaPrices: string;
+  dakshinaPricesUSD: string;
+  dakshinaStatus: boolean;
+  manokamanaPrices: string;
+  manokamanaPricesUSD: string;
+  manokamnaStatus: boolean;
+  category: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  createdDate: string;
+  selectedPlans?: Plan[]; // Populated plans data
+}
+
+export interface UserOrder {
+  id: string;
+  orderNumber: string;
+  date: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+    image: string;
+  }>;
+  total: number;
+  status: 'delivered' | 'shipped' | 'processing' | 'cancelled';
+  trackingNumber?: string;
+}
+
+export interface UserProfile {
+  personalInfo: {
+    name: string;
+    email: string;
+    mobile: string;
+    dateOfBirth?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    pincode?: string;
+  };
+  spiritualInfo: {
+    favoriteDeities: string[];
+    birthTime?: string;
+    birthPlace?: string;
+    gotra?: string;
+  };
+}
+
+export interface Plan {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: 'Normal' | 'VIP';
+  description: {
+    feature1: string;
+    feature2: string;
+    feature3: string;
+    feature4: string;
+  };
+  isActive: boolean;
+  createdDate: string;
+}
+
 // Admin Dashboard Types
 export interface AdminStats {
   totalUsers: number;
@@ -228,85 +325,4 @@ export interface Plan {
   };
   isActive: boolean;
   createdDate: string;
-}
-
-// User Dashboard Types
-export interface UserPuja {
-  id: string;
-  title: string;
-  temple: string;
-  date: string;
-  time: string;
-  status: 'completed' | 'upcoming' | 'processing';
-  amount: number;
-  image: string;
-  videoUrl?: string;
-  certificateUrl?: string;
-}
-
-// Complete Puja Details Interface
-export interface Puja {
-  id: string;
-  pujaName: string;
-  subHeading: string;
-  about: string;
-  date: string;
-  time: string;
-  pujaImages: string[];
-  templeImage: string;
-  templeAddress: string;
-  templeDescription: string;
-  benefits: {
-    title: string;
-    description: string;
-  }[];
-  selectedPlanIds: string[];
-  prasadPrice: number;
-  prasadStatus: boolean;
-  dakshinaPrices: string;
-  dakshinaPricesUSD: string;
-  dakshinaStatus: boolean;
-  manokamanaPrices: string;
-  manokamanaPricesUSD: string;
-  manokamnaStatus: boolean;
-  category: string;
-  isActive: boolean;
-  isFeatured: boolean;
-  createdDate: string;
-  selectedPlans?: Plan[]; // Populated plans data
-}
-
-export interface UserOrder {
-  id: string;
-  orderNumber: string;
-  date: string;
-  items: Array<{
-    name: string;
-    quantity: number;
-    price: number;
-    image: string;
-  }>;
-  total: number;
-  status: 'delivered' | 'shipped' | 'processing' | 'cancelled';
-  trackingNumber?: string;
-}
-
-export interface UserProfile {
-  personalInfo: {
-    name: string;
-    email: string;
-    mobile: string;
-    dateOfBirth?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    pincode?: string;
-  };
-  spiritualInfo: {
-    favoriteDeities: string[];
-    birthTime?: string;
-    birthPlace?: string;
-    gotra?: string;
-  };
 }
