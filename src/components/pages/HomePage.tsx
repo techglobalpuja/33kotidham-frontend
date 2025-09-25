@@ -116,7 +116,7 @@ export default function HomePage() {
       id: '1',
       image: "/images/img_blog1_jpg.png",
       date: "July 29, 2020",
-      author: "By - Admin",
+      author: "By - Author",
       comments: "0 comments",
       title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
       excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
@@ -125,7 +125,7 @@ export default function HomePage() {
       id: '2',
       image: "/images/img_blog1_jpg.png",
       date: "July 29, 2020",
-      author: "By - Admin",
+      author: "By - Author",
       comments: "0 comments",
       title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
       excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
@@ -134,7 +134,7 @@ export default function HomePage() {
       id: '3',
       image: "/images/img_blog2_jpg.png",
       date: "July 29, 2020",
-      author: "By - Admin",
+      author: "By - Author",
       comments: "0 comments",
       title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
       excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
@@ -143,7 +143,7 @@ export default function HomePage() {
       id: '4',
       image: "/images/img_blog3_jpg.png",
       date: "July 29, 2020",
-      author: "By - Admin",
+      author: "By - Author",
       comments: "0 comments",
       title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
       excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
