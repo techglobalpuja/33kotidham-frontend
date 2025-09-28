@@ -57,7 +57,7 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ processSteps }) => {
                   >
                     <ProcessStep 
                       {...step} 
-                      imageSrc={imagePaths[index % imagePaths.length]} // Assign image based on index
+                      // imageSrc={imagePaths[index % imagePaths.length]} // Assign image based on index
                     />
                     <div 
                       className={`absolute right-2 sm:right-4 md:right-[44px] top-0 bottom-0 z-[99999] transition-opacity duration-300 hidden sm:block ${

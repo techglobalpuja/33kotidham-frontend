@@ -7,7 +7,7 @@ interface TestimonialProps {
   avatar: string;
   name: string;
   role: string;
-  rating: string;
+  rating: number;
   testimonial: string;
 }
 
