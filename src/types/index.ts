@@ -119,7 +119,7 @@ export interface Puja {
   dakshinaStatus: boolean;
   manokamanaPrices: string;
   manokamanaPricesUSD: string;
-  manokamnaStatus: boolean;
+  manokamanaStatus: boolean;
   category: string;
   isActive: boolean;
   isFeatured: boolean;

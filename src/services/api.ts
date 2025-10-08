@@ -67,7 +67,17 @@ class ApiService {
         
         try {
           const errorData = JSON.parse(errorText);
-          errorMessage = errorData.detail || errorMessage;
+          // Check for requires_registration field
+          if (errorData.requires_registration === true) {
+            errorMessage = 'User not found. Please register first.';
+          } else if (errorData.message) {
+            errorMessage = errorData.message;
+          } else if (errorData.detail) {
+            errorMessage = errorData.detail;
+          } else {
+            // If parsing fails, use the raw error text if available
+            if (errorText) errorMessage += ` - ${errorText}`;
+          }
         } catch {
           // If parsing fails, use the raw error text if available
           if (errorText) errorMessage += ` - ${errorText}`;
@@ -80,7 +90,48 @@ class ApiService {
       }
     }
     
-    return response.json();
+    // Even for successful responses, check if it contains requires_registration
+    const responseText = await response.text();
+    console.log('API Success Response Text:', responseText);
+    
+    // If response is empty, return empty object
+    if (!responseText) {
+      return {} as T;
+    }
+    
+    try {
+      // Try to parse as JSON first
+      const responseData = JSON.parse(responseText);
+      console.log('API Success Response Data:', responseData);
+      
+      // Check for the exact response structure you specified:
+      // { "message": "User not found. Please register first.", "requires_registration": true, "mobile": "7858855555" }
+      if (responseData.requires_registration === true) {
+        throw new Error('User not found. Please register first.');
+      }
+      return responseData;
+    } catch (parseError) {
+      // Check if this is our custom error that was thrown above
+      if (parseError instanceof Error && parseError.message === 'User not found. Please register first.') {
+        // Re-throw our custom error without wrapping it
+        throw parseError;
+      }
+      
+      console.log('Error parsing response as JSON:', parseError);
+      // If parsing fails but response is OK, return the raw text or empty object
+      // For OTP requests, we often expect an empty successful response
+      if (response.status === 200 || response.status === 201 || response.status === 204) {
+        try {
+          // Try to parse as JSON one more time, but don't throw if it fails
+          return JSON.parse(responseText) as T;
+        } catch {
+          // If it's not valid JSON, return empty object for successful responses
+          return {} as T;
+        }
+      }
+      // For other cases, re-throw the parsing error
+      throw parseError;
+    }
   }
 
   // Auth API methods
@@ -146,14 +197,32 @@ class ApiService {
     });
   }
 
-  async register(email: string, password: string, name?: string): Promise<User> {
-    // Keep for backward compatibility
-    return this.signup(name || '', email, '', password);
-  }
-
   async logout(): Promise<void> {
     return this.request<void>('/api/auth/logout', {
       method: 'POST',
+    });
+  }
+
+  // OTP-based authentication methods
+  async registerWithOtp(name: string, mobile: string): Promise<any> {
+    // Register with name and mobile, send OTP
+    return this.request<any>('/api/v1/auth/register-with-otp', {
+      method: 'POST',
+      body: JSON.stringify({ name, mobile, role: 'user' }),
+    });
+  }
+
+  async requestOtp(mobile: string): Promise<any> {
+    return this.request<any>('/api/v1/auth/request-otp', {
+      method: 'POST',
+      body: JSON.stringify({ mobile }),
+    });
+  }
+
+  async verifyOtp(mobile: string, otpCode: string): Promise<{ access_token: string; token_type: string }> {
+    return this.request<{ access_token: string; token_type: string }>('/api/v1/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ mobile, otp_code: otpCode }),
     });
   }
 
