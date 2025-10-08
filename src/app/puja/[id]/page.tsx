@@ -5,15 +5,18 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Puja, Plan } from '@/types';
 import Header from '@/components/layout/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store';
+import { fetchPujaById } from '@/store/slices/pujaSlice';
 
 const PujaDetailPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
-  const pujaId = params.id as string;
+  const dispatch = useDispatch<AppDispatch>();
+  const { selectedPuja, isLoading, error } = useSelector((state: RootState) => state.puja);
   
-  const [puja, setPuja] = useState<Puja | null>(null);
+  const pujaId = params.id as string;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   // Additional data for the enhanced puja page
@@ -81,203 +84,12 @@ const PujaDetailPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Mock data - In a real app, this would be fetched from API
-    const mockPujas: (Omit<Puja, 'selectedPlans'> & { selectedPlanIds: string[] })[] = [
-      {
-        id: '1',
-        pujaName: 'Sarv Dosh Nivaran Nav Grah Puja',
-        subHeading: 'For Success, Happiness, Prosperity, Offspring, and Wealth',
-        about: 'Do you know that it is essential to seek the blessings of the 9 planets before starting any auspicious work? The Puranas describe the Navagrahas as the rulers of life and the givers of all kinds of happiness. If you are waiting to begin something auspicious in your life—such as marriage, childbirth, starting a new business, traveling abroad, or pursuing higher education—you must perform the Navagraha Shanti Puja.\n\nAmong the 9 planets, Rahu and Ketu always create confusion, and Saturn can ruin things that are already set. If the Sun is displeased, you will not receive fame. Without Jupiter\'s blessings, prosperity will remain out of reach. If Venus becomes unfavorable for any reason, wealth, luxury, happiness, prosperity, and love will be hard to attain. And if the Moon turns malefic, you will suffer mental distress throughout life.\n\nWhen the positions of these planets turn adverse, you face many challenges in life. That is why you must perform the Navagraha Shanti Puja to protect your life from all directions, attract prosperity, and safeguard your happiness.',
-        date: '2025-09-10',
-        time: '15:00',
-        pujaImages: ['/images/navgrah-puja-1.jpg', '/images/navgrah-puja-2.jpg', '/images/navgrah-puja-3.jpg'],
-        templeImage: '/images/navgrah-shani-mandir.jpg',
-        templeAddress: 'Navgrah Shani Mandir, Avantika Tirth Kshetra, Ujjain',
-        templeDescription: 'This temple in Ujjain is over 2000 years old. Here, the Navagrahas (nine planets) are worshipped in the form of Shiva. Each planet\'s idol is shaped like a Shiva lingam. It is said that this temple was built by King Vikramaditya after experiencing the suffering caused by Saturn, to please Lord Shani. Afterward, he performed special worship of the Navagrahas and established all the Navagrahas in this temple. The temple is highly divine. Devotees come from far and wide to seek blessings from the Navagrahas and pray for their grace. Situated on the Triveni Ghat of the Shipra River, this temple is believed to provide special benefits from the worship of the Navagrahas. In many places, it is believed that worshipping here alleviates more than half of the devotee\'s suffering caused by Saturn at that very moment. Moreover, special worship of the Sun God here leads to the fulfillment of all tasks and ensures complete health improvement.',
-        benefits: [
-          {
-            title: 'Remove Negative Effects of Planets',
-            description: 'This grand puja brings peace to all planets. It removes the negative effects of planets like the Sun, Saturn, Rahu, Ketu, Mars, etc., and blesses you with the auspicious energy of all the planets.'
-          },
-          {
-            title: 'Eliminate Kundali Dosha',
-            description: 'This puja eliminates doshas in your horoscope, such as Pitru dosha, Manglik dosha, Rahu dosha, or Saturn dosha. It generates positive energy around you.'
-          },
-          {
-            title: 'Removes Unnecessary Fears',
-            description: 'If you are troubled by any kind of unnecessary fears, you must participate in the Sarv Dosh Nivaran Grah Shanti Puja. This puja creates a protective shield around you.'
-          },
-          {
-            title: 'Success, Prosperity, and Wealth',
-            description: 'If you seek success, prosperity, and wealth, you should definitely perform this special puja of the nine planets. This puja reduces the harmful effects of all the nine planets, including the Sun, and leads to success.'
-          }
-        ],
-        selectedPlanIds: ['1', '2'],
-        prasadPrice: 750,
-        prasadStatus: true,
-        dakshinaPrices: '501,1001,2001,5001',
-        dakshinaPricesUSD: '6,12,24,60',
-        dakshinaStatus: true,
-        manokamanaPrices: '101,251,501,1001',
-        manokamanaPricesUSD: '1.5,3,6,12',
-        manokamnaStatus: true,
-        category: 'prosperity',
-        isActive: true,
-        isFeatured: true,
-        createdDate: '2024-01-15'
-      },
-      {
-        id: '2',
-        pujaName: 'Lakshmi Puja',
-        subHeading: 'Attract Wealth & Abundance',
-        about: 'Divine Lakshmi puja for wealth, abundance and financial prosperity. This sacred ceremony is dedicated to Goddess Lakshmi, the deity of wealth, fortune, and prosperity. The ritual involves traditional prayers, offerings of lotus flowers, and chanting of powerful mantras that attract divine blessings for financial growth.\n\nThe puja includes special offerings like gold, silver coins, and prosperity-enhancing items. The ceremony creates a positive energy field that attracts wealth and removes financial obstacles from your life.\n\nGoddess Lakshmi blesses devotees with not just material wealth but also spiritual abundance, bringing harmony and prosperity to all aspects of life.',
-        date: '2025-09-15',
-        time: '07:00',
-        pujaImages: ['/images/lakshmi-puja-1.jpg', '/images/lakshmi-puja-2.jpg'],
-        templeImage: '/images/lakshmi-temple.jpg',
-        templeAddress: 'Mahalakshmi Temple, Kolhapur, Maharashtra',
-        templeDescription: 'The ancient Mahalakshmi Temple in Kolhapur is one of the most revered Shakti Peethas, known for bestowing wealth and prosperity upon devotees.',
-        benefits: [
-          {
-            title: 'Financial Prosperity',
-            description: 'Attracts wealth, money, and financial abundance into your life'
-          },
-          {
-            title: 'Business Success',
-            description: 'Enhances business growth, profits, and commercial success'
-          },
-          {
-            title: 'Debt Removal',
-            description: 'Helps in clearing debts and financial burdens'
-          },
-          {
-            title: 'Material Abundance',
-            description: 'Brings material comforts and luxury into your life'
-          }
-        ],
-        selectedPlanIds: ['1'],
-        prasadPrice: 500,
-        prasadStatus: true,
-        dakshinaPrices: '501,1001,2001',
-        dakshinaPricesUSD: '6,12,24',
-        dakshinaStatus: true,
-        manokamanaPrices: '201,501,1001',
-        manokamanaPricesUSD: '2.5,6,12',
-        manokamnaStatus: true,
-        category: 'prosperity',
-        isActive: true,
-        isFeatured: false,
-        createdDate: '2024-01-10'
-      },
-      {
-        id: '3',
-        pujaName: 'Saraswati Puja',
-        subHeading: 'Gain Knowledge & Wisdom',
-        about: 'Sacred Saraswati puja for knowledge, wisdom and academic success. This divine ceremony is dedicated to Goddess Saraswati, the deity of knowledge, arts, and learning. The ritual enhances intellectual abilities, improves concentration, and brings success in education and creative pursuits.\n\nThe puja includes offerings of white flowers, books, musical instruments, and knowledge-related items. Special mantras are chanted to invoke the blessings of the goddess for wisdom and learning.\n\nStudents, teachers, artists, and professionals benefit greatly from this puja, as it removes obstacles in learning and enhances creative abilities.',
-        date: '2025-02-14',
-        time: '06:30',
-        pujaImages: ['/images/saraswati-puja-1.jpg', '/images/saraswati-puja-2.jpg'],
-        templeImage: '/images/saraswati-temple.jpg',
-        templeAddress: 'Saraswati Temple, Varanasi, Uttar Pradesh',
-        templeDescription: 'This sacred temple on the banks of the Ganges is dedicated to Goddess Saraswati and is particularly powerful for students and seekers of knowledge.',
-        benefits: [
-          {
-            title: 'Academic Excellence',
-            description: 'Enhances learning abilities and academic performance'
-          },
-          {
-            title: 'Wisdom & Intelligence',
-            description: 'Increases wisdom, intelligence, and decision-making abilities'
-          },
-          {
-            title: 'Creative Enhancement',
-            description: 'Boosts creativity and artistic talents'
-          },
-          {
-            title: 'Communication Skills',
-            description: 'Improves speaking, writing, and communication abilities'
-          }
-        ],
-        selectedPlanIds: ['1', '2'],
-        prasadPrice: 300,
-        prasadStatus: true,
-        dakshinaPrices: '251,501,1001',
-        dakshinaPricesUSD: '3,6,12',
-        dakshinaStatus: true,
-        manokamanaPrices: '101,201,501',
-        manokamanaPricesUSD: '1.5,2.5,6',
-        manokamnaStatus: true,
-        category: 'education',
-        isActive: true,
-        isFeatured: true,
-        createdDate: '2024-01-08'
-      }
-    ];
-
-    const mockPlans: Plan[] = [
-      {
-        id: '1',
-        name: 'Basic Puja Package',
-        price: 5000,
-        image: '/images/basic-plan.jpg',
-        category: 'Normal',
-        description: {
-          feature1: 'Complete puja ceremony with traditional rituals',
-          feature2: 'Digital certificate of participation',
-          feature3: 'Photo gallery of your puja ceremony',
-          feature4: 'Basic prasad delivery to your location'
-        },
-        isActive: true,
-        createdDate: '2024-01-15'
-      },
-      {
-        id: '2',
-        name: 'Premium VIP Experience',
-        price: 15000,
-        image: '/images/vip-plan.jpg',
-        category: 'VIP',
-        description: {
-          feature1: 'Personalized puja ceremony with name inscription',
-          feature2: 'Live video streaming of your puja',
-          feature3: 'Premium prasad package with blessed items',
-          feature4: 'Personal consultation with temple priest'
-        },
-        isActive: true,
-        createdDate: '2024-01-12'
-      }
-    ];
-    // Simulate API call
-    const fetchPuja = async () => {
-      setLoading(true);
-      try {
-        // Find the puja by ID
-        const foundPuja = mockPujas.find(p => p.id === pujaId);
-        if (foundPuja) {
-          // Get the associated plans
-          const associatedPlans = mockPlans.filter(plan => 
-            foundPuja.selectedPlanIds.includes(plan.id)
-          );
-          
-          const pujaWithPlans: Puja = {
-            ...foundPuja,
-            selectedPlans: associatedPlans
-          };
-          
-          setPuja(pujaWithPlans);
-        }
-      } catch (error) {
-        console.error('Error fetching puja:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (pujaId) {
-      fetchPuja();
+      dispatch(fetchPujaById(pujaId));
     }
-  }, [pujaId]);
+  }, [dispatch, pujaId]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50">
         <Header />
@@ -288,7 +100,27 @@ const PujaDetailPage: React.FC = () => {
     );
   }
 
-  if (!puja) {
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50">
+        <Header />
+        <div className="pt-24 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4 font-['Philosopher']">Error Loading Puja</h1>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <button
+              onClick={() => router.push('/')}
+              className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors"
+            >
+              Go Back Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedPuja) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50">
         <Header />
@@ -306,6 +138,52 @@ const PujaDetailPage: React.FC = () => {
       </div>
     );
   }
+
+  // Transform PujaCard to Puja for display
+  const transformedPuja: Puja = {
+    id: selectedPuja.id,
+    pujaName: selectedPuja.title,
+    subHeading: selectedPuja.temple,
+    about: selectedPuja.description,
+    date: selectedPuja.date,
+    time: '15:00', // Default time
+    pujaImages: selectedPuja.image ? [selectedPuja.image] : ['/images/default-puja.jpg'],
+    templeImage: selectedPuja.image || '/images/default-puja.jpg',
+    templeAddress: selectedPuja.temple,
+    templeDescription: selectedPuja.description,
+    benefits: [
+      {
+        title: 'Remove Negative Effects of Planets',
+        description: 'This grand puja brings peace to all planets. It removes the negative effects of planets like the Sun, Saturn, Rahu, Ketu, Mars, etc., and blesses you with the auspicious energy of all the planets.'
+      },
+      {
+        title: 'Eliminate Kundali Dosha',
+        description: 'This puja eliminates doshas in your horoscope, such as Pitru dosha, Manglik dosha, Rahu dosha, or Saturn dosha. It generates positive energy around you.'
+      },
+      {
+        title: 'Removes Unnecessary Fears',
+        description: 'If you are troubled by any kind of unnecessary fears, you must participate in the Sarv Dosh Nivaran Grah Shanti Puja. This puja creates a protective shield around you.'
+      },
+      {
+        title: 'Success, Prosperity, and Wealth',
+        description: 'If you seek success, prosperity, and wealth, you should definitely perform this special puja of the nine planets. This puja reduces the harmful effects of all the nine planets, including the Sun, and leads to success.'
+      }
+    ],
+    selectedPlanIds: [], // Add the missing property
+    selectedPlans: [], // Empty for now
+    prasadPrice: 750,
+    prasadStatus: true,
+    dakshinaPrices: '501,1001,2001,5001',
+    dakshinaPricesUSD: '6,12,24,60',
+    dakshinaStatus: true,
+    manokamanaPrices: '101,251,501,1001',
+    manokamanaPricesUSD: '1.5,3,6,12',
+    manokamnaStatus: true,
+    category: 'prosperity',
+    isActive: true,
+    isFeatured: true,
+    createdDate: '2024-01-15'
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -330,10 +208,10 @@ const PujaDetailPage: React.FC = () => {
                 <div className="space-y-6">
                   <div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 font-['Philosopher'] mb-4 leading-tight">
-                      {puja.pujaName}
+                      {transformedPuja.pujaName}
                     </h1>
                     <p className="text-xl text-orange-600 font-medium mb-6">
-                      {puja.subHeading}
+                      {transformedPuja.subHeading}
                     </p>
                   </div>
                   
@@ -346,7 +224,7 @@ const PujaDetailPage: React.FC = () => {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold">Wednesday, 10 Sep, 2025</p>
+                        <p className="font-semibold">Wednesday, {transformedPuja.date}</p>
                         <p className="text-sm text-gray-600">3:00 PM</p>
                       </div>
                     </div>
@@ -358,7 +236,7 @@ const PujaDetailPage: React.FC = () => {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold">Navgrah Shani Mandir, Avantika Tirth Kshetra</p>
+                        <p className="font-semibold">{transformedPuja.templeAddress}</p>
                         <p className="text-sm text-gray-600">Ujjain, Madhya Pradesh</p>
                       </div>
                     </div>
@@ -410,10 +288,10 @@ const PujaDetailPage: React.FC = () => {
                 {/* Right Content - Image */}
                 <div className="relative">
                   <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                    {puja.pujaImages && puja.pujaImages.length > 0 ? (
+                    {transformedPuja.pujaImages && transformedPuja.pujaImages.length > 0 ? (
                       <Image
-                        src={puja.pujaImages[selectedImageIndex] || '/images/default-puja.jpg'}
-                        alt={puja.pujaName}
+                        src={transformedPuja.pujaImages[selectedImageIndex] || '/images/default-puja.jpg'}
+                        alt={transformedPuja.pujaName}
                         fill
                         className="object-cover"
                         onError={() => setSelectedImageIndex(0)}
@@ -540,7 +418,7 @@ const PujaDetailPage: React.FC = () => {
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                         <div className="lg:col-span-2">
                           <div className="text-gray-700 leading-relaxed space-y-6 text-lg">
-                            {puja.about.split('\n\n').map((paragraph, index) => (
+                            {transformedPuja.about.split('\n\n').map((paragraph, index) => (
                               <p key={index} className="first-letter:text-5xl first-letter:font-bold first-letter:text-orange-600 first-letter:float-left first-letter:mr-3 first-letter:mt-1">
                                 {paragraph}
                               </p>
@@ -557,7 +435,7 @@ const PujaDetailPage: React.FC = () => {
                                 </div>
                                 <div>
                                   <div className="font-semibold text-gray-900">Date & Time</div>
-                                  <div className="text-sm text-gray-600">Wednesday, 10 Sep, 2025 - 3:00 PM</div>
+                                  <div className="text-sm text-gray-600">Wednesday, {transformedPuja.date} - 3:00 PM</div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-3">
@@ -566,7 +444,7 @@ const PujaDetailPage: React.FC = () => {
                                 </div>
                                 <div>
                                   <div className="font-semibold text-gray-900">Sacred Location</div>
-                                  <div className="text-sm text-gray-600">Navgrah Shani Mandir, Ujjain</div>
+                                  <div className="text-sm text-gray-600">{transformedPuja.templeAddress}</div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-3">
@@ -596,7 +474,7 @@ const PujaDetailPage: React.FC = () => {
                   </div>
                   <div className="p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {puja.benefits.map((benefit, index) => (
+                      {transformedPuja.benefits.map((benefit, index) => (
                         <div key={index} className="bg-white p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 group cursor-pointer border border-green-100 hover:border-green-300">
                           <div className="flex items-start gap-6">
                             <div className="flex-shrink-0">
@@ -691,10 +569,10 @@ const PujaDetailPage: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                       <div className="relative group">
                         <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
-                          {puja.templeImage ? (
+                          {transformedPuja.templeImage ? (
                             <Image
-                              src={puja.templeImage}
-                              alt={puja.templeAddress}
+                              src={transformedPuja.templeImage}
+                              alt={transformedPuja.templeAddress}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
                             />
@@ -709,10 +587,10 @@ const PujaDetailPage: React.FC = () => {
                       <div className="space-y-6">
                         <div>
                           <h3 className="text-3xl font-bold text-amber-600 font-['Philosopher'] mb-4">
-                            Navgrah Shani Mandir, Ujjain
+                            {transformedPuja.templeAddress}
                           </h3>
                           <div className="text-gray-700 leading-relaxed space-y-4 text-lg">
-                            <p>{puja.templeDescription}</p>
+                            <p>{transformedPuja.templeDescription}</p>
                           </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -723,7 +601,7 @@ const PujaDetailPage: React.FC = () => {
                               </div>
                               <h4 className="font-semibold text-gray-900">Location</h4>
                             </div>
-                            <p className="text-sm text-gray-600">Triveni Ghat, Shipra River, Ujjain</p>
+                            <p className="text-sm text-gray-600">{transformedPuja.templeAddress}</p>
                           </div>
                           <div className="bg-white p-4 rounded-xl border border-amber-200">
                             <div className="flex items-center gap-3 mb-2">

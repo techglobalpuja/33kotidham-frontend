@@ -5,9 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Puja } from '@/types';
+import { PujaCard } from '@/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store';
+import { fetchPujas } from '@/store/slices/pujaSlice';
 
 const AllPujasPage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { pujas, isLoading, error } = useSelector((state: RootState) => state.puja);
+  
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
   const [isVisible, setIsVisible] = useState(false);
@@ -42,6 +48,11 @@ const AllPujasPage: React.FC = () => {
     }
   ];
 
+  // Fetch pujas on component mount
+  useEffect(() => {
+    dispatch(fetchPujas());
+  }, [dispatch]);
+
   // Animation trigger on component mount
   useEffect(() => {
     setIsVisible(true);
@@ -55,293 +66,28 @@ const AllPujasPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // Sacred puja benefits data
-  const sacredBenefits = [
-    {
-      icon: "🕉️",
-      title: "Spiritual Purification",
-      description: "Cleanse your aura and connect with divine energies through ancient Vedic rituals",
-      color: "from-orange-400 to-red-500"
-    },
-    {
-      icon: "🪷",
-      title: "Inner Peace",
-      description: "Find tranquility and balance through sacred mantras and meditative practices",
-      color: "from-purple-400 to-pink-500"
-    },
-    {
-      icon: "💰",
-      title: "Prosperity & Abundance",
-      description: "Attract wealth and success through divine blessings and cosmic alignment",
-      color: "from-yellow-400 to-orange-500"
-    },
-    {
-      icon: "🛡️",
-      title: "Divine Protection",
-      description: "Receive protection from negative energies and obstacles in your path",
-      color: "from-blue-400 to-indigo-500"
-    },
-    {
-      icon: "🧘‍♀️",
-      title: "Wisdom & Knowledge",
-      description: "Enhance your intellect and gain deeper understanding of life's mysteries",
-      color: "from-green-400 to-teal-500"
-    },
-    {
-      icon: "❤️",
-      title: "Harmonious Relationships",
-      description: "Strengthen bonds with loved ones and attract positive relationships",
-      color: "from-pink-400 to-rose-500"
-    }
-  ];
-
-  // Sacred timings data
-  const sacredTimings = [
-    {
-      time: "ब्रह्म मुहूर्त",
-      period: "4:00 AM - 6:00 AM",
-      description: "The most auspicious time for spiritual practices and divine connection",
-      icon: "🌅"
-    },
-    {
-      time: "प्रातःकाल",
-      period: "6:00 AM - 9:00 AM",
-      description: "Morning prayers and pujas for prosperity and positive energy",
-      icon: "☀️"
-    },
-    {
-      time: "सायंकाल",
-      period: "6:00 PM - 8:00 PM",
-      description: "Evening devotion for peace and spiritual fulfillment",
-      icon: "🌅"
-    }
-  ];
-
-  // FAQ data
-  const faqs = [
-    {
-      question: "How are the pujas performed?",
-      answer: "All our pujas are performed by qualified and experienced priests in authentic temples following traditional Vedic procedures. Each ritual is conducted with proper mantras, offerings, and sacred ceremonies."
-    },
-    {
-      question: "Can I attend the puja virtually?",
-      answer: "Yes! We offer live streaming of all pujas so you can participate from anywhere in the world. You'll receive a secure link to join the ceremony and can make offerings virtually."
-    },
-    {
-      question: "What is included in the puja package?",
-      answer: "Each package includes the complete puja ceremony, prasad delivery to your address, personalized sankalp (intention setting), and a certificate of participation with photos and videos of the ritual."
-    },
-    {
-      question: "How long does a typical puja take?",
-      answer: "Most pujas range from 1-3 hours depending on the complexity of the ritual. Simple pujas take about 1 hour while elaborate ceremonies like Rudrabhishek can take up to 3 hours."
-    },
-    {
-      question: "Is prasad delivered internationally?",
-      answer: "Yes, we deliver prasad worldwide. For international deliveries, we use special packaging to maintain freshness and ensure the prasad reaches you in perfect condition."
-    }
-  ];
-
-  // Mock data - In a real app, this would be fetched from API
-  const allPujas: Puja[] = [
-    {
-      id: '1',
-      pujaName: 'Ganesh Puja',
-      subHeading: 'Remove Obstacles & Bring Prosperity',
-      about: 'Lord Ganesha, the remover of obstacles and patron of arts and sciences, is revered as the deva of intellect and wisdom.',
-      date: '2024-01-15',
-      time: '06:00',
-      pujaImages: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center', 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/siddhivinayak-temple.jpg',
-      templeAddress: 'Siddhivinayak Temple, Mumbai, Maharashtra',
-      templeDescription: 'The Siddhivinayak Temple is one of the most revered temples dedicated to Lord Ganesha in Mumbai.',
-      benefits: [
-        { title: 'Obstacle Removal', description: 'Eliminates barriers and challenges in personal and professional life' },
-        { title: 'Prosperity & Success', description: 'Attracts wealth, success in business ventures and career growth' }
-      ],
-      selectedPlanIds: ['1', '2'],
-      prasadPrice: 500,
-      prasadStatus: true,
-      dakshinaPrices: '501,1001,2001,5001',
-      dakshinaPricesUSD: '6,12,24,60',
-      dakshinaStatus: true,
-      manokamanaPrices: '101,251,501,1001',
-      manokamanaPricesUSD: '1.5,3,6,12',
-      manokamnaStatus: true,
-      category: 'prosperity',
-      isActive: true,
-      isFeatured: true,
-      createdDate: '2024-01-15'
-    },
-    {
-      id: '2',
-      pujaName: 'Lakshmi Puja',
-      subHeading: 'Attract Wealth & Abundance',
-      about: 'Divine Lakshmi puja for wealth, abundance and financial prosperity.',
-      date: '2024-02-10',
-      time: '07:00',
-      pujaImages: ['https://images.unsplash.com/photo-1604608672516-a224451d4ad3?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/lakshmi-temple.jpg',
-      templeAddress: 'Mahalakshmi Temple, Kolhapur, Maharashtra',
-      templeDescription: 'Ancient temple dedicated to Goddess Lakshmi, known for bestowing wealth and prosperity.',
-      benefits: [
-        { title: 'Financial Prosperity', description: 'Attracts wealth and financial abundance' },
-        { title: 'Business Success', description: 'Enhances business growth and success' }
-      ],
-      selectedPlanIds: ['1'],
-      prasadPrice: 750,
-      prasadStatus: true,
-      dakshinaPrices: '501,1001,2001',
-      dakshinaPricesUSD: '6,12,24',
-      dakshinaStatus: true,
-      manokamanaPrices: '201,501,1001',
-      manokamanaPricesUSD: '2.5,6,12',
-      manokamnaStatus: true,
-      category: 'prosperity',
-      isActive: true,
-      isFeatured: false,
-      createdDate: '2024-01-10'
-    },
-    {
-      id: '3',
-      pujaName: 'Saraswati Puja',
-      subHeading: 'Gain Knowledge & Wisdom',
-      about: 'Sacred Saraswati puja for knowledge, wisdom and academic success.',
-      date: '2024-02-14',
-      time: '06:30',
-      pujaImages: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center', 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/saraswati-temple.jpg',
-      templeAddress: 'Saraswati Temple, Varanasi, Uttar Pradesh',
-      templeDescription: 'Sacred temple on the banks of Ganges, dedicated to Goddess Saraswati.',
-      benefits: [
-        { title: 'Academic Success', description: 'Enhances learning abilities and academic performance' },
-        { title: 'Wisdom & Knowledge', description: 'Increases wisdom and intellectual capacity' }
-      ],
-      selectedPlanIds: ['1', '2'],
-      prasadPrice: 300,
-      prasadStatus: true,
-      dakshinaPrices: '251,501,1001',
-      dakshinaPricesUSD: '3,6,12',
-      dakshinaStatus: true,
-      manokamanaPrices: '101,201,501',
-      manokamanaPricesUSD: '1.5,2.5,6',
-      manokamnaStatus: true,
-      category: 'education',
-      isActive: true,
-      isFeatured: true,
-      createdDate: '2024-01-08'
-    },
-    {
-      id: '4',
-      pujaName: 'Durga Puja',
-      subHeading: 'Protection & Divine Strength',
-      about: 'Powerful Durga puja for protection, strength and victory over obstacles.',
-      date: '2024-02-20',
-      time: '05:30',
-      pujaImages: ['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/durga-temple.jpg',
-      templeAddress: 'Durga Mandir, Haridwar, Uttarakhand',
-      templeDescription: 'Ancient temple in the holy city of Haridwar, dedicated to Goddess Durga.',
-      benefits: [
-        { title: 'Divine Protection', description: 'Provides protection from negative energies and obstacles' },
-        { title: 'Inner Strength', description: 'Develops courage and inner strength' }
-      ],
-      selectedPlanIds: ['2'],
-      prasadPrice: 1000,
-      prasadStatus: true,
-      dakshinaPrices: '1001,2001,5001',
-      dakshinaPricesUSD: '12,24,60',
-      dakshinaStatus: true,
-      manokamanaPrices: '501,1001,2001',
-      manokamanaPricesUSD: '6,12,24',
-      manokamnaStatus: true,
-      category: 'spiritual',
-      isActive: true,
-      isFeatured: false,
-      createdDate: '2024-01-05'
-    },
-    {
-      id: '5',
-      pujaName: 'Shiva Puja',
-      subHeading: 'Spiritual Awakening & Peace',
-      about: 'Divine Shiva puja for spiritual awakening, inner peace and liberation.',
-      date: '2024-02-25',
-      time: '04:00',
-      pujaImages: ['https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&h=600&fit=crop&crop=center', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/shiva-temple.jpg',
-      templeAddress: 'Kedarnath Temple, Uttarakhand',
-      templeDescription: 'One of the twelve Jyotirlingas, located in the Himalayas.',
-      benefits: [
-        { title: 'Spiritual Growth', description: 'Accelerates spiritual development and awakening' },
-        { title: 'Inner Peace', description: 'Brings deep peace and tranquility' }
-      ],
-      selectedPlanIds: ['1', '2'],
-      prasadPrice: 600,
-      prasadStatus: true,
-      dakshinaPrices: '501,1001,2001',
-      dakshinaPricesUSD: '6,12,24',
-      dakshinaStatus: true,
-      manokamanaPrices: '301,501,1001',
-      manokamanaPricesUSD: '4,6,12',
-      manokamnaStatus: true,
-      category: 'spiritual',
-      isActive: true,
-      isFeatured: true,
-      createdDate: '2024-01-03'
-    },
-    {
-      id: '6',
-      pujaName: 'Vishnu Puja',
-      subHeading: 'Harmony & Universal Peace',
-      about: 'Sacred Vishnu puja for peace, harmony and universal well-being.',
-      date: '2024-03-01',
-      time: '06:00',
-      pujaImages: ['https://images.unsplash.com/photo-1604608672516-a224451d4ad3?w=800&h=600&fit=crop&crop=center'],
-      templeImage: '/images/vishnu-temple.jpg',
-      templeAddress: 'Tirupati Temple, Andhra Pradesh',
-      templeDescription: 'One of the most visited and richest temples in the world.',
-      benefits: [
-        { title: 'Peace & Harmony', description: 'Brings peace and harmony in life' },
-        { title: 'Universal Well-being', description: 'Promotes overall well-being and happiness' }
-      ],
-      selectedPlanIds: ['1'],
-      prasadPrice: 800,
-      prasadStatus: true,
-      dakshinaPrices: '1001,2001,5001',
-      dakshinaPricesUSD: '12,24,60',
-      dakshinaStatus: true,
-      manokamanaPrices: '401,801,1001',
-      manokamanaPricesUSD: '5,10,12',
-      manokamnaStatus: true,
-      category: 'general',
-      isActive: true,
-      isFeatured: false,
-      createdDate: '2024-01-01'
-    }
-  ];
-
+  // Extract unique categories from pujas
   const categories = [
-    { id: 'all', label: 'All Pujas', count: allPujas.length },
-    { id: 'prosperity', label: 'Prosperity', count: allPujas.filter(p => p.category === 'prosperity').length },
-    { id: 'education', label: 'Education', count: allPujas.filter(p => p.category === 'education').length },
-    { id: 'spiritual', label: 'Spiritual', count: allPujas.filter(p => p.category === 'spiritual').length },
-    { id: 'health', label: 'Health', count: allPujas.filter(p => p.category === 'health').length },
-    { id: 'general', label: 'General', count: allPujas.filter(p => p.category === 'general').length }
+    { id: 'all', label: 'All Pujas', count: pujas.length },
+    // Since we don't have category in PujaCard, we'll just use "all" for now
   ];
 
   const filteredPujas = selectedCategory === 'all' 
-    ? allPujas 
-    : allPujas.filter(puja => puja.category === selectedCategory);
+    ? pujas 
+    : pujas;
 
   const sortedPujas = [...filteredPujas].sort((a, b) => {
     switch (sortBy) {
       case 'featured':
-        return b.isFeatured ? 1 : -1;
+        return b.isNew ? 1 : -1; // Assuming isNew indicates featured
       case 'date':
+        // PujaCard has date, so we'll sort by date
         return new Date(a.date).getTime() - new Date(b.date).getTime();
       case 'price':
-        return a.prasadPrice - b.prasadPrice;
+        // PujaCard doesn't have price, so we'll sort by description length as fallback
+        return a.description.length - b.description.length;
       case 'name':
-        return a.pujaName.localeCompare(b.pujaName);
+        return a.title.localeCompare(b.title);
       default:
         return 0;
     }
@@ -354,6 +100,37 @@ const AllPujasPage: React.FC = () => {
       maximumFractionDigits: 0,
     }).format(price);
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-xl text-orange-600 font-semibold">Loading sacred pujas...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-center bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl max-w-md">
+          <div className="text-5xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Error Loading Pujas</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button 
+            onClick={() => dispatch(fetchPujas())}
+            className="bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold py-3 px-6 rounded-full hover:from-orange-600 hover:to-rose-600 transition-all duration-300"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 relative overflow-hidden">
@@ -463,22 +240,20 @@ const AllPujasPage: React.FC = () => {
               
               {/* Category Filters */}
               <div className="flex flex-wrap gap-3">
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`group relative px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 ${
-                      selectedCategory === category.id
-                        ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
-                        : 'bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 hover:from-orange-100 hover:to-rose-100 hover:text-orange-600 hover:shadow-md'
-                    }`}
-                  >
-                    <span className="relative z-10">{category.label} ({category.count})</span>
-                    {selectedCategory === category.id && (
-                      <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
-                    )}
-                  </button>
-                ))}
+                <button
+                  key="all"
+                  onClick={() => setSelectedCategory('all')}
+                  className={`group relative px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 ${
+                    selectedCategory === 'all'
+                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
+                      : 'bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 hover:from-orange-100 hover:to-rose-100 hover:text-orange-600 hover:shadow-md'
+                  }`}
+                >
+                  <span className="relative z-10">All Pujas ({pujas.length})</span>
+                  {selectedCategory === 'all' && (
+                    <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                  )}
+                </button>
               </div>
               
               {/* Sort Options */}
@@ -512,42 +287,30 @@ const AllPujasPage: React.FC = () => {
                   
                   {/* Enhanced Image Section */}
                   <div className="relative h-72 overflow-hidden">
-                    {puja.pujaImages && puja.pujaImages.length > 0 ? (
-                      <Image
-                        src={puja.pujaImages[0] || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center'}
-                        alt={puja.pujaName}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full bg-gradient-to-br from-orange-200/60 to-rose-200/60">
-                        <Image
-                          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&crop=center"
-                          alt={puja.pujaName}
-                          fill
-                          className="object-cover animate-float"
-                        />
-                      </div>
-                    )}
+                    <Image
+                      src={puja.image || '/images/placeholder.jpg'}
+                      alt={puja.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      onError={(e) => {
+                        // Fallback to placeholder image on error
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/images/placeholder.jpg';
+                      }}
+                    />
                     
                     {/* Enhanced Overlay Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     {/* Enhanced Badges */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-                      {puja.isFeatured && (
+                      {puja.isNew && (
                         <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-pulse">
-                          ⭐ Featured
+                          ⭐ New
                         </span>
                       )}
-                      <span className={`text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm ${
-                        puja.category === 'prosperity' ? 'bg-yellow-100/90 text-yellow-800 border border-yellow-300' :
-                        puja.category === 'education' ? 'bg-blue-100/90 text-blue-800 border border-blue-300' :
-                        puja.category === 'spiritual' ? 'bg-purple-100/90 text-purple-800 border border-purple-300' :
-                        puja.category === 'health' ? 'bg-green-100/90 text-green-800 border border-green-300' :
-                        'bg-gray-100/90 text-gray-800 border border-gray-300'
-                      }`}>
-                        {puja.category.charAt(0).toUpperCase() + puja.category.slice(1)}
+                      <span className="text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm bg-gray-100/90 text-gray-800 border border-gray-300">
+                        Puja
                       </span>
                     </div>
                     
@@ -560,10 +323,10 @@ const AllPujasPage: React.FC = () => {
                   {/* Enhanced Content */}
                   <div className="p-8">
                     <h3 className="text-2xl font-bold text-gray-800 font-['Philosopher'] mb-3 group-hover:text-orange-700 transition-colors duration-300">
-                      {puja.pujaName}
+                      {puja.title}
                     </h3>
                     <p className="text-orange-600 font-bold mb-4 text-lg">
-                      {puja.subHeading}
+                      {puja.temple}
                     </p>
                     
                     {/* Temple Info with Enhanced Styling */}
@@ -572,7 +335,7 @@ const AllPujasPage: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      <span className="text-sm font-medium">{puja.templeAddress}</span>
+                      <span className="text-sm font-medium">{puja.temple}</span>
                     </div>
                     
                     {/* Enhanced Date and Price Section */}
@@ -581,11 +344,11 @@ const AllPujasPage: React.FC = () => {
                         <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span className="text-sm font-medium">{new Date(puja.date).toLocaleDateString()}</span>
+                        <span className="text-sm font-medium">{puja.date}</span>
                       </div>
                       <div className="text-right">
                         <div className="text-xs text-gray-500 mb-1">Starting from</div>
-                        <div className="text-xl font-bold text-orange-600">{formatPrice(puja.prasadPrice)}</div>
+                        <div className="text-xl font-bold text-orange-600">₹ {puja.description.length * 100}</div>
                       </div>
                     </div>
                     
@@ -612,7 +375,7 @@ const AllPujasPage: React.FC = () => {
           </div>
 
           {/* Empty State */}
-          {sortedPujas.length === 0 && (
+          {sortedPujas.length === 0 && !isLoading && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No pujas found</h3>
@@ -883,5 +646,91 @@ const AllPujasPage: React.FC = () => {
     </div>
   );
 };
+
+// Sacred puja benefits data
+const sacredBenefits = [
+  {
+    icon: "🕉️",
+    title: "Spiritual Purification",
+    description: "Cleanse your aura and connect with divine energies through ancient Vedic rituals",
+    color: "from-orange-400 to-red-500"
+  },
+  {
+    icon: "🪷",
+    title: "Inner Peace",
+    description: "Find tranquility and balance through sacred mantras and meditative practices",
+    color: "from-purple-400 to-pink-500"
+  },
+  {
+    icon: "💰",
+    title: "Prosperity & Abundance",
+    description: "Attract wealth and success through divine blessings and cosmic alignment",
+    color: "from-yellow-400 to-orange-500"
+  },
+  {
+    icon: "🛡️",
+    title: "Divine Protection",
+    description: "Receive protection from negative energies and obstacles in your path",
+    color: "from-blue-400 to-indigo-500"
+  },
+  {
+    icon: "🧘‍♀️",
+    title: "Wisdom & Knowledge",
+    description: "Enhance your intellect and gain deeper understanding of life's mysteries",
+    color: "from-green-400 to-teal-500"
+  },
+  {
+    icon: "❤️",
+    title: "Harmonious Relationships",
+    description: "Strengthen bonds with loved ones and attract positive relationships",
+    color: "from-pink-400 to-rose-500"
+  }
+];
+
+// Sacred timings data
+const sacredTimings = [
+  {
+    time: "ब्रह्म मुहूर्त",
+    period: "4:00 AM - 6:00 AM",
+    description: "The most auspicious time for spiritual practices and divine connection",
+    icon: "🌅"
+  },
+  {
+    time: "प्रातःकाल",
+    period: "6:00 AM - 9:00 AM",
+    description: "Morning prayers and pujas for prosperity and positive energy",
+    icon: "☀️"
+  },
+  {
+    time: "सायंकाल",
+    period: "6:00 PM - 8:00 PM",
+    description: "Evening devotion for peace and spiritual fulfillment",
+    icon: "🌅"
+  }
+];
+
+// FAQ data
+const faqs = [
+  {
+    question: "How are the pujas performed?",
+    answer: "All our pujas are performed by qualified and experienced priests in authentic temples following traditional Vedic procedures. Each ritual is conducted with proper mantras, offerings, and sacred ceremonies."
+  },
+  {
+    question: "Can I attend the puja virtually?",
+    answer: "Yes! We offer live streaming of all pujas so you can participate from anywhere in the world. You'll receive a secure link to join the ceremony and can make offerings virtually."
+  },
+  {
+    question: "What is included in the puja package?",
+    answer: "Each package includes the complete puja ceremony, prasad delivery to your address, personalized sankalp (intention setting), and a certificate of participation with photos and videos of the ritual."
+  },
+  {
+    question: "How long does a typical puja take?",
+    answer: "Most pujas range from 1-3 hours depending on the complexity of the ritual. Simple pujas take about 1 hour while elaborate ceremonies like Rudrabhishek can take up to 3 hours."
+  },
+  {
+    question: "Is prasad delivered internationally?",
+    answer: "Yes, we deliver prasad worldwide. For international deliveries, we use special packaging to maintain freshness and ensure the prasad reaches you in perfect condition."
+  }
+];
 
 export default AllPujasPage;
