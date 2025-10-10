@@ -25,6 +25,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.33kotidham.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   webpack(config) {

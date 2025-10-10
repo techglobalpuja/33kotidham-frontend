@@ -23,6 +23,7 @@ const OtpLoginModal: React.FC = () => {
   const [otp, setOtp] = useState('');
   const [countdown, setCountdown] = useState(0);
   const [formError, setFormError] = useState<string | null>(null);
+  const [prefillMobile, setPrefillMobile] = useState(''); // New state for pre-filled mobile number
 
   // Countdown timer for resend OTP
   useEffect(() => {
@@ -45,6 +46,7 @@ const OtpLoginModal: React.FC = () => {
     setOtp('');
     setFormError(null);
     setCountdown(0);
+    setPrefillMobile(''); // Reset pre-filled mobile
   };
 
   // Close modal on successful login
@@ -62,6 +64,21 @@ const OtpLoginModal: React.FC = () => {
     }
   }, [error]);
 
+  // Reset prefillMobile when switching back to login
+  useEffect(() => {
+    if (isLogin) {
+      setPrefillMobile('');
+    }
+  }, [isLogin]);
+
+  // When requiresRegistration is true, switch to registration mode
+  useEffect(() => {
+    if (requiresRegistration) {
+      setIsLogin(false);
+      setIsRegistrationStep(true);
+    }
+  }, [requiresRegistration]);
+
   const validateMobile = (mobile: string) => {
     const mobileRegex = /^[6-9]\d{9}$/;
     return mobileRegex.test(mobile);
@@ -75,21 +92,24 @@ const OtpLoginModal: React.FC = () => {
       return;
     }
     
-    if (!mobile) {
+    // Use prefillMobile if available, otherwise use mobile
+    const mobileToUse = prefillMobile || mobile;
+    
+    if (!mobileToUse) {
       setFormError('Mobile number is required');
       return;
     }
     
-    if (!validateMobile(mobile)) {
+    if (!validateMobile(mobileToUse)) {
       setFormError('Please enter a valid Indian mobile number');
       return;
     }
     
     try {
       // Register user with name and mobile using register-with-otp endpoint
-      await dispatch(registerWithOtp({ name, mobile })).unwrap();
+      await dispatch(registerWithOtp({ name, mobile: mobileToUse })).unwrap();
       // Then request OTP
-      await dispatch(requestOtp(mobile)).unwrap();
+      await dispatch(requestOtp(mobileToUse)).unwrap();
       setIsOtpSent(true);
       setCountdown(30); // 30 seconds countdown for resend
       setFormError(null);
@@ -118,9 +138,11 @@ const OtpLoginModal: React.FC = () => {
       // Check if the response contains requires_registration field
       // This check is now handled by the API service, but we'll keep it as a backup
       if (response && response.requires_registration === true) {
-        setFormError('User not found. Please register first.');
+        setFormError(null); // Clear any error message
         setIsOtpSent(false);
         setRequiresRegistration(true);
+        setIsLogin(false); // Switch to registration form
+        setPrefillMobile(mobile); // Pre-fill mobile number in registration form
         return;
       }
       
@@ -144,10 +166,13 @@ const OtpLoginModal: React.FC = () => {
           errorMessage.includes('not registered') || 
           errorMessage.includes('404') ||
           errorMessage.includes('user does not exist')) {
-        setFormError('User not found. Please register first.');
+        setFormError(null); // Clear the error message
         // Explicitly ensure OTP screen is not shown
         setIsOtpSent(false);
         setRequiresRegistration(true); // Set registration requirement
+        setIsLogin(false); // Switch to registration mode
+        setPrefillMobile(mobile); // Pre-fill mobile number in registration form
+        setName(''); // Clear name field
         return; // Exit early to prevent any further processing
       } else {
         setFormError(errorMessage);
@@ -243,11 +268,19 @@ const OtpLoginModal: React.FC = () => {
                 </span>
                 <input
                   type="tel"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  value={prefillMobile || mobile}
+                  onChange={(e) => {
+                    const newValue = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    if (prefillMobile) {
+                      setPrefillMobile(newValue);
+                    } else {
+                      setMobile(newValue);
+                    }
+                  }}
                   className="flex-1 px-4 py-3 bg-white border border-orange-200 rounded-r-lg focus:ring-2 focus:ring-orange-300 focus:border-transparent text-gray-800 placeholder-gray-400 shadow-sm transition-all"
                   placeholder="Enter 10-digit mobile number"
                   required
+                  readOnly={!!prefillMobile} // Make mobile field read-only when pre-filled
                 />
               </div>
             </div>
@@ -389,6 +422,7 @@ const OtpLoginModal: React.FC = () => {
                   setName('');
                   setMobile('');
                   setOtp('');
+                  setPrefillMobile(''); // Reset pre-filled mobile
                 }}
               >
                 {isLogin ? 'Sign up' : 'Login'}

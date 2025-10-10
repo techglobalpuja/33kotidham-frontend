@@ -3,7 +3,20 @@ import { PujaCard, User } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
-// Define the backend puja structure
+// Define the backend puja structure based on the new API response
+interface BackendPujaBenefit {
+  id: number;
+  benefit_title: string;
+  benefit_description: string;
+  puja_id: number;
+  created_at: string;
+}
+
+interface BackendPujaImage {
+  id: number;
+  image_url: string;
+}
+
 interface BackendPuja {
   id: number;
   name: string;
@@ -25,8 +38,14 @@ interface BackendPuja {
   category: string;
   created_at: string;
   updated_at: string;
-  benefits: any[];
-  images: { id: number; image_url: string }[];
+  benefits: BackendPujaBenefit[];
+  images: BackendPujaImage[];
+}
+
+// Extended PujaCard interface to include benefits and multiple images
+interface ExtendedPujaCard extends PujaCard {
+  benefits: BackendPujaBenefit[];
+  images: BackendPujaImage[];
 }
 
 class ApiService {
@@ -59,40 +78,9 @@ class ApiService {
     
     const response = await fetch(url, config);
     
-    if (!response.ok) {
-      // Try to parse error response as JSON
-      try {
-        const errorText = await response.text();
-        let errorMessage = `API Error: ${response.status} ${response.statusText}`;
-        
-        try {
-          const errorData = JSON.parse(errorText);
-          // Check for requires_registration field
-          if (errorData.requires_registration === true) {
-            errorMessage = 'User not found. Please register first.';
-          } else if (errorData.message) {
-            errorMessage = errorData.message;
-          } else if (errorData.detail) {
-            errorMessage = errorData.detail;
-          } else {
-            // If parsing fails, use the raw error text if available
-            if (errorText) errorMessage += ` - ${errorText}`;
-          }
-        } catch {
-          // If parsing fails, use the raw error text if available
-          if (errorText) errorMessage += ` - ${errorText}`;
-        }
-        
-        throw new Error(errorMessage);
-      } catch {
-        // If any error occurs during error handling, throw the original error
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-      }
-    }
-    
     // Even for successful responses, check if it contains requires_registration
     const responseText = await response.text();
-    console.log('API Success Response Text:', responseText);
+    console.log('API Response Text:', responseText);
     
     // If response is empty, return empty object
     if (!responseText) {
@@ -102,22 +90,32 @@ class ApiService {
     try {
       // Try to parse as JSON first
       const responseData = JSON.parse(responseText);
-      console.log('API Success Response Data:', responseData);
+      console.log('API Response Data:', responseData);
       
       // Check for the exact response structure you specified:
       // { "message": "User not found. Please register first.", "requires_registration": true, "mobile": "7858855555" }
       if (responseData.requires_registration === true) {
-        throw new Error('User not found. Please register first.');
-      }
-      return responseData;
-    } catch (parseError) {
-      // Check if this is our custom error that was thrown above
-      if (parseError instanceof Error && parseError.message === 'User not found. Please register first.') {
-        // Re-throw our custom error without wrapping it
-        throw parseError;
+        // Return the response data instead of throwing an error
+        // This allows the frontend to handle the registration flow properly
+        return responseData as T;
       }
       
-      console.log('Error parsing response as JSON:', parseError);
+      if (!response.ok) {
+        // Handle other error responses
+        let errorMessage = `API Error: ${response.status} ${response.statusText}`;
+        if (responseData.message) {
+          errorMessage = responseData.message;
+        } else if (responseData.detail) {
+          errorMessage = responseData.detail;
+        } else {
+          // If parsing fails, use the raw error text if available
+          if (responseText) errorMessage += ` - ${responseText}`;
+        }
+        throw new Error(errorMessage);
+      }
+      
+      return responseData;
+    } catch (parseError) {
       // If parsing fails but response is OK, return the raw text or empty object
       // For OTP requests, we often expect an empty successful response
       if (response.status === 200 || response.status === 201 || response.status === 204) {
@@ -129,6 +127,12 @@ class ApiService {
           return {} as T;
         }
       }
+      
+      // For non-OK responses that aren't JSON, throw a generic error
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+      
       // For other cases, re-throw the parsing error
       throw parseError;
     }
@@ -246,18 +250,45 @@ class ApiService {
     }
   }
 
+  // Helper function to construct full image URL
+  private constructImageUrl(imagePath: string): string {
+    // If it's already a full URL, return as is
+    if (imagePath && imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // If it's a relative path, construct the full URL using the production API domain
+    if (imagePath && !imagePath.startsWith('http')) {
+      try {
+        const trimmedPath = imagePath.trim();
+        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
+            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+          // Use the production API domain as specified
+          const baseUrl = 'https://api.33kotidham.com';
+          const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          return fullPath;
+        }
+      } catch (error) {
+        console.warn('Error constructing full image URL:', error);
+      }
+    }
+    
+    // Fallback to placeholder
+    return '/placeholder.jpg';
+  }
+
   // Transform backend puja to frontend PujaCard
-  private transformPuja(backendPuja: BackendPuja): PujaCard {
+  private transformPuja(backendPuja: BackendPuja): ExtendedPujaCard {
     // Get the first valid image URL if available, otherwise use temple_image_url
     let imageUrl = '';
     
-    // Try to get image from the images array first
+    // Try to get image from the images array first (this is the primary source as per project specifications)
     if (backendPuja.images && backendPuja.images.length > 0) {
       // Look for the first valid image URL
       for (const image of backendPuja.images) {
-        if (image.image_url && this.isValidImageUrl(image.image_url)) {
-          // Additional check to ensure the URL is reachable
-          imageUrl = image.image_url;
+        if (image.image_url) {
+          // Use the first image from the images array
+          imageUrl = this.constructImageUrl(image.image_url);
           break; // Use the first valid image
         }
       }
@@ -265,39 +296,7 @@ class ApiService {
     
     // If no valid image from images array, try temple_image_url
     if (!imageUrl && backendPuja.temple_image_url) {
-      if (this.isValidImageUrl(backendPuja.temple_image_url)) {
-        imageUrl = backendPuja.temple_image_url;
-      } else if (backendPuja.temple_image_url && !backendPuja.temple_image_url.startsWith('http')) {
-        // Handle relative paths by constructing full URL
-        try {
-          // Only construct full URL if it looks like a valid relative path
-          const trimmedPath = backendPuja.temple_image_url.trim();
-          // Skip obviously invalid paths
-          if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
-              !trimmedPath.includes('..') && trimmedPath.length > 3) {
-            // Assuming the images are hosted on the same server as the API
-            const baseUrl = API_BASE_URL.replace('/api', '');
-            // Ensure we have a proper base URL
-            if (baseUrl && (baseUrl.startsWith('http://') || baseUrl.startsWith('https://'))) {
-              // Make sure the base URL is valid
-              if (this.isValidImageUrl(baseUrl)) {
-                const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
-                // Validate the constructed URL
-                try {
-                  if (this.isValidImageUrl(fullPath)) {
-                    imageUrl = fullPath;
-                  }
-                } catch {
-                  // If validation fails, imageUrl remains empty
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.warn('Error constructing full image URL:', error);
-          // If construction fails, imageUrl remains empty
-        }
-      }
+      imageUrl = this.constructImageUrl(backendPuja.temple_image_url);
     }
 
     // Format the date - if null, use today's date
@@ -305,39 +304,41 @@ class ApiService {
 
     return {
       id: backendPuja.id.toString(),
-      image: imageUrl || '/images/placeholder.jpg', // Use placeholder if no valid image
+      image: imageUrl, // Use the constructed image URL
       title: backendPuja.name,
       temple: backendPuja.temple_address || 'Temple Address',
       description: backendPuja.description,
       date: formattedDate,
+      benefits: backendPuja.benefits || [],
+      images: backendPuja.images || [],
       isNew: false, // We can set this based on created_at if needed
     };
   }
 
   // Puja API methods - Updated to match admin panel endpoints
-  async getPujas(): Promise<PujaCard[]> {
+  async getPujas(): Promise<ExtendedPujaCard[]> {
     const backendPujas = await this.request<BackendPuja[]>('/api/v1/pujas');
     // Transform the backend data to match PujaCard interface
     return backendPujas.map(this.transformPuja.bind(this));
   }
 
-  async getPujaById(id: string): Promise<PujaCard> {
+  async getPujaById(id: string): Promise<ExtendedPujaCard> {
     const backendPuja = await this.request<BackendPuja>(`/api/v1/pujas/${id}`);
     // Transform the backend data to match PujaCard interface
     return this.transformPuja(backendPuja);
   }
 
-  async createPuja(puja: Omit<PujaCard, 'id'>): Promise<PujaCard> {
+  async createPuja(puja: Omit<ExtendedPujaCard, 'id'>): Promise<ExtendedPujaCard> {
     // For now, we'll keep the existing implementation
-    return this.request<PujaCard>('/api/v1/pujas', {
+    return this.request<ExtendedPujaCard>('/api/v1/pujas', {
       method: 'POST',
       body: JSON.stringify(puja),
     });
   }
 
-  async updatePuja(id: string, puja: Partial<PujaCard>): Promise<PujaCard> {
+  async updatePuja(id: string, puja: Partial<ExtendedPujaCard>): Promise<ExtendedPujaCard> {
     // For now, we'll keep the existing implementation
-    return this.request<PujaCard>(`/api/v1/pujas/${id}`, {
+    return this.request<ExtendedPujaCard>(`/api/v1/pujas/${id}`, {
       method: 'PUT',
       body: JSON.stringify(puja),
     });

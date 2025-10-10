@@ -288,14 +288,14 @@ const AllPujasPage: React.FC = () => {
                   {/* Enhanced Image Section */}
                   <div className="relative h-72 overflow-hidden">
                     <Image
-                      src={puja.image || '/images/placeholder.jpg'}
+                      src={`${puja?.image}` || '/images/placeholder.jpg'}
                       alt={puja.title}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
                       onError={(e) => {
                         // Fallback to placeholder image on error
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/images/placeholder.jpg';
+                        // const target = e.target as HTMLImageElement;
+                        // target.src = '/images/placeholder.jpg';
                       }}
                     />
                     

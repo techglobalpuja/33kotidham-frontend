@@ -46,6 +46,7 @@ const PujaDetailPage: React.FC = () => {
   const pujaId = params.id as string;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [extendedPujaData, setExtendedPujaData] = useState<ExtendedPujaCard | null>(null);
 
   // Additional data for the enhanced puja page
   const devoteeCount = 140;
@@ -114,8 +115,49 @@ const PujaDetailPage: React.FC = () => {
   useEffect(() => {
     if (pujaId) {
       dispatch(fetchPujaById(pujaId));
+      
+      // Simulate fetching extended puja data with benefits and multiple images
+      // In a real implementation, this would come from the API
+      setTimeout(() => {
+        if (selectedPuja) {
+          setExtendedPujaData({
+            ...selectedPuja,
+            benefits: [
+              {
+                id: 1,
+                benefit_title: 'Remove Negative Effects of Planets',
+                benefit_description: 'This grand puja brings peace to all planets. It removes the negative effects of planets like the Sun, Saturn, Rahu, Ketu, Mars, etc., and blesses you with the auspicious energy of all the planets.',
+                puja_id: parseInt(selectedPuja.id),
+                created_at: new Date().toISOString()
+              },
+              {
+                id: 2,
+                benefit_title: 'Eliminate Kundali Dosha',
+                benefit_description: 'This puja eliminates doshas in your horoscope, such as Pitru dosha, Manglik dosha, Rahu dosha, or Saturn dosha. It generates positive energy around you.',
+                puja_id: parseInt(selectedPuja.id),
+                created_at: new Date().toISOString()
+              },
+              {
+                id: 3,
+                benefit_title: 'Removes Unnecessary Fears',
+                benefit_description: 'If you are troubled by any kind of unnecessary fears, you must participate in the Sarv Dosh Nivaran Grah Shanti Puja. This puja creates a protective shield around you.',
+                puja_id: parseInt(selectedPuja.id),
+                created_at: new Date().toISOString()
+              },
+              {
+                id: 4,
+                benefit_title: 'Success, Prosperity, and Wealth',
+                benefit_description: 'If you seek success, prosperity, and wealth, you should definitely perform this special puja of the nine planets. This puja reduces the harmful effects of all the nine planets, including the Sun, and leads to success.',
+                puja_id: parseInt(selectedPuja.id),
+                created_at: new Date().toISOString()
+              }
+            ],
+            images: selectedPuja.image ? [{ id: 1, image_url: selectedPuja.image }] : []
+          });
+        }
+      }, 500);
     }
-  }, [dispatch, pujaId]);
+  }, [dispatch, pujaId, selectedPuja]);
 
   // Helper function to construct full image URL using the production API domain
   const constructImageUrl = (imagePath: string) => {
@@ -146,23 +188,15 @@ const PujaDetailPage: React.FC = () => {
 
   // Function to handle next image in carousel
   const nextImage = () => {
-    if (selectedPuja) {
-      // Type assertion to access extended properties
-      const puja = selectedPuja as ExtendedPujaCard;
-      if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
-      }
+    if (extendedPujaData && extendedPujaData.images.length > 1) {
+      setSelectedImageIndex((prevIndex) => (prevIndex + 1) % extendedPujaData.images.length);
     }
   };
 
   // Function to handle previous image in carousel
   const prevImage = () => {
-    if (selectedPuja) {
-      // Type assertion to access extended properties
-      const puja = selectedPuja as ExtendedPujaCard;
-      if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex - 1 + puja.images.length) % puja.images.length);
-      }
+    if (extendedPujaData && extendedPujaData.images.length > 1) {
+      setSelectedImageIndex((prevIndex) => (prevIndex - 1 + extendedPujaData.images.length) % extendedPujaData.images.length);
     }
   };
 
@@ -216,26 +250,9 @@ const PujaDetailPage: React.FC = () => {
     );
   }
 
-  // Type guard to check if selectedPuja is ExtendedPujaCard
-  const isExtendedPuja = (puja: any): puja is ExtendedPujaCard => {
-    return puja && typeof puja === 'object' && 'benefits' in puja && 'images' in puja;
-  };
-
   // Get all images from the puja (from the API response)
-  let pujaImages: BackendPujaImage[] = [];
-  let pujaBenefits: BackendPujaBenefit[] = [];
-  
-  // Properly handle type checking
-  if (selectedPuja) {
-    if (isExtendedPuja(selectedPuja)) {
-      pujaImages = selectedPuja.images || [];
-      pujaBenefits = selectedPuja.benefits || [];
-    } else {
-      // For standard PujaCard, create an array with the single image
-      pujaImages = selectedPuja.image ? [{ id: 1, image_url: selectedPuja.image }] : [];
-      pujaBenefits = [];
-    }
-  }
+  const pujaImages = extendedPujaData?.images || (selectedPuja.image ? [{ id: 1, image_url: selectedPuja.image }] : []);
+  const pujaBenefits = extendedPujaData?.benefits || [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -526,7 +543,7 @@ const PujaDetailPage: React.FC = () => {
               </section>
 
               {/* Puja Benefits Section */}
-              {pujaBenefits && pujaBenefits.length > 0 && (
+              {pujaBenefits.length > 0 && (
                 <section id="benefits" className="scroll-mt-20">
                   <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 rounded-3xl shadow-xl overflow-hidden border border-green-100">
                     <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-8 text-center">

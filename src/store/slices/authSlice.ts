@@ -38,6 +38,8 @@ export const requestOtp = createAsyncThunk(
   async (mobile: string, { rejectWithValue }) => {
     try {
       const response = await apiService.requestOtp(mobile);
+      // If the response contains requires_registration: true, we should pass it through
+      // instead of treating it as an error
       return response;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Failed to request OTP');
