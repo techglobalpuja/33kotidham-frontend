@@ -4,6 +4,25 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=Lato:wght@400&family=Philosopher:wght@700&family=Mulish:wght@400&display=swap');
 
+/* Global scrollbar styling to match theme colors */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 140, 0, 0.1); /* Light orange track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff7700, #ff4500); /* Orange gradient */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #ff6600, #ff3300); /* Darker orange on hover */
+}
+
 @layer base {
   :root {
     /* Global Colors */

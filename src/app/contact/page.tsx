@@ -42,7 +42,7 @@ const ContactPage: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-28 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="relative max-w-7xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="mb-8 flex justify-center">
@@ -56,10 +56,7 @@ const ContactPage: React.FC = () => {
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 Contact Us
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
-                संपर्क करें
-              </span>
+              
             </h1>
             
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
@@ -193,7 +190,7 @@ const ContactPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-800 font-['Philosopher']">Address</h4>
-                      <p className="text-gray-600">123 Spiritual Lane, Divine City, Sacred State 110001</p>
+                      <p className="text-gray-600">Vadodra, Gujrat, India</p>
                     </div>
                   </div>
                   
@@ -213,7 +210,7 @@ const ContactPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-800 font-['Philosopher']">Email</h4>
-                      <p className="text-gray-600">info@globalpuja.com</p>
+                      <p className="text-gray-600">support@33kotidham.com</p>
                     </div>
                   </div>
                   
@@ -223,7 +220,7 @@ const ContactPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-800 font-['Philosopher']">Working Hours</h4>
-                      <p className="text-gray-600">Mon - Sun: 6:00 AM - 10:00 PM</p>
+                      <p className="text-gray-600">Mon - Sun: 10:00 AM - 07:00 PM</p>
                     </div>
                   </div>
                 </div>
