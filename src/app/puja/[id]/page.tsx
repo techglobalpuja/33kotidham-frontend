@@ -7,6 +7,7 @@ import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
+import { PujaCard } from '@/types';
 
 // Define interfaces for the backend data structure
 interface BackendPujaBenefit {
@@ -232,7 +233,8 @@ const PujaDetailPage: React.FC = () => {
       pujaBenefits = selectedPuja.benefits || [];
     } else {
       // For standard PujaCard, create an array with the single image
-      pujaImages = selectedPuja.image ? [{ id: 1, image_url: selectedPuja.image }] : [];
+      const standardPuja = selectedPuja as PujaCard;
+      pujaImages = standardPuja.image ? [{ id: 1, image_url: standardPuja.image }] : [];
       pujaBenefits = [];
     }
   }
