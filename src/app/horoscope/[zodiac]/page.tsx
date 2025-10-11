@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
+import Header from '@/components/layout/Header';
 
 // Comprehensive horoscope data
 const horoscopeData = {
@@ -248,8 +249,9 @@ const ZodiacDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Header />
       {/* Hero Section */}
-      <section className="relative w-full py-[80px] sm:py-[100px] md:py-[120px] mt-20">
+      <section className="relative w-full py-[80px] sm:py-[100px] md:py-[120px] mt-0">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500">
           <div className="absolute inset-0 bg-black/20"></div>
         </div>

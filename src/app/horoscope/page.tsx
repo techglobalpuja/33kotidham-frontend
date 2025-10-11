@@ -215,87 +215,8 @@ const HoroscopePage: React.FC = () => {
       </div>
 
       {/* Puja-Themed Ethnic Hero Section */}
-      <section className="relative w-full min-h-screen bg-gradient-to-r from-orange-50/30 to-yellow-50/40 overflow-hidden">
-        {/* Traditional Indian Ethnic Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-200/40 via-yellow-100/50 to-orange-100/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-300/30 via-yellow-200/40 to-orange-200/50 animate-gradient-x"></div>
-          
-          {/* Ethnic Pattern Overlay */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-10 left-10 w-32 h-32 border-2 border-orange-400 rounded-full animate-spin-slow"></div>
-            <div className="absolute top-20 right-20 w-20 h-20 border border-yellow-500 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-orange-300 rotate-45 animate-float"></div>
-            <div className="absolute bottom-10 right-10 w-16 h-16 border border-yellow-400 rounded-full animate-twinkle"></div>
-          </div>
-          
-          {/* Sacred Mandala Pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
-              <div className="w-full h-full border-8 border-orange-400 rounded-full animate-spin-slow"></div>
-              <div className="absolute inset-8 border-4 border-yellow-500 rounded-full animate-pulse"></div>
-              <div className="absolute inset-16 border-2 border-orange-300 rounded-full"></div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Header and Content Container */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Header />
-          
-          {/* Hero Content */}
-          <div className="flex flex-col min-h-[calc(100vh-120px)] sm:min-h-[calc(100vh-100px)] pt-20 sm:pt-24 lg:pt-28">
-            <div className="flex-1 flex items-center py-8 sm:py-12 lg:py-0">
-              <div className="w-full max-w-4xl mx-auto text-center">
-                <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  {/* Sacred Om Symbol */}
-                  <div className="mb-8 relative flex justify-center">
-                    <div className="p-8 rounded-full bg-white/20 backdrop-blur-lg border-2 border-orange-300/40 relative overflow-hidden group shadow-lg">
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-200/20 to-yellow-200/20 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
-                      <div className="text-6xl text-orange-600 relative z-10 animate-float font-bold" style={{fontFamily: 'serif'}}>ॐ</div>
-                      {/* Subtle glow effect */}
-                      <div className="absolute inset-0 bg-orange-300/10 rounded-full blur-xl group-hover:bg-orange-300/20 transition-all duration-500"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
-                    <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
-                      ज्योतिष की
-                    </span>
-                    <br />
-                    <span className="bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent">
-                      Divine Guidance
-                    </span>
-                  </h1>
-                  
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
-                    Sacred astrological wisdom rooted in ancient Vedic traditions. Discover your cosmic path through divine horoscope readings
-                  </p>
-                  
-                  {/* Enhanced Traditional CTA Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                    <button className="group relative px-10 py-4 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
-                      <span className="relative z-10 flex items-center justify-center gap-3">
-                        <div className="text-xl">🔯</div>
-                        Get Horoscope
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </button>
-                    
-                    <button className="group relative px-10 py-4 bg-white/80 backdrop-blur-sm text-orange-600 font-bold text-lg rounded-full border-2 border-orange-300 hover:border-orange-400 transition-all duration-500 hover:scale-105 shadow-md hover:shadow-lg">
-                      <span className="relative z-10 flex items-center justify-center gap-3">
-                        <div className="text-xl">📚</div>
-                        Learn More
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+      <Header />
 
       {/* Revolutionary Zodiac Grid Section */}
       <section className="relative w-full py-[100px] sm:py-[110px] md:py-[120px] px-[42px] sm:px-[49px] md:px-[56px]">
@@ -309,12 +230,9 @@ const HoroscopePage: React.FC = () => {
             </div>
             <h2 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] text-gray-800 font-['Philosopher'] mb-8">
               <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Choose Your
+                Check Your Zodiac
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Zodiac Sign
-              </span>
+              
             </h2>
             <div className="w-32 h-1.5 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 mx-auto mb-8 rounded-full"></div>
             <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-4xl mx-auto">

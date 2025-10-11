@@ -151,7 +151,7 @@ const AllPujasPage: React.FC = () => {
       <Header />
       
       {/* Enhanced Hero Section */}
-      <section className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-28 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Sacred Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full">
@@ -174,18 +174,14 @@ const AllPujasPage: React.FC = () => {
             
             {/* Main Heading */}
             <h1 className="text-[52px] sm:text-[64px] md:text-[72px] lg:text-[84px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] lg:leading-[92px] font-['Philosopher'] mb-8">
-              <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
-                पवित्र पूजा
-              </span>
-              <br />
+              
               <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
                 Sacred Pujas
               </span>
             </h1>
             
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
-              Discover the transformative power of authentic Vedic rituals performed by experienced priests in sacred temples. 
-              <br className="hidden sm:block" />
+              
               Connect with divine energies and invite blessings into your life through our comprehensive puja services.
             </p>
             
@@ -210,7 +206,7 @@ const AllPujasPage: React.FC = () => {
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            {/* <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button className="group relative px-10 py-4 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-2xl">
                 <span className="relative z-10 flex items-center justify-center gap-3">
                   <div className="text-xl">🕊</div>
@@ -225,7 +221,7 @@ const AllPujasPage: React.FC = () => {
                   Consult Priest
                 </span>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -439,9 +435,7 @@ const AllPujasPage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="text-[38px] sm:text-[42px] md:text-[48px] font-bold leading-[44px] sm:leading-[48px] md:leading-[54px] text-gray-800 font-['Philosopher'] mb-6">
-              <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
-                आदर्श पूजा समय
-              </span>
+              
               <br />
               <span className="bg-gradient-to-r from-rose-600 to-yellow-600 bg-clip-text text-transparent">
                 Auspicious Timings
@@ -486,9 +480,7 @@ const AllPujasPage: React.FC = () => {
                 Devotee Testimonials
               </span>
               <br />
-              <span className="bg-gradient-to-r from-rose-600 to-yellow-600 bg-clip-text text-transparent">
-                भक्त अनुभव
-              </span>
+              
             </h2>
           </div>
           

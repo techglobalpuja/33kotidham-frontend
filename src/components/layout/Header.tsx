@@ -94,14 +94,14 @@ const Header: React.FC = () => {
 
   // Dropdown menu items
   const moreMenuItems = [
-    { name: 'Panchang', href: '/panchang', icon: '📅' },
+    // { name: 'Panchang', href: '/panchang', icon: '📅' },
     { name: 'Blog', href: '/blog', icon: '📚' },
-    { name: 'Free Kundli', href: '/free-kundli', icon: '🔮' },
-    { name: 'Match Making', href: '/match-making', icon: '💕' },
-    { name: 'Numerology', href: '/numerology', icon: '🔢' },
-    { name: 'Astro Tools', href: '/astro-tools', icon: '🛠️' },
-    { name: 'Ask Question', href: '/ask-question', icon: '❓' },
-    { name: 'Career', href: '/career', icon: '💼' },
+    // { name: 'Free Kundli', href: '/free-kundli', icon: '🔮' },
+    // { name: 'Match Making', href: '/match-making', icon: '💕' },
+    // { name: 'Numerology', href: '/numerology', icon: '🔢' },
+    // { name: 'Astro Tools', href: '/astro-tools', icon: '🛠️' },
+    // { name: 'Ask Question', href: '/ask-question', icon: '❓' },
+    // { name: 'Career', href: '/career', icon: '💼' },
     { name: 'Contact', href: '/contact', icon: '📞' },
   ];
 
@@ -136,14 +136,16 @@ const Header: React.FC = () => {
       <div className="w-full max-w-7xl flex items-center justify-between px-2 sm:px-4">
         {/* Logo Section */}
         <div className="flex items-center">
-          <Image
-            src="/images/logo.webp"
-            alt="Logo Text"
-            width={100}
-            height={18}
-            className="w-36 h-8"
-            priority
-          />
+          <button onClick={() => router.push('/')} className="cursor-pointer">
+            <Image
+              src="/images/logo.webp"
+              alt="Logo Text"
+              width={100}
+              height={18}
+              className="w-36 h-8"
+              priority
+            />
+          </button>
         </div>
 
         {/* Desktop Navigation */}
