@@ -326,3 +326,33 @@ export interface Plan {
   isActive: boolean;
   createdDate: string;
 }
+
+// Blog Types
+export interface BlogCategory {
+  id: number;
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  subtitle: string | null;
+  content: string;
+  thumbnail_image: string | null;
+  meta_description: string | null;
+  tags: string | null;
+  category_id: number | null;
+  is_featured: boolean;
+  is_active: boolean;
+  publish_time: string | null;
+  slug: string | null;
+  author_id: number;
+  created_at: string;
+  updated_at: string;
+  category: BlogCategory | null;
+  author: User | null;
+}

@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User } from '@/types';
+import { PujaCard, User, BlogPost, BlogCategory } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -76,65 +76,73 @@ class ApiService {
       console.log('Using authorization header');
     }
     
-    const response = await fetch(url, config);
-    
-    // Even for successful responses, check if it contains requires_registration
-    const responseText = await response.text();
-    console.log('API Response Text:', responseText);
-    
-    // If response is empty, return empty object
-    if (!responseText) {
-      return {} as T;
-    }
-    
     try {
-      // Try to parse as JSON first
-      const responseData = JSON.parse(responseText);
-      console.log('API Response Data:', responseData);
+      const response = await fetch(url, config);
       
-      // Check for the exact response structure you specified:
-      // { "message": "User not found. Please register first.", "requires_registration": true, "mobile": "7858855555" }
-      if (responseData.requires_registration === true) {
-        // Return the response data instead of throwing an error
-        // This allows the frontend to handle the registration flow properly
-        return responseData as T;
+      // Even for successful responses, check if it contains requires_registration
+      const responseText = await response.text();
+      console.log('API Response Text:', responseText);
+      
+      // If response is empty, return empty object
+      if (!responseText) {
+        return {} as T;
       }
       
-      if (!response.ok) {
-        // Handle other error responses
-        let errorMessage = `API Error: ${response.status} ${response.statusText}`;
-        if (responseData.message) {
-          errorMessage = responseData.message;
-        } else if (responseData.detail) {
-          errorMessage = responseData.detail;
-        } else {
-          // If parsing fails, use the raw error text if available
-          if (responseText) errorMessage += ` - ${responseText}`;
+      try {
+        // Try to parse as JSON first
+        const responseData = JSON.parse(responseText);
+        console.log('API Response Data:', responseData);
+        
+        // Check for the exact response structure you specified:
+        // { "message": "User not found. Please register first.", "requires_registration": true, "mobile": "7858855555" }
+        if (responseData.requires_registration === true) {
+          // Return the response data instead of throwing an error
+          // This allows the frontend to handle the registration flow properly
+          return responseData as T;
         }
-        throw new Error(errorMessage);
-      }
-      
-      return responseData;
-    } catch (parseError) {
-      // If parsing fails but response is OK, return the raw text or empty object
-      // For OTP requests, we often expect an empty successful response
-      if (response.status === 200 || response.status === 201 || response.status === 204) {
-        try {
-          // Try to parse as JSON one more time, but don't throw if it fails
-          return JSON.parse(responseText) as T;
-        } catch {
-          // If it's not valid JSON, return empty object for successful responses
-          return {} as T;
+        
+        if (!response.ok) {
+          // Handle other error responses
+          let errorMessage = `API Error: ${response.status} ${response.statusText}`;
+          if (responseData.message) {
+            errorMessage = responseData.message;
+          } else if (responseData.detail) {
+            errorMessage = responseData.detail;
+          } else {
+            // If parsing fails, use the raw error text if available
+            if (responseText) errorMessage += ` - ${responseText}`;
+          }
+          throw new Error(errorMessage);
         }
+        
+        return responseData;
+      } catch (parseError) {
+        // If parsing fails but response is OK, return the raw text or empty object
+        // For OTP requests, we often expect an empty successful response
+        if (response.status === 200 || response.status === 201 || response.status === 204) {
+          try {
+            // Try to parse as JSON one more time, but don't throw if it fails
+            return JSON.parse(responseText) as T;
+          } catch {
+            // If it's not valid JSON, return empty object for successful responses
+            return {} as T;
+          }
+        }
+        
+        // For non-OK responses that aren't JSON, throw a generic error
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        }
+        
+        // For other cases, re-throw the parsing error
+        throw parseError;
       }
-      
-      // For non-OK responses that aren't JSON, throw a generic error
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    } catch (error) {
+      // Handle network errors or other fetch issues
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        throw new Error('Network error: Please check your internet connection and try again.');
       }
-      
-      // For other cases, re-throw the parsing error
-      throw parseError;
+      throw error;
     }
   }
 
@@ -275,6 +283,27 @@ class ApiService {
     
     // Fallback to placeholder
     return '/placeholder.jpg';
+  }
+
+  // Blog API methods
+  async getAllBlogs(skip: number = 0, limit: number = 100, featuredOnly: boolean = false, categoryId: number | null = null): Promise<BlogPost[]> {
+    let url = `/api/v1/blogs/?skip=${skip}&limit=${limit}&featured_only=${featuredOnly}`;
+    if (categoryId !== null) {
+      url += `&category_id=${categoryId}`;
+    }
+    return this.request<BlogPost[]>(url);
+  }
+
+  async searchBlogs(query: string, skip: number = 0, limit: number = 100): Promise<BlogPost[]> {
+    return this.request<BlogPost[]>(`/api/v1/blogs/search?q=${encodeURIComponent(query)}&skip=${skip}&limit=${limit}`);
+  }
+
+  async getFeaturedBlogs(limit: number = 10): Promise<BlogPost[]> {
+    return this.request<BlogPost[]>(`/api/v1/blogs/featured?limit=${limit}`);
+  }
+
+  async getBlogById(blogId: number): Promise<BlogPost> {
+    return this.request<BlogPost>(`/api/v1/blogs/${blogId}`);
   }
 
   // Transform backend puja to frontend PujaCard
