@@ -368,7 +368,7 @@ const PujaDetailPage: React.FC = () => {
                   {/* Quick Book Button - Positioned over image */}
                   <div className="absolute bottom-6 left-6 right-6">
                     <button
-                      onClick={() => {}}
+                      onClick={() => router.push(`/puja/${pujaId}/checkout/custom`)}
                       className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg backdrop-blur-sm"
                     >
                       Participate Now ₹5,000
@@ -453,11 +453,14 @@ const PujaDetailPage: React.FC = () => {
                                 </li>
                               ))}
                             </ul>
-                            <button className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
-                              pkg.recommended 
-                                ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 shadow-lg'
-                                : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-orange-100 hover:to-orange-200 hover:text-orange-600'
-                            }`}>
+                            <button
+                              onClick={() => router.push(`/puja/${pujaId}/checkout/custom`)}
+                              className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
+                                pkg.recommended 
+                                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 shadow-lg'
+                                  : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-orange-100 hover:to-orange-200 hover:text-orange-600'
+                              }`}
+                            >
                               {pkg.recommended ? '🔥 Book Now' : 'Select Plan'}
                             </button>
                           </div>
