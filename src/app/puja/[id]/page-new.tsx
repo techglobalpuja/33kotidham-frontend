@@ -7,9 +7,8 @@ import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
-import { PujaCard } from '@/types';
 
-// Define interfaces for the backend data structure
+// Define the backend puja structure based on the API response
 interface BackendPujaBenefit {
   id: number;
   benefit_title: string;
@@ -23,19 +22,29 @@ interface BackendPujaImage {
   image_url: string;
 }
 
-// Extended PujaCard interface to include benefits and multiple images
-interface ExtendedPujaCard {
-  id: string;
-  image: string;
-  title: string;
-  temple: string;
+interface BackendPuja {
+  id: number;
+  name: string;
+  sub_heading: string;
   description: string;
-  date: string;
+  date: string | null;
+  time: string | null;
+  temple_image_url: string | null;
+  temple_address: string | null;
+  temple_description: string | null;
+  prasad_price: number;
+  is_prasad_active: boolean;
+  dakshina_prices_inr: string | null;
+  dakshina_prices_usd: string | null;
+  is_dakshina_active: boolean;
+  manokamna_prices_inr: string | null;
+  manokamna_prices_usd: string | null;
+  is_manokamna_active: boolean;
+  category: string;
+  created_at: string;
+  updated_at: string;
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
-  isNew?: boolean;
-  timer?: boolean;
-  shareLabel?: string;
 }
 
 const PujaDetailPage: React.FC = () => {
@@ -145,28 +154,6 @@ const PujaDetailPage: React.FC = () => {
     return '/placeholder.jpg';
   };
 
-  // Function to handle next image in carousel
-  const nextImage = () => {
-    if (selectedPuja) {
-      // Type assertion to access extended properties
-      const puja = selectedPuja as ExtendedPujaCard;
-      if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
-      }
-    }
-  };
-
-  // Function to handle previous image in carousel
-  const prevImage = () => {
-    if (selectedPuja) {
-      // Type assertion to access extended properties
-      const puja = selectedPuja as ExtendedPujaCard;
-      if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex - 1 + puja.images.length) % puja.images.length);
-      }
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50">
@@ -217,27 +204,8 @@ const PujaDetailPage: React.FC = () => {
     );
   }
 
-  // Type guard to check if selectedPuja is ExtendedPujaCard
-  const isExtendedPuja = (puja: any): puja is ExtendedPujaCard => {
-    return puja && typeof puja === 'object' && 'benefits' in puja && 'images' in puja;
-  };
-
   // Get all images from the puja (from the API response)
-  let pujaImages: BackendPujaImage[] = [];
-  let pujaBenefits: BackendPujaBenefit[] = [];
-  
-  // Properly handle type checking
-  if (selectedPuja) {
-    if (isExtendedPuja(selectedPuja)) {
-      pujaImages = selectedPuja.images || [];
-      pujaBenefits = selectedPuja.benefits || [];
-    } else {
-      // For standard PujaCard, create an array with the single image
-      const standardPuja = selectedPuja as PujaCard;
-      pujaImages = standardPuja.image ? [{ id: 1, image_url: standardPuja.image }] : [];
-      pujaBenefits = [];
-    }
-  }
+  const pujaImages = selectedPuja.image ? [selectedPuja.image] : ['/placeholder.jpg'];
 
   return (
     <div className="min-h-screen bg-white">
@@ -311,12 +279,12 @@ const PujaDetailPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Right Content - Image Carousel */}
+                {/* Right Content - Image */}
                 <div className="relative">
                   <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                    {pujaImages.length > 0 && pujaImages[selectedImageIndex] ? (
+                    {pujaImages[selectedImageIndex] ? (
                       <Image
-                        src={constructImageUrl(pujaImages[selectedImageIndex].image_url)}
+                        src={constructImageUrl(pujaImages[selectedImageIndex])}
                         alt={selectedPuja.title}
                         fill
                         className="object-cover"
@@ -330,45 +298,10 @@ const PujaDetailPage: React.FC = () => {
                     )}
                   </div>
                   
-                  {/* Carousel Navigation */}
-                  {pujaImages.length > 1 && (
-                    <>
-                      <button 
-                        onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-orange-600 rounded-full p-2 shadow-lg transition-all duration-200"
-                      >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                      </button>
-                      <button 
-                        onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-orange-600 rounded-full p-2 shadow-lg transition-all duration-200"
-                      >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
-                      
-                      {/* Image Indicators */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                        {pujaImages.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={() => setSelectedImageIndex(index)}
-                            className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                              index === selectedImageIndex ? 'bg-orange-500 w-6' : 'bg-white/50'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                  
                   {/* Quick Book Button - Positioned over image */}
                   <div className="absolute bottom-6 left-6 right-6">
                     <button
-                      onClick={() => router.push(`/puja/${pujaId}/checkout/custom`)}
+                      onClick={() => {}}
                       className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg backdrop-blur-sm"
                     >
                       Participate Now ₹5,000
@@ -453,14 +386,11 @@ const PujaDetailPage: React.FC = () => {
                                 </li>
                               ))}
                             </ul>
-                            <button
-                              onClick={() => router.push(`/puja/${pujaId}/checkout/custom`)}
-                              className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
-                                pkg.recommended 
-                                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 shadow-lg'
-                                  : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-orange-100 hover:to-orange-200 hover:text-orange-600'
-                              }`}
-                            >
+                            <button className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
+                              pkg.recommended 
+                                ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 shadow-lg'
+                                : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-orange-100 hover:to-orange-200 hover:text-orange-600'
+                            }`}>
                               {pkg.recommended ? '🔥 Book Now' : 'Select Plan'}
                             </button>
                           </div>
@@ -530,50 +460,6 @@ const PujaDetailPage: React.FC = () => {
                 </div>
               </section>
 
-              {/* Puja Benefits Section */}
-              {pujaBenefits && pujaBenefits.length > 0 && (
-                <section id="benefits" className="scroll-mt-20">
-                  <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 rounded-3xl shadow-xl overflow-hidden border border-green-100">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-8 text-center">
-                      <h2 className="text-4xl font-bold text-white font-['Philosopher'] mb-2">Divine Puja Benefits</h2>
-                      <p className="text-green-100 text-lg">Transform your life with these powerful spiritual blessings</p>
-                    </div>
-                    <div className="p-8">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {pujaBenefits.map((benefit, index) => (
-                          <div key={benefit.id} className="bg-white p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 group cursor-pointer border border-green-100 hover:border-green-300">
-                            <div className="flex items-start gap-6">
-                              <div className="flex-shrink-0">
-                                <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                                  {index === 0 && <span className="text-3xl">🛡️</span>}
-                                  {index === 1 && <span className="text-3xl">⭐</span>}
-                                  {index === 2 && <span className="text-3xl">💪</span>}
-                                  {index === 3 && <span className="text-3xl">💰</span>}
-                                </div>
-                              </div>
-                              <div className="flex-1">
-                                <h3 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-4 group-hover:text-green-600 transition-colors">
-                                  {benefit.benefit_title}
-                                </h3>
-                                <p className="text-gray-700 leading-relaxed text-lg">
-                                  {benefit.benefit_description}
-                                </p>
-                                <div className="mt-4 flex items-center gap-2 text-green-600 font-medium">
-                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                  <span>Guaranteed Results</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
-
               {/* Puja Process Section */}
               <section id="process" className="scroll-mt-20">
                 <div className="bg-gradient-to-br from-purple-50 via-indigo-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden border border-purple-100">
@@ -636,9 +522,9 @@ const PujaDetailPage: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                       <div className="relative group">
                         <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
-                          {pujaImages.length > 0 && pujaImages[0] ? (
+                          {pujaImages[0] ? (
                             <Image
-                              src={constructImageUrl(pujaImages[0].image_url)}
+                              src={constructImageUrl(pujaImages[0])}
                               alt={selectedPuja.temple}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -905,7 +791,9 @@ const PujaDetailPage: React.FC = () => {
                                   className={`w-6 h-6 text-teal-600 transform transition-transform duration-200 ${
                                     expandedFAQ === index ? 'rotate-180' : ''
                                   }`}
-                                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
                                 >
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>

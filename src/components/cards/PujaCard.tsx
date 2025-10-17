@@ -59,11 +59,17 @@ const PujaCard: React.FC<PujaCardProps> = ({
         <div className="relative w-full cursor-pointer">
           <div className="relative w-full h-[133px] sm:h-[160px] md:h-[204px]">
             <Image
-              src={image}
+              src={image || '/placeholder.jpg'}
               alt={title}
               fill
               className="object-cover rounded-t-[6px] hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              unoptimized={true} // Add this to prevent optimization attempts that can cause 500 errors
+              onError={(e) => {
+                // Fallback to placeholder image on error
+                const target = e.target as HTMLImageElement;
+                target.src = '/placeholder.jpg';
+              }}
             />
             {isNew && (
               <div className="absolute top-[11px] sm:top-[16px] md:top-[22px] left-[11px] sm:left-[16px] md:top-[22px]">
