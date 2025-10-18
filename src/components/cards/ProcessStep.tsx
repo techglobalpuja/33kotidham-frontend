@@ -45,33 +45,20 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
         {title}
       </h3>
       <div className="flex justify-start items-center w-full">
-        <Image
+        {/* <Image
           src="/images/img_vector_16x14.png"
           alt="Location"
           width={14}
           height={16}
           className="w-[10px] h-[12px] sm:w-[12px] sm:h-[14px] md:w-[14px] md:h-[16px] flex-shrink-0"
-        />
-        <span className={`text-[12px] sm:text-[14px] md:text-[16px] font-normal leading-[14px] sm:leading-[16px] md:leading-[19px] text-left font-['Work_Sans'] ml-2 sm:ml-3 md:ml-[14px] ${
+        /> */}
+        <span className={`text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[14px] sm:leading-[16px] md:leading-[19px] text-left font-['Work_Sans'] ${
           isHighlighted ? 'text-[#111111]' : 'text-[#333333]'
         }`}>
           {location}
         </span>
       </div>
-      <div className="flex justify-start items-start w-full">
-        <Image
-          src="/images/img_group_131038.png"
-          alt="DateTime"
-          width={20}
-          height={16}
-          className="w-[14px] h-[11px] sm:w-[16px] sm:h-[13px] md:w-[20px] md:h-[16px] flex-shrink-0 mt-0.5"
-        />
-        <span className={`text-[12px] sm:text-[14px] md:text-[16px] font-normal leading-[14px] sm:leading-[16px] md:leading-[19px] text-left font-['Work_Sans'] self-start ml-2 sm:ml-3 md:ml-[10px] ${
-          isHighlighted ? 'text-[#111111]' : 'text-[#333333]'
-        }`}>
-          {datetime}
-        </span>
-      </div>
+      
     </div>
   </div>
 );

@@ -43,8 +43,8 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ processSteps }) => {
             <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111] font-['Philosopher'] w-auto">
               Our Puja Process
             </h2>
-            <p className="text-[15px] sm:text-[18px] md:text-[20px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d] font-['Lato'] w-auto">
-              Morbi aliquet risus sem, vel varius purus consectetur ac. Ut placerat massa.
+            <p className="text-[15px] mt-3 sm:text-[18px] md:text-[20px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d] font-['Lato'] w-auto">
+              Every puja at 33KotiDham follows a sacred and transparent process, ensuring every ritual is performed with sincerity and devotion.
             </p>
             <div className="flex flex-col justify-start items-center w-full mt-8 sm:mt-12 md:mt-[62px]">
               <div className="flex flex-col w-full gap-4 sm:gap-6 md:gap-[30px]">

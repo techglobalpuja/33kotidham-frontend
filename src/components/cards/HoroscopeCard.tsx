@@ -44,11 +44,11 @@ const HoroscopeCard: React.FC<HoroscopeCardProps> = ({ id, icon, name, dateRange
               {name}
             </h3>
           </div>
-          <div className="flex justify-center items-center w-full">
+          {/* <div className="flex justify-center items-center w-full">
             <p className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center text-[#797979] font-['Lato'] group-hover:text-white/90 transition-colors duration-300">
               {dateRange}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

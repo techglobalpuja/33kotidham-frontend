@@ -23,13 +23,13 @@ const HeroSection: React.FC = () => {
     <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
       <Header />
       <div className="flex flex-col min-h-[calc(100vh-120px)] sm:min-h-[calc(100vh-100px)]">
-        <div className="flex-1 flex items-center pt-16 sm:pt-16 lg:pt-16">
+        <div className="flex-1 flex items-center pt-20 sm:pt-20 lg:pt-20">
           <div className="w-full max-w-2xl">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900 font-['Philosopher'] mb-4 sm:mb-6">
               Unlock the Power of Your Stars, Illuminate Your Path.
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-['Lato'] mb-6 sm:mb-8 max-w-xl leading-relaxed">
-              Cras sed rhoncus risus, non accumsan tortor. Maecenas feugiat ipsum eu ornre uam. Fusce blandit elementum auctor. Nam pulvinar lectus in efficitur phareta.
+              Connect with divine blessings through authentic online pujas, personalized astrology readings, and sacred rituals performed by experienced Vedic pandits — all from the comfort of your home.
             </p>
             <button 
               onClick={handleBookNowClick}

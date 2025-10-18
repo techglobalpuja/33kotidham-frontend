@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { PujaCard } from '@/types';
+import { PujaCard, Plan } from '@/types';
 import { apiService } from '@/services/api';
 
 // Extended PujaCard interface to include benefits and multiple images
@@ -19,6 +19,8 @@ interface BackendPujaImage {
 interface ExtendedPujaCard extends PujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
+  plan_ids?: number[];
+  selectedPlans?: Plan[];
 }
 
 interface PujaState {

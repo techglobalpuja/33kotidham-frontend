@@ -58,29 +58,29 @@ export default function HomePage() {
       id: '1',
       stepNumber: "1st",
       title: "Journey into the Mysteries of the Cosmos",
-      location: "48 Walder Crescent, Barnard",
+      location: "Choose your desired puja or consultation, and share your details to personalize your experience.",
       datetime: "December 29 @ 10:00 am - December 29 @ 4:30 pm"
     },
     {
       id: '2',
       stepNumber: "2nd",
-      title: "Stargazing Wisdom, Tailored for You",
-      location: "48 Walder Crescent, Barnard",
+      title: "Shaping Wisdom, Tailored for You",
+      location: "Our expert pandits perform your puja as per Vedic procedure, invoking the blessings of the deities on your behalf.",
       datetime: "December 29 @ 10:00 am - December 29 @ 4:30 pm",
       isHighlighted: true
     },
     {
       id: '3',
       stepNumber: "3rd",
-      title: "Charting Your Cosmic Destiny with Precision",
-      location: "48 Walder Crescent, Barnard",
+      title: "Connect & Witness the Divine",
+      location: "Join the ritual live or receive photos/videos of your puja. Experience the sanctity from wherever you are.",
       datetime: "December 29 @ 10:00 am - December 29 @ 4:30 pm"
     },
     {
       id: '4',
       stepNumber: "4th",
-      title: "Charting Your Cosmic Destiny with Precision",
-      location: "48 Walder Crescent, Barnard",
+      title: "Receive Blessings & Guidance",
+      location: "Get prasad and sacred items delivered to your doorstep, along with insights or remedies from our experts.",
       datetime: "December 29 @ 10:00 am - December 29 @ 4:30 pm"
     }
   ];
@@ -92,7 +92,7 @@ export default function HomePage() {
       name: "Jennifer Knight",
       role: "Designer",
       rating: "/images/img_group_131050.png",
-      testimonial: "Suspendisse elit eros, elementum quis massa sed, luctus pharetra risus. Morbi placerat fermentum mauris, eget egestas sem mollis ut. Proin vitae ltus at libero condimentum consectetur et anim."
+      testimonial: "I joined the Lakshmi Puja through 33KotiDham and could truly feel the divine presence at home. The live experience was seamless and filled with peace."
     },
     {
       id: '2',

@@ -176,6 +176,8 @@ export interface Plan {
   };
   isActive: boolean;
   createdDate: string;
+  actualPrice?: number;
+  discountedPrice?: number;
 }
 
 // Admin Dashboard Types

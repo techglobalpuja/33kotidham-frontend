@@ -18,7 +18,7 @@ const TrustSection: React.FC = () => (
             Trusted by Millions of Devotees
           </h2>
           <p className="text-[15px] sm:text-[18px] md:text-[20px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-center text-black font-['Lato'] w-auto">
-            Enabled LIVE Pujas for 1,000,000+ Happy Devotees by partnering with 1000+ Temples and 3000+ Vedic Pandits of Bharat
+            Every ritual is performed following authentic Vedic traditions, ensuring your prayers reach the divine — wherever you are.
           </p>
         </div>
       </div>

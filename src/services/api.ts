@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, BlogCategory } from '@/types';
+import { PujaCard, User, BlogPost, BlogCategory, Plan } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -40,12 +40,35 @@ interface BackendPuja {
   updated_at: string;
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
+  plan_ids: number[];
 }
 
 // Extended PujaCard interface to include benefits and multiple images
 interface ExtendedPujaCard extends PujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
+  temple_description?: string;
+  prasad_price?: number;
+  is_prasad_active?: boolean;
+  dakshina_prices_inr?: string;
+  dakshina_prices_usd?: string;
+  is_dakshina_active?: boolean;
+  manokamna_prices_inr?: string;
+  manokamna_prices_usd?: string;
+  is_manokamna_active?: boolean;
+  plan_ids?: number[];
+  selectedPlans?: Plan[];
+}
+
+// Define the backend plan structure based on the API response
+interface BackendPlan {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  actual_price: string;
+  discounted_price: string;
+  created_at: string;
 }
 
 class ApiService {
@@ -340,6 +363,16 @@ class ApiService {
       date: formattedDate,
       benefits: backendPuja.benefits || [],
       images: backendPuja.images || [],
+      temple_description: backendPuja.temple_description || undefined,
+      prasad_price: backendPuja.prasad_price,
+      is_prasad_active: backendPuja.is_prasad_active,
+      dakshina_prices_inr: backendPuja.dakshina_prices_inr || undefined,
+      dakshina_prices_usd: backendPuja.dakshina_prices_usd || undefined,
+      is_dakshina_active: backendPuja.is_dakshina_active,
+      manokamna_prices_inr: backendPuja.manokamna_prices_inr || undefined,
+      manokamna_prices_usd: backendPuja.manokamna_prices_usd || undefined,
+      is_manokamna_active: backendPuja.is_manokamna_active,
+      plan_ids: backendPuja.plan_ids,
       isNew: false, // We can set this based on created_at if needed
     };
   }
@@ -377,6 +410,33 @@ class ApiService {
     return this.request<void>(`/api/v1/pujas/${id}`, {
       method: 'DELETE',
     });
+  }
+
+  // Transform backend plan to frontend Plan
+  private transformPlan(backendPlan: BackendPlan): Plan {
+    return {
+      id: backendPlan.id.toString(),
+      name: backendPlan.name,
+      price: parseFloat(backendPlan.discounted_price),
+      image: this.constructImageUrl(backendPlan.image_url),
+      category: 'Normal', // Default category, can be updated if needed
+      description: {
+        feature1: backendPlan.description,
+        feature2: '',
+        feature3: '',
+        feature4: ''
+      },
+      isActive: true,
+      createdDate: backendPlan.created_at,
+      actualPrice: parseFloat(backendPlan.actual_price),
+      discountedPrice: parseFloat(backendPlan.discounted_price)
+    };
+  }
+
+  // Plan API methods
+  async getPlanById(id: number): Promise<Plan> {
+    const backendPlan = await this.request<BackendPlan>(`/api/v1/plans/${id}`);
+    return this.transformPlan(backendPlan);
   }
 }
 
