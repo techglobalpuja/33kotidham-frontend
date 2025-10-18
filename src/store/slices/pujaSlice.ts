@@ -37,6 +37,11 @@ const initialState: PujaState = {
   error: null,
 };
 
+// Define a type for the error
+interface ApiError {
+  message: string;
+}
+
 // Async thunk for fetching pujas
 export const fetchPujas = createAsyncThunk(
   'puja/fetchPujas',
@@ -44,8 +49,12 @@ export const fetchPujas = createAsyncThunk(
     try {
       const response = await apiService.getPujas();
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Failed to fetch pujas');
+    } catch (error: unknown) {
+      // Type guard to check if error has a message property
+      if (error && typeof error === 'object' && 'message' in error) {
+        return rejectWithValue((error as ApiError).message || 'Failed to fetch pujas');
+      }
+      return rejectWithValue('Failed to fetch pujas');
     }
   }
 );
@@ -57,8 +66,12 @@ export const fetchPujaById = createAsyncThunk(
     try {
       const response = await apiService.getPujaById(id);
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Failed to fetch puja');
+    } catch (error: unknown) {
+      // Type guard to check if error has a message property
+      if (error && typeof error === 'object' && 'message' in error) {
+        return rejectWithValue((error as ApiError).message || 'Failed to fetch puja');
+      }
+      return rejectWithValue('Failed to fetch puja');
     }
   }
 );

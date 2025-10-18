@@ -7,11 +7,10 @@ interface HoroscopeCardProps {
   id?: string;
   icon: string;
   name: string;
-  dateRange: string;
   onClick?: () => void;
 }
 
-const HoroscopeCard: React.FC<HoroscopeCardProps> = ({ id, icon, name, dateRange, onClick }) => {
+const HoroscopeCard: React.FC<HoroscopeCardProps> = ({ id, icon, name, onClick }) => {
   const router = useRouter();
   
   const handleClick = () => {

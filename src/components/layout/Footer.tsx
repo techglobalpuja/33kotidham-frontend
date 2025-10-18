@@ -1,13 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import EditText from '@/components/ui/EditText';
 
 const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
 
   return (
     <footer className="w-full bg-[#f37335] border-t border-b border-[#5c4228] ">

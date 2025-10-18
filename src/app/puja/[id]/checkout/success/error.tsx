@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const CustomSuccessError = ({ error, reset }: { error: Error; reset: () => void }) => {
+const CustomSuccessError = ({ reset }: { error: Error; reset: () => void }) => {
   const router = useRouter();
 
   return (

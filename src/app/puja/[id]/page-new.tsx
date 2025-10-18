@@ -2,50 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
-
-// Define the backend puja structure based on the API response
-interface BackendPujaBenefit {
-  id: number;
-  benefit_title: string;
-  benefit_description: string;
-  puja_id: number;
-  created_at: string;
-}
-
-interface BackendPujaImage {
-  id: number;
-  image_url: string;
-}
-
-interface BackendPuja {
-  id: number;
-  name: string;
-  sub_heading: string;
-  description: string;
-  date: string | null;
-  time: string | null;
-  temple_image_url: string | null;
-  temple_address: string | null;
-  temple_description: string | null;
-  prasad_price: number;
-  is_prasad_active: boolean;
-  dakshina_prices_inr: string | null;
-  dakshina_prices_usd: string | null;
-  is_dakshina_active: boolean;
-  manokamna_prices_inr: string | null;
-  manokamna_prices_usd: string | null;
-  is_manokamna_active: boolean;
-  category: string;
-  created_at: string;
-  updated_at: string;
-  benefits: BackendPujaBenefit[];
-  images: BackendPujaImage[];
-}
+import Header from '@/components/layout/Header';
+import Image from 'next/image';
 
 const PujaDetailPage: React.FC = () => {
   const params = useParams();
@@ -54,7 +15,7 @@ const PujaDetailPage: React.FC = () => {
   const { selectedPuja, isLoading, error } = useSelector((state: RootState) => state.puja);
   
   const pujaId = params.id as string;
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   // Additional data for the enhanced puja page

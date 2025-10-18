@@ -1,12 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { setLoginModalOpen } from '@/store/slices/uiSlice';
 import { requestOtp, verifyOtp, registerWithOtp } from '@/store/slices/authSlice';
-import { Message } from '@mui/icons-material';
-import { json } from 'stream/consumers';
 
 const OtpLoginModal: React.FC = () => {
   const router = useRouter();
@@ -17,7 +15,7 @@ const OtpLoginModal: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [requiresRegistration, setRequiresRegistration] = useState(false); // New state variable
-  const [isRegistrationStep, setIsRegistrationStep] = useState(false);
+  // Removed unused state variable: isRegistrationStep
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [otp, setOtp] = useState('');
@@ -34,20 +32,20 @@ const OtpLoginModal: React.FC = () => {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     dispatch(setLoginModalOpen(false));
     // Reset form state
     setIsLogin(true);
     setIsOtpSent(false);
     setRequiresRegistration(false); // Reset registration requirement
-    setIsRegistrationStep(false);
+    // Removed unused state variable: isRegistrationStep
     setName('');
     setMobile('');
     setOtp('');
     setFormError(null);
     setCountdown(0);
     setPrefillMobile(''); // Reset pre-filled mobile
-  };
+  }, [dispatch, setIsLogin, setIsOtpSent, setRequiresRegistration, setName, setMobile, setOtp, setFormError, setCountdown, setPrefillMobile]);
 
   // Close modal on successful login
   const { user } = useAppSelector((state) => state.auth);
@@ -56,7 +54,7 @@ const OtpLoginModal: React.FC = () => {
       handleClose();
       router.push('/dashboard');
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, router, handleClose]);
 
   useEffect(() => {
     if (error) {
@@ -75,7 +73,7 @@ const OtpLoginModal: React.FC = () => {
   useEffect(() => {
     if (requiresRegistration) {
       setIsLogin(false);
-      setIsRegistrationStep(true);
+      // Removed unused state variable: isRegistrationStep
     }
   }, [requiresRegistration]);
 

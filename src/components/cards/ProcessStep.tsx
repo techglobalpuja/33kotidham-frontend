@@ -1,12 +1,10 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 
 interface ProcessStepProps {
   stepNumber: string;
   title: string;
   location: string;
-  datetime: string;
   isHighlighted?: boolean;
   // imageSrc?: string;
 }
@@ -15,7 +13,6 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
   stepNumber, 
   title, 
   location, 
-  datetime, 
   isHighlighted = false
   // imageSrc
 }) => (

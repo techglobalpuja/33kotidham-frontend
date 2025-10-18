@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, BlogCategory, Plan } from '@/types';
+import { PujaCard, User, BlogPost, Plan } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -69,6 +69,19 @@ interface BackendPlan {
   actual_price: string;
   discounted_price: string;
   created_at: string;
+}
+
+// Define interfaces for the registerWithOtp and requestOtp response types
+interface RegisterWithOtpResponse {
+  message: string;
+  requires_registration?: boolean;
+  mobile?: string;
+}
+
+interface RequestOtpResponse {
+  message: string;
+  requires_registration?: boolean;
+  mobile?: string;
 }
 
 class ApiService {
@@ -239,16 +252,16 @@ class ApiService {
   }
 
   // OTP-based authentication methods
-  async registerWithOtp(name: string, mobile: string): Promise<any> {
+  async registerWithOtp(name: string, mobile: string): Promise<RegisterWithOtpResponse> {
     // Register with name and mobile, send OTP
-    return this.request<any>('/api/v1/auth/register-with-otp', {
+    return this.request<RegisterWithOtpResponse>('/api/v1/auth/register-with-otp', {
       method: 'POST',
       body: JSON.stringify({ name, mobile, role: 'user' }),
     });
   }
 
-  async requestOtp(mobile: string): Promise<any> {
-    return this.request<any>('/api/v1/auth/request-otp', {
+  async requestOtp(mobile: string): Promise<RequestOtpResponse> {
+    return this.request<RequestOtpResponse>('/api/v1/auth/request-otp', {
       method: 'POST',
       body: JSON.stringify({ mobile }),
     });

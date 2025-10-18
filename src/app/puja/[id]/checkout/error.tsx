@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const CustomCheckoutError = ({ error, reset }: { error: Error; reset: () => void }) => {
+const CustomCheckoutError = ({ reset }: { error: Error; reset: () => void }) => {
   const router = useRouter();
 
   return (

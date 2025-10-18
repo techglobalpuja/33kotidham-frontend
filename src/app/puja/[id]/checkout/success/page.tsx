@@ -48,7 +48,7 @@ const CustomCheckoutSuccessPage: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-lg p-6 border border-green-100 mb-8">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-2">Thank You for Your Booking</h2>
-              <p className="text-gray-600">We're honored to perform this sacred ritual for you</p>
+              <p className="text-gray-600">We&apos;re honored to perform this sacred ritual for you</p>
             </div>
             
             <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-5 mb-6">

@@ -190,8 +190,8 @@ const PujaDetailPage: React.FC = () => {
     );
   }
 
-  const isExtendedPuja = (puja: any): puja is ExtendedPujaCard => {
-    return puja && typeof puja === 'object' && 'benefits' in puja && 'images' in puja;
+  const isExtendedPuja = (puja: unknown): puja is ExtendedPujaCard => {
+    return (puja as ExtendedPujaCard)?.benefits !== undefined && (puja as ExtendedPujaCard)?.images !== undefined;
   };
 
   let pujaImages: BackendPujaImage[] = [];
@@ -760,7 +760,7 @@ const PujaDetailPage: React.FC = () => {
                 <span>⭐⭐⭐⭐⭐</span>
               </div>
               <p className="text-gray-700 leading-relaxed mb-6 italic">
-                "The puja was conducted with utmost devotion. I could feel the divine energy during the live ceremony. My court case resolved within 2 months. Truly blessed!"
+                &quot;The puja was conducted with utmost devotion. I could feel the divine energy during the live ceremony. My court case resolved within 2 months. Truly blessed!&quot;
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center text-xl font-bold text-orange-700">
@@ -778,7 +778,7 @@ const PujaDetailPage: React.FC = () => {
                 <span>⭐⭐⭐⭐⭐</span>
               </div>
               <p className="text-gray-700 leading-relaxed mb-6 italic">
-                "Amazing experience! The priests were knowledgeable and performed every ritual perfectly. I felt a positive shift in my life after this puja. Highly recommend!"
+                &quot;Amazing experience! The priests were knowledgeable and performed every ritual perfectly. I felt a positive shift in my life after this puja. Highly recommend!&quot;
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center text-xl font-bold text-orange-700">

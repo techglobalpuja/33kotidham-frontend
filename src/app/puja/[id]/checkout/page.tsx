@@ -7,7 +7,7 @@ import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
-import { PujaCard } from '@/types';
+import { PujaCard, Plan } from '@/types';
 
 interface BackendPujaBenefit {
   id: number;
@@ -41,7 +41,7 @@ interface ExtendedPujaCard extends PujaCard {
   timer?: boolean;
   shareLabel?: string;
   plan_ids?: number[];
-  selectedPlans?: any[];
+  selectedPlans?: Plan[];
 }
 
 const CustomCheckoutPage: React.FC = () => {
@@ -262,7 +262,7 @@ const CustomCheckoutPage: React.FC = () => {
     }
 
     // Use actual puja data instead of hardcoded data
-    const isExtendedPuja = (puja: any): puja is ExtendedPujaCard => {
+    const isExtendedPuja = (puja: PujaCard): puja is ExtendedPujaCard => {
         return puja && typeof puja === 'object' && 'benefits' in puja && 'images' in puja;
     };
     
@@ -432,7 +432,7 @@ const CustomCheckoutPage: React.FC = () => {
                                                 className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                                             />
                                             <label htmlFor="dontKnowGotra" className="ml-2 text-sm text-gray-600">
-                                                I don't know my Gotra
+                                                I don&apos;t know my Gotra
                                             </label>
                                         </div>
                                     </div>

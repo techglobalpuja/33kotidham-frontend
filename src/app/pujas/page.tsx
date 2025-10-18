@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { PujaCard } from '@/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujas } from '@/store/slices/pujaSlice';
@@ -66,12 +65,6 @@ const AllPujasPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // Extract unique categories from pujas
-  const categories = [
-    { id: 'all', label: 'All Pujas', count: pujas.length },
-    // Since we don't have category in PujaCard, we'll just use "all" for now
-  ];
-
   const filteredPujas = selectedCategory === 'all' 
     ? pujas 
     : pujas;
@@ -92,14 +85,6 @@ const AllPujasPage: React.FC = () => {
         return 0;
     }
   });
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
 
   // Show loading state
   if (isLoading) {
@@ -288,7 +273,7 @@ const AllPujasPage: React.FC = () => {
                       alt={puja.title}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      onError={(e) => {
+                      onError={() => {
                         // Fallback to placeholder image on error
                         // const target = e.target as HTMLImageElement;
                         // target.src = '/images/placeholder.jpg';
