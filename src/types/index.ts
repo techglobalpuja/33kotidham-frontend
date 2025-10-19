@@ -10,6 +10,7 @@ export interface PujaCard {
   isNew?: boolean;
   timer?: boolean;
   shareLabel?: string;
+  created_at?: string; // Add created_at field
 }
 
 export interface HoroscopeCard {
@@ -229,7 +230,7 @@ export interface PujaFormData {
   // Manokamna Parchi
   manokamanaPrices: string; // Changed to string for comma-separated values
   manokamanaPricesUSD: string; // Changed to string for comma-separated values
-  manokamnaStatus: boolean;
+  manokamanaStatus: boolean;
   
   // General
   category: string;

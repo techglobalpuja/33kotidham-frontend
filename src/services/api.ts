@@ -58,6 +58,7 @@ interface ExtendedPujaCard extends PujaCard {
   is_manokamna_active?: boolean;
   plan_ids?: number[];
   selectedPlans?: Plan[];
+  created_at?: string; // Add created_at field
 }
 
 // Define the backend plan structure based on the API response
@@ -387,6 +388,7 @@ class ApiService {
       is_manokamna_active: backendPuja.is_manokamna_active,
       plan_ids: backendPuja.plan_ids,
       isNew: false, // We can set this based on created_at if needed
+      created_at: backendPuja.created_at, // Add created_at field
     };
   }
 

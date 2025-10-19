@@ -71,12 +71,11 @@ const Header: React.FC = () => {
       setActiveMenuItem('Puja');
     } else if (pathname?.startsWith('/horoscope')) {
       setActiveMenuItem('Horoscope');
-    } else if (pathname?.startsWith('/store')) {
-      setActiveMenuItem('Store');
+    } else if (pathname?.startsWith('/blog')) {
+      setActiveMenuItem('Blog');
     } else if (
       pathname?.startsWith('/about') ||
       pathname?.startsWith('/panchang') ||
-      pathname?.startsWith('/blog') ||
       pathname?.startsWith('/free-kundli') ||
       pathname?.startsWith('/match-making') ||
       pathname?.startsWith('/numerology') ||
@@ -95,7 +94,7 @@ const Header: React.FC = () => {
   // Dropdown menu items
   const moreMenuItems = [
     // { name: 'Panchang', href: '/panchang', icon: '📅' },
-    { name: 'Blog', href: '/blog', icon: '📚' },
+    // { name: 'Blog', href: '/blog', icon: '📚' },
     // { name: 'Free Kundli', href: '/free-kundli', icon: '🔮' },
     // { name: 'Match Making', href: '/match-making', icon: '💕' },
     // { name: 'Numerology', href: '/numerology', icon: '🔢' },
@@ -109,7 +108,8 @@ const Header: React.FC = () => {
     { name: 'Home', href: '/', active: activeMenuItem === 'Home' },
     { name: 'Puja', href: '/pujas', active: activeMenuItem === 'Puja' },
     { name: 'Horoscope', href: '/horoscope', active: activeMenuItem === 'Horoscope' },
-    { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
+    // { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
+    { name: 'Blog', href: '/blog', active: activeMenuItem === 'Blog' },
     { name: 'More', href: '/about', active: activeMenuItem === 'More' },
   ];
 
@@ -304,7 +304,7 @@ const Header: React.FC = () => {
         `}
       >
         <div className="flex flex-col items-center py-6">
-          {menuItems.slice(0, 4).map((item, index) => (
+          {menuItems.map((item, index) => (
             <div key={index} className="relative w-full flex justify-center">
               <button
                 onClick={() => handleMenuItemClick(item.href, item.name)}

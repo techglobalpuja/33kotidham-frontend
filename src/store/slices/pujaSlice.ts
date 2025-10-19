@@ -21,6 +21,7 @@ interface ExtendedPujaCard extends PujaCard {
   images: BackendPujaImage[];
   plan_ids?: number[];
   selectedPlans?: Plan[];
+  created_at?: string; // Add created_at field
 }
 
 interface PujaState {

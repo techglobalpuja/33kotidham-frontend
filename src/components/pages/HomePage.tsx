@@ -12,45 +12,20 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection';
 // import ArticlesSection from '@/components/sections/ArticlesSection';
 import FeaturedBlogsSection from '@/components/sections/FeaturedBlogsSection';
 // import DownloadAppSection from '@/components/sections/DownloadAppSection';
-import { PujaCard, HoroscopeCard, ProcessStep, Testimonial, Article } from '@/types';
+import { HoroscopeCard, ProcessStep, Article } from '@/types';
 import { getHoroscopeCards } from '@/utils/horoscope';
 // import { FaTemple, FaCalendarAlt } from 'react-icons/fa';
 
-export default function HomePage() {
-  const pujaCards: PujaCard[] = [
-    {
-      id: '1',
-      image: "/images/img__1.png",
-      title: "Das Mahavidya Mahaurja Yagya",
-      temple: "Siddha Mahavidya Temple",
-      description: "For Immediate Solutions to Life's Problems, Gaining Wealth and Fame. Solutions to Life's Problems, Gaining Wealth and Fame.",
-      date: "Thursday, 30 Aug, 2025",
-      isNew: true,
-      timer: false,
-      shareLabel: "Share"
-    },
-    {
-      id: '2',
-      image: "/images/img__2.png",
-      title: "Das Mahavidya Mahaurja Yagya",
-      temple: "Siddha Mahavidya Temple",
-      description: "For Immediate Solutions to Life's Problems, Gaining Wealth and Fame. Solutions to Life's Problems, Gaining Wealth and Fame.",
-      date: "Thursday, 30 Aug, 2025",
-      isNew: false,
-      timer: true,
-    },
-    {
-      id: '3',
-      image: "/images/img__3.png",
-      title: "Das Mahavidya Mahaurja Yagya",
-      temple: "Siddha Mahavidya Temple",
-      description: "For Immediate Solutions to Life's Problems, Gaining Wealth and Fame. Solutions to Life's Problems, Gaining Wealth and Fame.",
-      date: "Thursday, 30 Aug, 2025",
-      isNew: true,
-      timer: false,
-    }
-  ];
+// Define the Testimonial type to match TestimonialsSection expectations
+interface TestimonialProps {
+  avatar: string;
+  name: string;
+  role: string;
+  rating: number; // This should be a number, not a string
+  testimonial: string;
+}
 
+export default function HomePage() {
   const horoscopeCards: HoroscopeCard[] = getHoroscopeCards();
 
   const processSteps: ProcessStep[] = [
@@ -85,29 +60,26 @@ export default function HomePage() {
     }
   ];
 
-  const testimonials: Testimonial[] = [
+  const testimonials: TestimonialProps[] = [
     {
-      id: '1',
       avatar: "/images/img_ellipse_5.png",
       name: "Jennifer Knight",
       role: "Designer",
-      rating: "/images/img_group_131050.png",
+      rating: 5, // Changed from string to number
       testimonial: "I joined the Lakshmi Puja through 33KotiDham and could truly feel the divine presence at home. The live experience was seamless and filled with peace."
     },
     {
-      id: '2',
       avatar: "/images/img_ellipse_5_86x86.png",
       name: "Meadow Morrow",
       role: "Designer",
-      rating: "/images/img_group_131050.png",
+      rating: 4, // Changed from string to number
       testimonial: "Suspendisse elit eros, elementum quis massa sed, luctus pharetra risus. Morbi placerat fermentum mauris, eget egestas sem mollis ut. Proin vitae ltus at libero condimentum consectetur et anim."
     },
     {
-      id: '3',
       avatar: "/images/img_ellipse_5_1.png",
       name: "Deborah Booker",
       role: "Designer",
-      rating: "/images/img_group_131050.png",
+      rating: 5, // Changed from string to number
       testimonial: "Suspendisse elit eros, elementum quis massa sed, luctus pharetra risus. Morbi placerat fermentum mauris, eget egestas sem mollis ut. Proin vitae ltus at libero condimentum consectetur et anim."
     }
   ];
@@ -155,7 +127,7 @@ export default function HomePage() {
     <div className="flex flex-col justify-start items-center w-full bg-white overflow-x-hidden">
       <HeroSection />
       <TrustSection />
-      <PujaSection pujaCards={pujaCards} />
+      <PujaSection />
       <HoroscopeSection horoscopeCards={horoscopeCards} />
       <ProcessSection processSteps={processSteps} />
       <VideoSection />

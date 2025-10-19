@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujas } from '@/store/slices/pujaSlice';
+import UnifiedPujaCard, { BackendPujaBenefit } from '@/components/cards/UnifiedPujaCard';
 
 const AllPujasPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -189,24 +190,6 @@ const AllPujasPage: React.FC = () => {
                 <div className="text-gray-600 font-medium">Years Experience</div>
               </div>
             </div>
-            
-            {/* CTA Buttons */}
-            {/* <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="group relative px-10 py-4 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-2xl">
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <div className="text-xl">🕊</div>
-                  Explore All Pujas
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-rose-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              
-              <button className="group relative px-10 py-4 bg-white/80 backdrop-blur-sm text-orange-600 font-bold text-lg rounded-full border-2 border-orange-300 hover:border-orange-400 transition-all duration-500 hover:scale-105 shadow-md hover:shadow-lg">
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <div className="text-xl">📞</div>
-                  Consult Priest
-                </span>
-              </button>
-            </div> */}
           </div>
         </div>
       </section>
@@ -254,104 +237,22 @@ const AllPujasPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Enhanced Pujas Grid */}
+          {/* Enhanced Pujas Grid - Updated to use home variant */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {sortedPujas.map((puja, index) => (
-              <Link
+              <UnifiedPujaCard
                 key={puja.id}
-                href={`/puja/${puja.id}`}
-                className="block group"
-              >
-                <div className={`relative bg-white/90 backdrop-blur-lg rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 border border-white/50 overflow-hidden transform hover:scale-105 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
-                  style={{ animationDelay: `${1200 + index * 150}ms` }}
-                >
-                  
-                  {/* Enhanced Image Section */}
-                  <div className="relative h-72 overflow-hidden">
-                    <Image
-                      src={`${puja?.image}` || '/images/placeholder.jpg'}
-                      alt={puja.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      onError={() => {
-                        // Fallback to placeholder image on error
-                        // const target = e.target as HTMLImageElement;
-                        // target.src = '/images/placeholder.jpg';
-                      }}
-                    />
-                    
-                    {/* Enhanced Overlay Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    {/* Enhanced Badges */}
-                    <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-                      {puja.isNew && (
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-pulse">
-                          ⭐ New
-                        </span>
-                      )}
-                      <span className="text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm bg-gray-100/90 text-gray-800 border border-gray-300">
-                        Puja
-                      </span>
-                    </div>
-                    
-                    {/* Sacred Symbol Overlay */}
-                    <div className="absolute top-4 right-4 text-white/70 text-2xl group-hover:text-white group-hover:scale-110 transition-all duration-500">
-                      ॐ
-                    </div>
-                  </div>
-                  
-                  {/* Enhanced Content */}
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-800 font-['Philosopher'] mb-3 group-hover:text-orange-700 transition-colors duration-300">
-                      {puja.title}
-                    </h3>
-                    <p className="text-orange-600 font-bold mb-4 text-lg">
-                      {puja.temple}
-                    </p>
-                    
-                    {/* Temple Info with Enhanced Styling */}
-                    <div className="flex items-start gap-3 text-gray-600 mb-4 p-3 bg-gradient-to-r from-orange-50/50 to-rose-50/50 rounded-xl border border-orange-100/50">
-                      <svg className="w-5 h-5 mt-1 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span className="text-sm font-medium">{puja.temple}</span>
-                    </div>
-                    
-                    {/* Enhanced Date and Price Section */}
-                    <div className="flex items-center justify-between bg-gradient-to-r from-orange-50 to-rose-50 p-4 rounded-2xl border border-orange-200/50">
-                      <div className="flex items-center gap-2 text-gray-700">
-                        <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-sm font-medium">{puja.date}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xs text-gray-500 mb-1">Starting from</div>
-                        <div className="text-xl font-bold text-orange-600">₹ {puja.description.length * 100}</div>
-                      </div>
-                    </div>
-                    
-                    {/* Interactive Hover Button */}
-                    <div className="mt-6 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                      <button className="w-full bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold py-3 px-6 rounded-2xl hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden">
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                          </svg>
-                          Book This Puja
-                        </span>
-                        <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* Enhanced Glow Effects */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-400/20 to-rose-400/20 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700 -z-10 scale-90 group-hover:scale-100"></div>
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-300/10 to-rose-300/10 opacity-0 group-hover:opacity-100 blur-3xl transition-all duration-1000 -z-20 scale-75 group-hover:scale-110"></div>
-                </div>
-              </Link>
+                id={puja.id}
+                image={puja.image}
+                title={puja.title}
+                temple={puja.temple}
+                description={puja.description}
+                date={puja.date}
+                isNew={puja.isNew}
+                variant="home" // Changed to home variant for consistency
+                benefits={puja.benefits} // Pass benefits to the card component
+                created_at={puja.created_at} // Pass created_at for launch date
+              />
             ))}
           </div>
 
