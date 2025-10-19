@@ -42,8 +42,17 @@ const FeaturedBlogsSection: React.FC = () => {
               Featured Blogs
             </h2>
             <div className="flex items-center justify-center mb-4">
-              <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+              <Image
+                src="/images/img_vector_smart_object.png"
+                alt="Decorative Line"
+                width={240}
+                height={14}
+                className="w-60 h-auto"
+              />
             </div>
+            {/* <div className="flex items-center justify-center mb-4">
+              <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+            </div> */}
             <p className="text-gray-600 font-['Lato'] max-w-2xl leading-relaxed">
               Loading featured spiritual insights...
             </p>
@@ -75,8 +84,17 @@ const FeaturedBlogsSection: React.FC = () => {
               Featured Blogs
             </h2>
             <div className="flex items-center justify-center mb-4">
-              <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+              <Image
+                src="/images/img_vector_smart_object.png"
+                alt="Decorative Line"
+                width={240}
+                height={14}
+                className="w-60 h-auto"
+              />
             </div>
+            {/* <div className="flex items-center justify-center mb-4">
+              <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+            </div> */}
             <p className="text-red-500 font-['Lato'] max-w-2xl leading-relaxed">
               {error}
             </p>
@@ -98,8 +116,17 @@ const FeaturedBlogsSection: React.FC = () => {
             Featured Blogs
           </h2>
           <div className="flex items-center justify-center mb-4">
-            <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+            <Image
+              src="/images/img_vector_smart_object.png"
+              alt="Decorative Line"
+              width={240}
+              height={14}
+              className="w-60 h-auto"
+            />
           </div>
+          {/* <div className="flex items-center justify-center mb-4">
+            <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+          </div> */}
           <p className="text-gray-600 font-['Lato'] max-w-2xl leading-relaxed">
             Discover our most popular spiritual insights and wisdom articles.
           </p>
@@ -175,7 +202,7 @@ const FeaturedBlogsSection: React.FC = () => {
             variant="primary"
             size="md"
             onClick={() => window.location.href = '/blog'}
-            className="bg-gradient-to-r from-orange-500 to-rose-500 text-white px-8 py-3 rounded-full font-['Lato'] hover:shadow-lg transition-shadow"
+            className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-3 rounded-full font-['Lato'] hover:shadow-lg transition-shadow"
           >
             View All Blogs
           </Button>

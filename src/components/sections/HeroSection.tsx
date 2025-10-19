@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
   <section className="w-full min-h-screen bg-gradient-to-r from-orange-100/20 to-orange-200/40 relative overflow-hidden">
     <div 
       className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90"
-      style={{ backgroundImage: "url('/images/img_image.png')" }}
+      style={{ backgroundImage: "url('/images/hero1.webp')" }}
     />
     <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
       <Header />

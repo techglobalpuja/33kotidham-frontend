@@ -9,7 +9,7 @@ import HoroscopeSection from '@/components/sections/HoroscopeSection';
 import ProcessSection from '@/components/sections/ProcessSection';
 import VideoSection from '@/components/sections/VideoSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ArticlesSection from '@/components/sections/ArticlesSection';
+// import ArticlesSection from '@/components/sections/ArticlesSection';
 import FeaturedBlogsSection from '@/components/sections/FeaturedBlogsSection';
 // import DownloadAppSection from '@/components/sections/DownloadAppSection';
 import { PujaCard, HoroscopeCard, ProcessStep, Testimonial, Article } from '@/types';
@@ -161,7 +161,7 @@ export default function HomePage() {
       <VideoSection />
       <TestimonialsSection testimonials={testimonials} />
       <FeaturedBlogsSection />
-      <ArticlesSection articles={articles} />
+      {/* <ArticlesSection articles={articles} /> */}
       {/* <DownloadAppSection /> */}
       <Footer />
     </div>
