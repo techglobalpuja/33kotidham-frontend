@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, Plan } from '@/types';
+import { PujaCard, User, BlogPost, Plan, BlogCategory } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -341,6 +341,10 @@ class ApiService {
 
   async getBlogById(blogId: number): Promise<BlogPost> {
     return this.request<BlogPost>(`/api/v1/blogs/${blogId}`);
+  }
+
+  async getBlogCategories(): Promise<BlogCategory[]> {
+    return this.request<BlogCategory[]>('/api/v1/blogs/categories/?skip=0&limit=50&active_only=true');
   }
 
   // Transform backend puja to frontend PujaCard

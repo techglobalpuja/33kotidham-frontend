@@ -357,5 +357,6 @@ export interface BlogPost {
   created_at: string;
   updated_at: string;
   category: BlogCategory | null;
+  categories: BlogCategory[]; // Add categories array
   author: User | null;
 }

@@ -7,12 +7,13 @@ import parse from 'html-react-parser';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { apiService } from '@/services/api';
-import { BlogPost } from '@/types';
+import { BlogPost, BlogCategory } from '@/types';
 
 const BlogPostPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [loadingRelated, setLoadingRelated] = useState(true);
@@ -56,12 +57,22 @@ const BlogPostPage: React.FC = () => {
     }
   }, [fetchRelatedBlogs]);
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      const fetchedCategories = await apiService.getBlogCategories();
+      setCategories(fetchedCategories);
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+    }
+  }, []);
+
   useEffect(() => {
     setIsVisible(true);
     if (id) {
       fetchBlogPost(Number(id));
+      fetchCategories();
     }
-  }, [id, fetchBlogPost]);
+  }, [id, fetchBlogPost, fetchCategories]);
 
   // Helper function to construct full image URL using the production API domain
   const constructImageUrl = (imagePath: string) => {
@@ -229,28 +240,33 @@ const BlogPostPage: React.FC = () => {
                 Categories
               </h3>
               <div className="space-y-3">
-                {[
-                  { id: null, name: 'All Categories' },
-                  { id: 1, name: 'Astrology' },
-                  { id: 2, name: 'Spirituality' },
-                  { id: 3, name: 'Puja' },
-                  { id: 4, name: 'Numerology' },
-                  { id: 5, name: 'Marriage' },
-                  { id: 6, name: 'Culture' }
-                ].map((category) => (
+                <button
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
+                    blogPost.category_id === null 
+                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg' 
+                      : 'hover:bg-orange-50 text-gray-700'
+                  }`}
+                  onClick={() => {
+                    window.location.href = '/blog';
+                  }}
+                >
+                  <span>All Categories</span>
+                  {blogPost.category_id === null && (
+                    <svg className="w-5 h-5 text-white animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </button>
+                {categories.map((category) => (
                   <button
-                    key={category.id || 'all'}
+                    key={category.id}
                     className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
                       blogPost.category_id === category.id 
                         ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg' 
                         : 'hover:bg-orange-50 text-gray-700'
                     }`}
                     onClick={() => {
-                      // Navigate to blog listing with category filter
-                      const url = category.id 
-                        ? `/blog?category=${category.id}` 
-                        : '/blog';
-                      window.location.href = url;
+                      window.location.href = `/blog?category=${category.id}`;
                     }}
                   >
                     <span>{category.name}</span>
@@ -283,7 +299,7 @@ const BlogPostPage: React.FC = () => {
                   </button>
                   <button className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition-all duration-300 transform hover:scale-110 shadow-md hover:shadow-lg">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.28.073-1.689-.073-4.849 0-3.204.013-3.583.07-4.849zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.28.073-1.689-.073-4.849 0-3.204.013-3.583.07-4.849zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.848 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
                   </button>
                   <button className="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-all duration-300 transform hover:scale-110 shadow-md hover:shadow-lg">

@@ -5,11 +5,14 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { apiService } from '@/services/api';
-import { BlogPost } from '@/types';
+import { BlogPost, BlogCategory } from '@/types';
 
 const BlogPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [allBlogPosts, setAllBlogPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,13 +24,38 @@ const BlogPage: React.FC = () => {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const blogs = await apiService.getAllBlogs();
+      const blogs = await apiService.getAllBlogs(0, 100, false, null);
+      setAllBlogPosts(blogs);
       setBlogPosts(blogs);
+      
+      // Extract unique categories from blog posts
+      const uniqueCategories = Array.from(
+        new Set(
+          blogs
+            .flatMap(blog => blog.categories || [])
+            .map((category: BlogCategory) => category.name)
+        )
+      ).sort();
+      
+      setCategories(uniqueCategories);
     } catch (err) {
       setError('Failed to fetch blogs');
       console.error('Error fetching blogs:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCategoryChange = (categoryName: string | null) => {
+    setSelectedCategory(categoryName);
+    
+    if (categoryName === null) {
+      setBlogPosts(allBlogPosts);
+    } else {
+      const filteredBlogs = allBlogPosts.filter(blog => 
+        blog.categories && blog.categories.some((category: BlogCategory) => category.name === categoryName)
+      );
+      setBlogPosts(filteredBlogs);
     }
   };
 
@@ -62,8 +90,6 @@ const BlogPage: React.FC = () => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-
-  const categories = ["All", "Astrology", "Spirituality", "Puja", "Numerology", "Marriage", "Culture"];
 
   if (loading) {
     return (
@@ -123,12 +149,27 @@ const BlogPage: React.FC = () => {
       <section className="relative py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((category, index) => (
+            <button
+              onClick={() => handleCategoryChange(null)}
+              className={`px-6 py-3 bg-white/80 backdrop-blur-lg rounded-full border text-gray-700 font-medium transition-all duration-300 hover:scale-105 ${
+                selectedCategory === null 
+                  ? 'border-orange-500 bg-orange-100 text-orange-700' 
+                  : 'border-orange-200 hover:bg-orange-100 hover:border-orange-300'
+              }`}
+            >
+              All Categories
+            </button>
+            {categories.map((categoryName) => (
               <button
-                key={index}
-                className="px-6 py-3 bg-white/80 backdrop-blur-lg rounded-full border border-orange-200 text-gray-700 font-medium hover:bg-orange-100 hover:border-orange-300 transition-all duration-300 hover:scale-105"
+                key={categoryName}
+                onClick={() => handleCategoryChange(categoryName)}
+                className={`px-6 py-3 bg-white/80 backdrop-blur-lg rounded-full border text-gray-700 font-medium transition-all duration-300 hover:scale-105 ${
+                  selectedCategory === categoryName 
+                    ? 'border-orange-500 bg-orange-100 text-orange-700' 
+                    : 'border-orange-200 hover:bg-orange-100 hover:border-orange-300'
+                }`}
               >
-                {category}
+                {categoryName}
               </button>
             ))}
           </div>
@@ -171,7 +212,9 @@ const BlogPage: React.FC = () => {
                     )}
                     <div className="absolute top-4 left-4">
                       <span className="bg-gradient-to-r from-orange-500 to-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                        {post.category?.name || 'Spirituality'}
+                        {post.categories && post.categories.length > 0 
+                          ? post.categories[0].name 
+                          : 'Spirituality'}
                       </span>
                     </div>
                   </div>
