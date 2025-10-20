@@ -39,30 +39,50 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
   benefits = [],
   created_at
 }) => {
-  // Function to format the launch date in reverse manner (80, 60, 40 days ago)
-  const formatLaunchDate = (createdAt: string | undefined) => {
-    if (!createdAt) return '';
-    
+  // Function to format date with day of the week
+  const formatDateWithDay = (dateString: string) => {
     try {
-      const createdDate = new Date(createdAt);
-      const now = new Date();
-      const diffTime = Math.abs(now.getTime() - createdDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      // Round to nearest significant number (80, 60, 40, etc.)
-      if (diffDays >= 70) return '80';
-      if (diffDays >= 50) return '60';
-      if (diffDays >= 30) return '40';
-      return diffDays.toString();
-    } catch (e) {
-      return '';
+      const dateObj = new Date(dateString);
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayName = dayNames[dateObj.getDay()];
+      const formattedDate = dateObj.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      return `${dayName}, ${formattedDate}`;
+    } catch (error) {
+      // If there's an error parsing the date, return the original date string
+      return dateString;
     }
   };
 
   // Function to generate WhatsApp share URL
   const getWhatsAppShareUrl = () => {
-    const message = `Check out this puja: ${title} at ${temple}. More details at: ${typeof window !== 'undefined' ? window.location.origin : ''}/puja/${id}`;
-    return `https://wa.me/?text=${encodeURIComponent(message)}`;
+    try {
+      const pujaUrl = `https://33kotidham.in/puja/${id}`;
+      const message = `Check out this puja: ${title} at ${temple}. More details at: ${pujaUrl}`;
+      return `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+    } catch (error) {
+      console.error('Error generating WhatsApp share URL:', error);
+      return '#';
+    }
+  };
+
+  // Function to handle WhatsApp share click
+  const handleWhatsAppShare = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const shareUrl = getWhatsAppShareUrl();
+    
+    if (shareUrl !== '#' && typeof window !== 'undefined') {
+      // Try to open in a new window/tab
+      const newWindow = window.open(shareUrl, '_blank');
+      
+      // If popup blocking prevents opening, try alternative approach
+      if (!newWindow) {
+        window.location.href = shareUrl;
+      }
+    }
   };
 
   if (variant === 'listing') {
@@ -99,13 +119,17 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
           {/* WhatsApp Share Icon - Top Right */}
           <a 
             href={getWhatsAppShareUrl()} 
+            onClick={handleWhatsAppShare}
             target="_blank" 
             rel="noopener noreferrer"
-            className="absolute top-4 right-4 bg-green-500 text-white rounded-full p-2 shadow-lg hover:bg-green-600 transition-colors duration-200 z-10"
+            className="absolute top-4 right-4 bg-green-500 text-white rounded-full p-2 shadow-lg hover:bg-green-600 transition-all duration-200 z-10 flex items-center gap-1 group/whatsapp"
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 group-hover/whatsapp:opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.480-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.361.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
+            <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/whatsapp:opacity-100 transition-opacity duration-200 text-sm font-medium">
+              Share
+            </span>
           </a>
         </div>
         
@@ -133,22 +157,13 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
               <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-sm font-medium">{date}</span>
+              <span className="text-sm font-medium">{formatDateWithDay(date)}</span>
             </div>
             <div className="text-right">
               <div className="text-xs text-gray-500 mb-1">Starting from</div>
               <div className="text-xl font-bold text-orange-600">₹ {description.length * 100}</div>
             </div>
           </div>
-          
-          {/* Launch Date - Reverse Manner */}
-          {created_at && (
-            <div className="mt-4 text-center">
-              <span className="text-sm text-gray-600">
-                Launch Date: {formatLaunchDate(created_at)} days ago
-              </span>
-            </div>
-          )}
           
           {/* Button */}
           <div className="mt-6">
@@ -209,13 +224,17 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
             {/* WhatsApp Share Icon - Top Right */}
             <a 
               href={getWhatsAppShareUrl()} 
+              onClick={handleWhatsAppShare}
               target="_blank" 
               rel="noopener noreferrer"
-              className="absolute top-[11px] sm:top-[16px] md:top-[22px] right-[11px] sm:right-[16px] md:right-[22px] bg-green-500 text-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-green-600 transition-colors duration-200 z-10"
+              className="absolute top-[11px] sm:top-[16px] md:top-[22px] right-[11px] sm:right-[16px] md:right-[22px] bg-green-500 text-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-green-600 transition-all duration-200 z-10 flex items-center gap-1 group/whatsapp"
             >
-              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover/whatsapp:opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.480-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.361.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
+              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/whatsapp:opacity-100 transition-opacity duration-200 text-xs sm:text-sm font-medium">
+                Share
+              </span>
             </a>
           </div>
         </div>
@@ -249,14 +268,8 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
           <span className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-left text-[#111111] font-['Lato'] self-end mb-[3px] sm:mb-[4px] md:mb-[6px]">
             <svg className="inline w-4 h-4 text-orange-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg> {date}
+            </svg> {formatDateWithDay(date)}
           </span>
-          {/* Launch Date - Reverse Manner */}
-          {created_at && (
-            <span className="text-[10px] sm:text-[11px] md:text-[12px] text-gray-600">
-              {formatLaunchDate(created_at)} days ago
-            </span>
-          )}
         </div>
         <Link href={`/puja/${id}`}>
           <Button

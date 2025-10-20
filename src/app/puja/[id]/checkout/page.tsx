@@ -585,7 +585,7 @@ const CustomCheckoutPage: React.FC = () => {
                                             </div>
                                         ))}
 
-                                        <div className="flex justify-between">
+                                        {/* <div className="flex justify-between">
                                             <span className="text-gray-600">Service Fee</span>
                                             <span className="font-medium">₹{serviceFee.toLocaleString()}</span>
                                         </div>
@@ -593,7 +593,7 @@ const CustomCheckoutPage: React.FC = () => {
                                         <div className="flex justify-between">
                                             <span className="text-gray-600">GST (18%)</span>
                                             <span className="font-medium">₹{gst.toFixed(0)}</span>
-                                        </div>
+                                        </div> */}
 
                                         {formData.dakshina && parseInt(formData.dakshina) > 0 && (
                                             <div className="flex justify-between">

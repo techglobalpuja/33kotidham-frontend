@@ -15,6 +15,33 @@ const FeaturedBlogsSection: React.FC = () => {
     fetchFeaturedBlogs();
   }, []);
 
+  // Helper function to construct full image URL using the production API domain
+  const constructImageUrl = (imagePath: string) => {
+    // If it's already a full URL, return as is
+    if (imagePath && imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // If it's a relative path, construct the full URL using the production API domain
+    if (imagePath && !imagePath.startsWith('http')) {
+      try {
+        const trimmedPath = imagePath.trim();
+        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
+            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+          // Use the production API domain as specified
+          const baseUrl = 'https://api.33kotidham.com';
+          const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          return fullPath;
+        }
+      } catch (error) {
+        console.warn('Error constructing full image URL:', error);
+      }
+    }
+    
+    // Fallback to placeholder
+    return '/placeholder.jpg';
+  };
+
   const fetchFeaturedBlogs = async () => {
     try {
       setLoading(true);
@@ -143,11 +170,15 @@ const FeaturedBlogsSection: React.FC = () => {
                 {blog.thumbnail_image ? (
                   <div className="relative h-48 w-full">
                     <Image
-                      src={blog.thumbnail_image}
+                      src={constructImageUrl(blog.thumbnail_image)}
                       alt={blog.title}
                       fill
                       className="object-cover"
                       unoptimized={true}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder.jpg';
+                      }}
                     />
                   </div>
                 ) : (
