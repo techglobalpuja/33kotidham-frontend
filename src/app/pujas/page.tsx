@@ -248,6 +248,7 @@ const AllPujasPage: React.FC = () => {
                 temple={puja.temple}
                 description={puja.description}
                 date={puja.date}
+                time={puja.time}
                 isNew={puja.isNew}
                 variant="home" // Changed to home variant for consistency
                 benefits={puja.benefits} // Pass benefits to the card component

@@ -30,6 +30,7 @@ interface ExtendedPujaCard {
   temple: string;
   description: string;
   date: string;
+  time?: string;
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
   temple_description?: string;
@@ -42,7 +43,6 @@ interface ExtendedPujaCard {
   manokamna_prices_usd?: string;
   is_manokamna_active?: boolean;
   sub_heading?: string;
-  time?: string;
   temple_address?: string;
   isNew?: boolean;
   timer?: boolean;
@@ -689,7 +689,10 @@ const PujaDetailPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-10 lg:p-12 flex flex-col justify-center">
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                  {selectedPuja.temple || 'Siddha 64 Yogini Temple'}
+                  {isExtendedPuja(selectedPuja) && (selectedPuja as ExtendedPujaCard).temple ? 
+                    (selectedPuja as ExtendedPujaCard).temple :
+                    'Siddha 64 Yogini Temple'
+                  }
                 </h3>
                 
                 <p className="text-gray-700 leading-relaxed mb-6">
@@ -717,8 +720,8 @@ const PujaDetailPage: React.FC = () => {
                   <div>
                     <div className="font-semibold text-gray-900 mb-1">Location</div>
                     <p className="text-gray-600 text-sm">
-                      {isExtendedPuja(selectedPuja) && selectedPuja.temple_address ? 
-                        selectedPuja.temple_address :
+                      {isExtendedPuja(selectedPuja) && (selectedPuja as ExtendedPujaCard).temple ? 
+                        (selectedPuja as ExtendedPujaCard).temple :
                         'Sacred Temple Road, Ancient District, India'
                       }
                     </p>

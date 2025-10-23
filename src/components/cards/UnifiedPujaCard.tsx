@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
+import CountdownTimer from '@/components/CountdownTimer';
 
 // Define the benefit interface
 export interface BackendPujaBenefit {
@@ -21,6 +22,7 @@ interface UnifiedPujaCardProps {
   temple: string;
   description: string;
   date: string;
+  time?: string; // Add time prop
   isNew?: boolean;
   variant?: 'home' | 'listing';
   benefits?: BackendPujaBenefit[];
@@ -34,11 +36,14 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
   temple, 
   description, 
   date, 
+  time, // Destructure time prop
   isNew = false,
   variant = 'home',
   benefits = [],
   created_at
 }) => {
+  // Debug log to see if time prop is being passed
+  console.log('UnifiedPujaCard props:', { id, title, time, variant });
   // Function to format date with day of the week
   const formatDateWithDay = (dateString: string) => {
     try {
@@ -214,13 +219,17 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
                 target.src = '/placeholder.jpg';
               }}
             />
-            {isNew && (
-              <div className="absolute top-[11px] sm:top-[16px] md:top-[22px] left-[11px] sm:left-[16px] md:top-[22px]">
+            <div className="absolute top-[11px] sm:top-[16px] md:top-[22px] left-[11px] sm:left-[16px] md:top-[22px] flex flex-col gap-1 z-10">
+              {isNew && (
                 <span className="text-sm sm:text-base md:text-[16px] font-normal leading-[16px] sm:leading-[18px] md:leading-[20px] text-center capitalize text-white bg-[#f37335] rounded-[4px] px-[10px] sm:px-[12px] md:px-[14px] py-[1px] sm:py-[1.5px] md:py-[2px] font-['Lato']">
                   new
                 </span>
-              </div>
-            )}
+              )}
+              {/* Add countdown timer if time is provided - positioned at top left */}
+              {time && (
+                <CountdownTimer date={date} time={time} />
+              )}
+            </div>
             {/* WhatsApp Share Icon - Top Right */}
             <a 
               href={getWhatsAppShareUrl()} 

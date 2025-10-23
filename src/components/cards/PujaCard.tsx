@@ -10,6 +10,7 @@ interface PujaCardProps {
   temple: string;
   description: string;
   date: string;
+  time?: string; // Add time prop
   isNew?: boolean;
   timer?: boolean;
   shareLabel?: string;
@@ -22,6 +23,7 @@ const PujaCard: React.FC<PujaCardProps> = ({
   temple, 
   description, 
   date, 
+  time, // Destructure time prop
   isNew = false,
   timer,
   shareLabel 
@@ -38,6 +40,7 @@ const PujaCard: React.FC<PujaCardProps> = ({
       temple={temple}
       description={description}
       date={date}
+      time={time} // Pass time prop
       isNew={isNew}
       variant="home"
     />

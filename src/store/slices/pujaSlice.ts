@@ -22,6 +22,7 @@ interface ExtendedPujaCard extends PujaCard {
   plan_ids?: number[];
   selectedPlans?: Plan[];
   created_at?: string; // Add created_at field
+  time?: string; // Add time field
 }
 
 interface PujaState {

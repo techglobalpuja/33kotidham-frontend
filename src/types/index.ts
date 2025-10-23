@@ -7,6 +7,7 @@ export interface PujaCard {
   temple: string;
   description: string;
   date: string;
+  time?: string; // Add time field
   isNew?: boolean;
   timer?: boolean;
   shareLabel?: string;
