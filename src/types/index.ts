@@ -238,6 +238,15 @@ export interface PujaFormData {
   isFeatured: boolean;
 }
 
+export interface Chadawa {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  price: string;
+  requires_note: boolean;
+}
+
 export interface ChawadaItem {
   id: string;
   name: string;

@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, Plan, BlogCategory } from '@/types';
+import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -450,6 +450,15 @@ class ApiService {
       actualPrice: parseFloat(backendPlan.actual_price),
       discountedPrice: parseFloat(backendPlan.discounted_price)
     };
+  }
+
+  // Chadawa API methods
+  async getChadawas(skip: number = 0, limit: number = 100): Promise<Chadawa[]> {
+    return this.request<Chadawa[]>(`/api/v1/chadawas/?skip=${skip}&limit=${limit}`);
+  }
+
+  async getChadawaById(id: number): Promise<Chadawa> {
+    return this.request<Chadawa>(`/api/v1/chadawas/${id}`);
   }
 
   // Plan API methods

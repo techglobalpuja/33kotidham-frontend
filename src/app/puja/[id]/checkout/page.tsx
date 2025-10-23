@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
-import { PujaCard, Plan } from '@/types';
+import { fetchChadawas } from '@/store/slices/chadawaSlice';
+import { PujaCard, Plan, Chadawa } from '@/types';
 
 interface BackendPujaBenefit {
   id: number;
@@ -50,6 +51,7 @@ const CustomCheckoutPage: React.FC = () => {
     const searchParams = useSearchParams();
     const dispatch = useDispatch<AppDispatch>();
     const { selectedPuja, isLoading, error } = useSelector((state: RootState) => state.puja);
+    const { chadawas: reduxChadawas, isLoading: isChadawaLoading, error: chadawaError } = useSelector((state: RootState) => state.chadawa);
     
     const pujaId = params.id as string;
     const planId = searchParams.get('planId');
@@ -72,87 +74,30 @@ const CustomCheckoutPage: React.FC = () => {
         if (pujaId) {
             dispatch(fetchPujaById(pujaId));
         }
+        // Fetch chadawas when component mounts
+        dispatch(fetchChadawas());
     }, [dispatch, pujaId]);
 
-    // Chadhwas data (this can remain static as it's generic)
-    const chadhwas = [
-        {
-            id: 1,
-            name: 'Flowers',
-            description: 'Fresh flower bouquet for divine offering',
-            price: 200,
-            image: '/images/chadhwas/flowers.jpg',
-            icon: '🌸',
-            selected: true
-        },
-        {
-            id: 2,
-            name: 'Incense Sticks',
-            description: 'Premium sandalwood incense sticks',
-            price: 150,
-            image: '/images/chadhwas/incense.jpg',
-            icon: '',
-            selected: true
-        },
-        {
-            id: 3,
-            name: 'Brass Lamp',
-            description: 'Traditional brass diya with oil',
-            price: 300,
-            image: '/images/chadhwas/lamp.jpg',
-            icon: '🪔',
-            selected: true
-        },
-        {
-            id: 4,
-            name: 'Sweets',
-            description: 'Assorted traditional sweets',
-            price: 250,
-            image: '/images/chadhwas/sweets.jpg',
-            icon: '🍬',
-            selected: false
-        },
-        {
-            id: 5,
-            name: 'Coconut',
-            description: 'Fresh coconut for sacred ritual',
-            price: 100,
-            image: '/images/chadhwas/coconut.jpg',
-            icon: '🥥',
-            selected: true
-        },
-        {
-            id: 6,
-            name: 'Banana',
-            description: 'Fresh banana for divine offering',
-            price: 50,
-            image: '/images/chadhwas/banana.jpg',
-            icon: '🍌',
-            selected: false
-        },
-        {
-            id: 7,
-            name: 'Rice',
-            description: 'Sacred rice for rituals',
-            price: 150,
-            image: '/images/chadhwas/rice.jpg',
-            icon: '🍚',
-            selected: false
-        },
-        {
-            id: 8,
-            name: 'Milk',
-            description: 'Fresh milk for offerings',
-            price: 120,
-            image: '/images/chadhwas/milk.jpg',
-            icon: '🥛',
-            selected: false
-        }
-    ];
+    // Transform Redux chadawas to the format used in the UI
+    const chadhwas = useMemo(() => {
+        return reduxChadawas.map((chadawa: Chadawa) => ({
+            id: chadawa.id,
+            name: chadawa.name,
+            description: chadawa.description,
+            price: parseFloat(chadawa.price),
+            image: chadawa.image_url.startsWith('http') ? chadawa.image_url : `https://api.33kotidham.com/${chadawa.image_url}`,
+            icon: '', // We'll leave this empty for now
+            selected: true // Default all to selected
+        }));
+    }, [reduxChadawas]);
 
-    const [selectedChadhwas, setSelectedChadhwas] = useState(
-        chadhwas.filter(chadhwa => chadhwa.selected)
-    );
+    const [selectedChadhwas, setSelectedChadhwas] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (chadhwas.length > 0) {
+            setSelectedChadhwas(chadhwas.filter((chadhwa: any) => chadhwa.selected));
+        }
+    }, [chadhwas]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -226,8 +171,8 @@ const CustomCheckoutPage: React.FC = () => {
         }, 1500);
     };
 
-    // Show loading state while fetching puja data
-    if (isLoading) {
+    // Show loading state while fetching puja data or chadawa data
+    if (isLoading || isChadawaLoading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
                 <Header />
@@ -255,6 +200,37 @@ const CustomCheckoutPage: React.FC = () => {
                         >
                             Go Back Home
                         </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Show error if chadawa data couldn't be loaded
+    if (chadawaError) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+                <Header />
+                <div className="pt-24 flex items-center justify-center min-h-screen">
+                    <div className="text-center">
+                        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                            Error Loading Sacred Offerings
+                        </h1>
+                        <p className="text-gray-600 mb-4">{chadawaError}</p>
+                        <div className="flex gap-4 justify-center">
+                            <button
+                                onClick={() => dispatch(fetchChadawas())}
+                                className="bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition-all shadow-lg hover:shadow-xl"
+                            >
+                                Try Again
+                            </button>
+                            <button
+                                onClick={() => router.push('/')}
+                                className="bg-gray-500 text-white px-8 py-3 rounded-full hover:bg-gray-600 transition-all shadow-lg hover:shadow-xl"
+                            >
+                                Go Back Home
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -508,9 +484,12 @@ const CustomCheckoutPage: React.FC = () => {
                                         >
                                             <div className="flex items-start gap-4">
                                                 <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                                    <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-full flex items-center justify-center">
-                                                        <span className="text-2xl">{chadhwa.icon}</span>
-                                                    </div>
+                                                    <Image
+                                                        src={chadhwa.image}
+                                                        alt={chadhwa.name}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
                                                 </div>
                                                 <div className="flex-1">
                                                     <h4 className="font-bold text-gray-900">{chadhwa.name}</h4>
