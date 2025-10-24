@@ -135,14 +135,14 @@ const TempleDetailPage: React.FC = () => {
     setSelectedChadawa(chadawaId === selectedChadawa ? null : chadawaId);
   };
 
-  // Handle checkout
-  const handleCheckout = () => {
-    if (selectedChadawa) {
-      // In a real app, this would navigate to the checkout page
-      // For now, we'll just show an alert
-      alert(`Proceeding to checkout for ${dummyChadawas.find(c => c.id === selectedChadawa)?.name} at ${temple.name}`);
-    }
-  };
+  // Handle checkout (currently unused - will be implemented when checkout flow is added)
+  // const handleCheckout = () => {
+  //   if (selectedChadawa) {
+  //     // In a real app, this would navigate to the checkout page
+  //     // For now, we'll just show an alert
+  //     alert(`Proceeding to checkout for ${dummyChadawas.find(c => c.id === selectedChadawa)?.name} at ${temple.name}`);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50">

@@ -46,7 +46,7 @@ const CheckoutFailurePage: React.FC = () => {
             
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 font-['Philosopher'] mb-3">Payment Verification Failed</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We couldn't verify your payment. Don't worry, if the amount was deducted, it will be refunded within 5-7 business days.
+              We couldn&apos;t verify your payment. Don&apos;t worry, if the amount was deducted, it will be refunded within 5-7 business days.
             </p>
           </div>
 

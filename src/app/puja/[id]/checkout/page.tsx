@@ -72,7 +72,6 @@ const CustomCheckoutPage: React.FC = () => {
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
@@ -373,7 +372,7 @@ const CustomCheckoutPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        onLoad={() => setRazorpayLoaded(true)}
+        strategy="lazyOnload"
       />
       <Header />
 
