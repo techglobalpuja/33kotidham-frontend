@@ -1,23 +1,33 @@
 'use client';
 
-import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
 
 const CustomCheckoutSuccessPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const pujaId = params.id as string;
   
-  // Mock puja data
+  // Get booking details from URL parameters
+  const bookingId = searchParams.get('bookingId');
+  const paymentId = searchParams.get('paymentId');
+  const orderId = searchParams.get('orderId');
+  
+  useEffect(() => {
+    // Show success notification
+    console.log('Payment successful!', { bookingId, paymentId, orderId });
+  }, [bookingId, paymentId, orderId]);
+  
+  // Display booking data
   const pujaData = {
     id: pujaId,
-    title: 'Navagraha Shanti Puja',
-    temple: 'Shri Mahakaleshwar Temple, Ujjain',
-    date: 'October 15, 2025',
-    orderId: 'ORD-2025-789456',
-    amount: 5900
+    title: 'Your Puja Booking',
+    bookingId: bookingId || 'N/A',
+    orderId: orderId || 'N/A',
+    paymentId: paymentId || 'N/A'
   };
 
   const handleContinue = () => {
@@ -63,25 +73,29 @@ const CustomCheckoutSuccessPage: React.FC = () => {
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 font-['Philosopher'] mb-1">{pujaData.title}</h3>
-                  <p className="text-orange-600 font-medium mb-3">{pujaData.temple}</p>
+                  <h3 className="text-xl font-bold text-gray-900 font-['Philosopher'] mb-3">{pujaData.title}</h3>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     <div className="bg-white/70 rounded-lg p-3">
-                      <p className="text-xs text-gray-500">Order ID</p>
-                      <p className="font-medium">{pujaData.orderId}</p>
+                      <p className="text-xs text-gray-500">Booking ID</p>
+                      <p className="font-medium text-sm">{pujaData.bookingId}</p>
                     </div>
                     <div className="bg-white/70 rounded-lg p-3">
-                      <p className="text-xs text-gray-500">Amount Paid</p>
-                      <p className="font-medium text-green-600">₹{pujaData.amount.toLocaleString()}</p>
+                      <p className="text-xs text-gray-500">Razorpay Order ID</p>
+                      <p className="font-medium text-sm">{pujaData.orderId}</p>
                     </div>
-                    <div className="bg-white/70 rounded-lg p-3">
-                      <p className="text-xs text-gray-500">Puja Date</p>
-                      <p className="font-medium">{pujaData.date}</p>
+                    <div className="bg-white/70 rounded-lg p-3 sm:col-span-2">
+                      <p className="text-xs text-gray-500">Payment ID</p>
+                      <p className="font-medium text-sm break-all">{pujaData.paymentId}</p>
                     </div>
-                    <div className="bg-white/70 rounded-lg p-3">
-                      <p className="text-xs text-gray-500">Time</p>
-                      <p className="font-medium">3:00 PM</p>
+                    <div className="bg-white/70 rounded-lg p-3 sm:col-span-2">
+                      <p className="text-xs text-gray-500">Payment Status</p>
+                      <p className="font-medium text-green-600 flex items-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Payment Verified Successfully
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -100,7 +114,7 @@ const CustomCheckoutSuccessPage: React.FC = () => {
                   <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span className="text-green-600 text-xs">1</span>
                   </div>
-                  <p className="text-gray-700">You will receive a confirmation email with puja details within 15 minutes</p>
+                  <p className="text-gray-700">You will receive a confirmation message on WhatsApp with puja details within 15 minutes</p>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">

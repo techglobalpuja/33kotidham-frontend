@@ -59,15 +59,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ date, time }) => {
     return null;
   }
 
-  // Format the display based on the time left
-  let displayText = '';
-  if (timeLeft.days > 0) {
-    displayText = `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m`;
-  } else if (timeLeft.hours > 0) {
-    displayText = `${timeLeft.hours}h ${timeLeft.minutes}m`;
-  } else {
-    displayText = `${timeLeft.minutes}m ${timeLeft.seconds}s`;
-  }
+  // Always show the full format: days, hours, minutes, seconds
+  const displayText = `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`;
 
   return (
     <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold px-3 py-2 rounded-full flex items-center gap-2 shadow-lg transform hover:scale-105 transition-transform duration-200">

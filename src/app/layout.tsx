@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import ReduxProvider from '@/providers/ReduxProvider';
+import AuthInitializer from '@/components/AuthInitializer';
 import '@/styles/globals.css';
 import '@/styles/translate.css';
 
@@ -80,7 +81,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body className="antialiased">
         <div id="google_translate_element" className="hidden absolute -top-96 -left-96" />
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <AuthInitializer />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

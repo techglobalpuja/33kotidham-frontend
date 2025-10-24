@@ -1,5 +1,6 @@
 // API service layer for handling HTTP requests
 import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa } from '@/types';
+import { parseCookies } from 'nookies';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
 
@@ -90,11 +91,30 @@ class ApiService {
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
-    // Get auth token from localStorage if available
+    // Get auth token from localStorage or cookies if available
     let authHeader = null;
     if (typeof window !== 'undefined') {
+      // Try localStorage first
       const token = localStorage.getItem('auth_token');
       const tokenType = localStorage.getItem('token_type') || 'Bearer';
+      if (token) {
+        authHeader = `${tokenType} ${token}`;
+      }
+    } else {
+      // For server-side rendering, try cookies
+      const cookies = parseCookies();
+      const token = cookies.auth_token;
+      const tokenType = cookies.token_type || 'Bearer';
+      if (token) {
+        authHeader = `${tokenType} ${token}`;
+      }
+    }
+    
+    // If no token found in localStorage, try to get from cookies (client-side)
+    if (!authHeader && typeof window !== 'undefined') {
+      const cookies = parseCookies();
+      const token = cookies.auth_token;
+      const tokenType = cookies.token_type || 'Bearer';
       if (token) {
         authHeader = `${tokenType} ${token}`;
       }
@@ -250,6 +270,19 @@ class ApiService {
   async logout(): Promise<void> {
     return this.request<void>('/api/auth/logout', {
       method: 'POST',
+    });
+  }
+
+  // Add new method to fetch user information
+  async getUserInfo(): Promise<User> {
+    return this.request<User>('/api/v1/auth/me');
+  }
+
+  // Add new method to update user information
+  async updateUserInfo(userData: Partial<User>): Promise<User> {
+    return this.request<User>('/api/v1/auth/me', {
+      method: 'PUT',
+      body: JSON.stringify(userData),
     });
   }
 
@@ -467,6 +500,38 @@ class ApiService {
   async getPlanById(id: number): Promise<Plan> {
     const backendPlan = await this.request<BackendPlan>(`/api/v1/plans/${id}`);
     return this.transformPlan(backendPlan);
+  }
+
+  // Booking API methods
+  async createRazorpayBooking(bookingData: {
+    puja_id: number;
+    plan_id: number;
+    booking_date: string;
+    mobile_number: string;
+    whatsapp_number: string;
+    gotra: string;
+    chadawas: any[];
+    chadawa_ids: number[];
+  }): Promise<any> {
+    return this.request<any>('/api/v1/bookings/razorpay-booking', {
+      method: 'POST',
+      body: JSON.stringify(bookingData),
+    });
+  }
+
+  async verifyPayment(params: {
+    booking_id: number;
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }): Promise<any> {
+    const { booking_id, razorpay_order_id, razorpay_payment_id, razorpay_signature } = params;
+    return this.request<any>(
+      `/api/v1/bookings/verify-payment?booking_id=${booking_id}&razorpay_order_id=${razorpay_order_id}&razorpay_payment_id=${razorpay_payment_id}&razorpay_signature=${razorpay_signature}`,
+      {
+        method: 'POST',
+      }
+    );
   }
 }
 

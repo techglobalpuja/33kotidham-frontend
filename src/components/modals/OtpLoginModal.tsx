@@ -47,14 +47,25 @@ const OtpLoginModal: React.FC = () => {
     setPrefillMobile(''); // Reset pre-filled mobile
   }, [dispatch, setIsLogin, setIsOtpSent, setRequiresRegistration, setName, setMobile, setOtp, setFormError, setCountdown, setPrefillMobile]);
 
-  // Close modal on successful login
+  // Track if user just logged in (to redirect only after login, not on every page)
   const { user } = useAppSelector((state) => state.auth);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+  
+  // Only redirect after successful OTP verification (when modal is open and user becomes authenticated)
   useEffect(() => {
-    if (user && !isLoading) {
+    if (isLoginModalOpen && user && user.isAuthenticated && !isLoading) {
+      setShouldRedirect(true);
+    }
+  }, [user, isLoading, isLoginModalOpen]);
+
+  // Handle redirect after login
+  useEffect(() => {
+    if (shouldRedirect) {
       handleClose();
       router.push('/dashboard');
+      setShouldRedirect(false);
     }
-  }, [user, isLoading, router, handleClose]);
+  }, [shouldRedirect, router, handleClose]);
 
   useEffect(() => {
     if (error) {

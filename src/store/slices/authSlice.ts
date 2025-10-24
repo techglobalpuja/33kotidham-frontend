@@ -1,13 +1,34 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthState, User } from '@/types';
 import { apiService } from '@/services/api';
-import { storeAuthToken } from '@/utils/auth';
+import { storeAuthToken, clearAuthToken, getAuthToken } from '@/utils/auth';
 
-const initialState: AuthState = {
-  user: null,
-  isLoading: false,
-  error: null,
+// Initialize state with stored auth token if available
+const getInitialState = (): AuthState => {
+  if (typeof window !== 'undefined') {
+    const { token } = getAuthToken();
+    if (token) {
+      // User has a token, mark as authenticated but will fetch full user info
+      return {
+        user: {
+          id: 0,
+          name: '',
+          email: '',
+          isAuthenticated: true,
+        },
+        isLoading: false,
+        error: null,
+      };
+    }
+  }
+  return {
+    user: null,
+    isLoading: false,
+    error: null,
+  };
 };
+
+const initialState: AuthState = getInitialState();
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
@@ -52,11 +73,37 @@ export const verifyOtp = createAsyncThunk(
   async ({ mobile, otpCode }: { mobile: string; otpCode: string }, { rejectWithValue }) => {
     try {
       const response = await apiService.verifyOtp(mobile, otpCode);
-      // Store the token
+      // Store the token in both localStorage and cookies
       storeAuthToken(response.access_token, response.token_type);
       return response;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Failed to verify OTP');
+    }
+  }
+);
+
+// Add new thunk for fetching user information
+export const fetchUserInfo = createAsyncThunk(
+  'auth/fetchUserInfo',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await apiService.getUserInfo();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch user information');
+    }
+  }
+);
+
+// Add new thunk for updating user information
+export const updateUserInfo = createAsyncThunk(
+  'auth/updateUserInfo',
+  async (userData: Partial<User>, { rejectWithValue }) => {
+    try {
+      const response = await apiService.updateUserInfo(userData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to update user information');
     }
   }
 );
@@ -73,6 +120,11 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.user = action.payload;
       state.error = null;
+      
+      // Store the token if it's in the action payload
+      if (action.payload.access_token && action.payload.token_type) {
+        storeAuthToken(action.payload.access_token, action.payload.token_type);
+      }
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
@@ -82,11 +134,8 @@ const authSlice = createSlice({
       state.user = null;
       state.error = null;
       
-      // Clear auth token from localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('token_type');
-      }
+      // Clear auth token from localStorage and cookies
+      clearAuthToken();
     },
     clearError: (state) => {
       state.error = null;
@@ -148,6 +197,45 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(verifyOtp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      // Add cases for fetchUserInfo
+      .addCase(fetchUserInfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = {
+          ...state.user,
+          ...action.payload,
+          isAuthenticated: true,
+        };
+        state.error = null;
+      })
+      .addCase(fetchUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+        // If fetching user info fails (e.g., invalid token), clear user state
+        state.user = null;
+        clearAuthToken();
+      })
+      // Add cases for updateUserInfo
+      .addCase(updateUserInfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = {
+          ...state.user,
+          ...action.payload,
+          isAuthenticated: true,
+        };
+        state.error = null;
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

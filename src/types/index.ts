@@ -50,6 +50,7 @@ export interface Article {
   excerpt: string;
 }
 
+// Update User interface to match API response
 export interface User {
   id: number;
   name: string;
@@ -156,7 +157,7 @@ export interface UserProfile {
     country?: string;
     pincode?: string;
   };
-  spiritualInfo: {
+  spiritualInfo?: {  // Made optional
     favoriteDeities: string[];
     birthTime?: string;
     birthPlace?: string;
