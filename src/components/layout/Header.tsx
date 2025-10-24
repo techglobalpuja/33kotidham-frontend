@@ -101,6 +101,7 @@ const Header: React.FC = () => {
     // { name: 'Astro Tools', href: '/astro-tools', icon: '🛠️' },
     // { name: 'Ask Question', href: '/ask-question', icon: '❓' },
     // { name: 'Career', href: '/career', icon: '💼' },
+    { name: 'Chadawa Store', href: '/chadawa-store', icon: '🛍️' },
     { name: 'Contact', href: '/contact', icon: '📞' },
   ];
 
