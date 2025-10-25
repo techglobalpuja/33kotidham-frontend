@@ -16,13 +16,23 @@ interface BackendPujaImage {
   image_url: string;
 }
 
+interface BackendChadawa {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  price: string;
+  requires_note: boolean;
+}
+
 interface ExtendedPujaCard extends PujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
+  chadawas?: BackendChadawa[];
   plan_ids?: number[];
   selectedPlans?: Plan[];
-  created_at?: string; // Add created_at field
-  time?: string; // Add time field
+  created_at?: string; 
+  time?: string; 
 }
 
 interface PujaState {

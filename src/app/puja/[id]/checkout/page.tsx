@@ -8,7 +8,6 @@ import Header from '@/components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
-import { fetchChadawas } from '@/store/slices/chadawaSlice';
 import { loginSuccess, fetchUserInfo } from '@/store/slices/authSlice';
 import { PujaCard, Plan, Chadawa } from '@/types';
 import { apiService } from '@/services/api';
@@ -56,7 +55,6 @@ const CustomCheckoutPage: React.FC = () => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
   const { selectedPuja, isLoading, error } = useSelector((state: RootState) => state.puja);
-  const { chadawas: reduxChadawas, isLoading: isChadawaLoading, error: chadawaError } = useSelector((state: RootState) => state.chadawa);
   
   const pujaId = params.id as string;
   const planId = searchParams.get('planId');
@@ -98,13 +96,25 @@ const CustomCheckoutPage: React.FC = () => {
     if (pujaId) {
       dispatch(fetchPujaById(pujaId));
     }
-    // Fetch chadawas when component mounts
-    dispatch(fetchChadawas());
   }, [dispatch, pujaId]);
 
-  // Transform Redux chadawas to the format used in the UI
+  // Transform chadawas from puja detail to the format used in the UI
   const chadhwas = useMemo(() => {
-    return reduxChadawas.map((chadawa: Chadawa) => ({
+    if (!selectedPuja) {
+      console.log('No selectedPuja');
+      return [];
+    }
+    
+    const puja = selectedPuja as any;
+    console.log('Selected Puja:', puja);
+    console.log('Chadawas from API:', puja.chadawas);
+    
+    if (!puja.chadawas || puja.chadawas.length === 0) {
+      console.log('No chadawas found in puja');
+      return [];
+    }
+    
+    const transformed = puja.chadawas.map((chadawa: any) => ({
       id: chadawa.id,
       name: chadawa.name,
       description: chadawa.description,
@@ -113,7 +123,10 @@ const CustomCheckoutPage: React.FC = () => {
       icon: '', // We'll leave this empty for now
       selected: true // Default all to selected
     }));
-  }, [reduxChadawas]);
+    
+    console.log('Transformed chadhwas:', transformed);
+    return transformed;
+  }, [selectedPuja]);
 
   const [selectedChadhwas, setSelectedChadhwas] = useState<any[]>([]);
 
@@ -449,8 +462,8 @@ const CustomCheckoutPage: React.FC = () => {
     }
   };
 
-  // Show loading state while fetching puja data or chadawa data
-  if (isLoading || isChadawaLoading) {
+  // Show loading state while fetching puja data
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
         <Header />
@@ -484,37 +497,6 @@ const CustomCheckoutPage: React.FC = () => {
     );
   }
 
-  // Show error if chadawa data couldn't be loaded
-  if (chadawaError) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-        <Header />
-        <div className="pt-24 flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">
-              Error Loading Sacred Offerings
-            </h1>
-            <p className="text-gray-600 mb-4">{chadawaError}</p>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => dispatch(fetchChadawas())}
-                className="bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition-all shadow-lg hover:shadow-xl"
-              >
-                Try Again
-              </button>
-              <button
-                onClick={() => router.push('/')}
-                className="bg-gray-500 text-white px-8 py-3 rounded-full hover:bg-gray-600 transition-all shadow-lg hover:shadow-xl"
-              >
-                Go Back Home
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // Use actual puja data instead of hardcoded data
   const isExtendedPuja = (puja: PujaCard): puja is ExtendedPujaCard => {
     return puja && typeof puja === 'object' && 'benefits' in puja && 'images' in puja;
@@ -542,7 +524,7 @@ const CustomCheckoutPage: React.FC = () => {
   }
 
   // Calculate total (removed service fee and GST)
-  const chadhwaTotal = selectedChadhwas.reduce((sum, chadhwa) => sum + chadhwa.price, 0);
+  const chadhwaTotal = selectedChadhwas.reduce((sum, chadhwa: any) => sum + chadhwa.price, 0);
   const planTotal = selectedPlan?.price || 0;
   const dakshinaAmount = formData.dakshina ? parseInt(formData.dakshina) : 0;
   const totalAmount = planTotal + chadhwaTotal + dakshinaAmount;
@@ -869,43 +851,50 @@ const CustomCheckoutPage: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  {chadhwas.map((chadhwa) => (
-                    <div
-                      key={chadhwa.id}
-                      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${selectedChadhwas.some(c => c.id === chadhwa.id)
-                              ? 'border-orange-500 bg-orange-50 ring-2 ring-orange-200'
-                              : 'border-gray-200 hover:border-orange-300'
-                            }`}
-                      onClick={() => toggleChadhwa(chadhwa)}
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image
-                            src={chadhwa.image}
-                            alt={chadhwa.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-bold text-gray-900">{chadhwa.name}</h4>
-                          <p className="text-xs text-gray-600 mt-1">{chadhwa.description}</p>
-                          <div className="flex items-center justify-between mt-2">
-                            <span className="text-orange-600 font-bold">₹{chadhwa.price}</span>
-                            {selectedChadhwas.some(c => c.id === chadhwa.id) ? (
-                              <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                              </div>
-                            ) : (
-                              <div className="w-5 h-5 border-2 border-gray-300 rounded-full"></div>
-                            )}
+                  {chadhwas.length === 0 ? (
+                    <div className="col-span-2 text-center py-8 text-gray-500">
+                      <p className="text-lg mb-2">No Sacred Offerings available for this puja</p>
+                      <p className="text-sm">Check browser console for debugging info</p>
+                    </div>
+                  ) : (
+                    chadhwas.map((chadhwa: any) => (
+                      <div
+                        key={chadhwa.id}
+                        className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${selectedChadhwas.some(c => c.id === chadhwa.id)
+                                ? 'border-orange-500 bg-orange-50 ring-2 ring-orange-200'
+                                : 'border-gray-200 hover:border-orange-300'
+                              }`}
+                        onClick={() => toggleChadhwa(chadhwa)}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image
+                              src={chadhwa.image}
+                              alt={chadhwa.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-gray-900">{chadhwa.name}</h4>
+                            <p className="text-xs text-gray-600 mt-1">{chadhwa.description}</p>
+                            <div className="flex items-center justify-between mt-2">
+                              <span className="text-orange-600 font-bold">₹{chadhwa.price}</span>
+                              {selectedChadhwas.some(c => c.id === chadhwa.id) ? (
+                                <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div className="w-5 h-5 border-2 border-gray-300 rounded-full"></div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
 
                 {/* Dakshina to Pandit */}
@@ -954,7 +943,7 @@ const CustomCheckoutPage: React.FC = () => {
                       <span className="font-medium">₹{planTotal.toLocaleString()}</span>
                     </div>
 
-                    {selectedChadhwas.map((chadhwa) => (
+                    {selectedChadhwas.map((chadhwa: any) => (
                       <div key={chadhwa.id} className="flex justify-between">
                         <span className="text-gray-600">{chadhwa.name}</span>
                         <span className="font-medium">₹{chadhwa.price.toLocaleString()}</span>

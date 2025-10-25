@@ -18,6 +18,15 @@ interface BackendPujaImage {
   image_url: string;
 }
 
+interface BackendChadawa {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  price: string;
+  requires_note: boolean;
+}
+
 interface BackendPuja {
   id: number;
   name: string;
@@ -42,12 +51,14 @@ interface BackendPuja {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
   plan_ids: number[];
+  chadawas?: BackendChadawa[];
 }
 
 // Extended PujaCard interface to include benefits and multiple images
 interface ExtendedPujaCard extends PujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
+  chadawas?: BackendChadawa[];
   temple_description?: string;
   prasad_price?: number;
   is_prasad_active?: boolean;
@@ -426,6 +437,7 @@ class ApiService {
       manokamna_prices_usd: backendPuja.manokamna_prices_usd || undefined,
       is_manokamna_active: backendPuja.is_manokamna_active,
       plan_ids: backendPuja.plan_ids,
+      chadawas: backendPuja.chadawas || [], // Add chadawas field
       isNew: false, // We can set this based on created_at if needed
       created_at: backendPuja.created_at, // Add created_at field
     };
