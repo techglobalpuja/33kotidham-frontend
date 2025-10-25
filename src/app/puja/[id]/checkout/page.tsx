@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
 import { fetchChadawas } from '@/store/slices/chadawaSlice';
+import { loginSuccess, fetchUserInfo } from '@/store/slices/authSlice';
 import { PujaCard, Plan, Chadawa } from '@/types';
 import { apiService } from '@/services/api';
+import { storeAuthToken, getAuthToken } from '@/utils/auth';
 import { useAppSelector } from '@/hooks';
 
 interface BackendPujaBenefit {
@@ -73,6 +75,24 @@ const CustomCheckoutPage: React.FC = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
+
+  // OTP Authentication states
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    accessToken: '',
+    tokenType: '',
+    showOtpInput: false,
+    requiresRegistration: false,
+    showRegistrationForm: false,
+    otpSent: false
+  });
+  const [otpCode, setOtpCode] = useState('');
+  const [registrationData, setRegistrationData] = useState({
+    name: '',
+    email: ''
+  });
+  const [isRequestingOtp, setIsRequestingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
 
   useEffect(() => {
     if (pujaId) {
@@ -137,6 +157,166 @@ const CustomCheckoutPage: React.FC = () => {
     }
   };
 
+  // OTP Authentication Functions
+  const handleRequestOtp = async () => {
+    if (!formData.mobileNumber || formData.mobileNumber.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
+    setIsRequestingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.com/api/v1/auth/request-otp', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mobile: formData.mobileNumber
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.requires_registration) {
+        // User needs to register first
+        setAuthState(prev => ({
+          ...prev,
+          requiresRegistration: true,
+          showRegistrationForm: true
+        }));
+      } else {
+        // OTP sent successfully
+        setAuthState(prev => ({
+          ...prev,
+          showOtpInput: true,
+          otpSent: true
+        }));
+        alert('OTP sent to your mobile number');
+      }
+    } catch (error) {
+      console.error('Error requesting OTP:', error);
+      alert('Failed to send OTP. Please try again.');
+    } finally {
+      setIsRequestingOtp(false);
+    }
+  };
+
+  const handleRegisterWithOtp = async () => {
+    if (!registrationData.name || !registrationData.email) {
+      alert('Please fill in all registration details');
+      return;
+    }
+
+    setIsRequestingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.com/api/v1/auth/register-with-otp', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: registrationData.name,
+          email: registrationData.email,
+          mobile: formData.mobileNumber,
+          password: '',
+          role: 'user'
+        })
+      });
+
+      if (response.ok) {
+        setAuthState(prev => ({
+          ...prev,
+          showRegistrationForm: false,
+          showOtpInput: true,
+          otpSent: true
+        }));
+        alert('Registration successful! OTP sent to your mobile number');
+      } else {
+        throw new Error('Registration failed');
+      }
+    } catch (error) {
+      console.error('Error registering:', error);
+      alert('Failed to register. Please try again.');
+    } finally {
+      setIsRequestingOtp(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otpCode || otpCode.length !== 6) {
+      alert('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    setIsVerifyingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.com/api/v1/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mobile: formData.mobileNumber,
+          otp_code: otpCode
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.access_token) {
+        setAuthState(prev => ({
+          ...prev,
+          isAuthenticated: true,
+          accessToken: data.access_token,
+          tokenType: data.token_type,
+          showOtpInput: false
+        }));
+        // Store token using auth utility
+        storeAuthToken(data.access_token, data.token_type);
+        
+        // Dispatch loginSuccess to update global auth state
+        dispatch(loginSuccess({
+          id: 0,
+          name: registrationData.name || 'User',
+          email: registrationData.email || '',
+          mobile: formData.mobileNumber,
+          isAuthenticated: true,
+          access_token: data.access_token,
+          token_type: data.token_type
+        }));
+        
+        // Fetch full user info from backend
+        dispatch(fetchUserInfo());
+        
+        alert('Authentication successful! You can now proceed with booking.');
+      } else {
+        throw new Error('Invalid OTP');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      alert('Invalid OTP. Please try again.');
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
+
+  // Check for existing token on mount
+  useEffect(() => {
+    const { token, tokenType } = getAuthToken();
+    if (token && tokenType) {
+      setAuthState(prev => ({
+        ...prev,
+        isAuthenticated: true,
+        accessToken: token,
+        tokenType: tokenType
+      }));
+    }
+  }, []);
+
   const toggleChadhwa = (chadhwa: typeof chadhwas[0]) => {
     setSelectedChadhwas(prev => {
       const isSelected = prev.some(c => c.id === chadhwa.id);
@@ -151,10 +331,9 @@ const CustomCheckoutPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate authentication
-    if (!user || !user.isAuthenticated) {
-      alert('Please login to complete booking');
-      router.push('/');
+    // Validate authentication - check both user state and authState
+    if (!authState.isAuthenticated && (!user || !user.isAuthenticated)) {
+      alert('Please authenticate with OTP to complete booking');
       return;
     }
 
@@ -242,8 +421,8 @@ const CustomCheckoutPage: React.FC = () => {
           }
         },
         prefill: {
-          name: user.name || '',
-          email: user.email || '',
+          name: user?.name || '',
+          email: user?.email || '',
           contact: formData.mobileNumber
         },
         theme: {
@@ -442,17 +621,132 @@ const CustomCheckoutPage: React.FC = () => {
                     <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700 mb-1">
                       Mobile Number *
                     </label>
-                    <input
-                      type="tel"
-                      id="mobileNumber"
-                      name="mobileNumber"
-                      value={formData.mobileNumber}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                      placeholder="Enter your mobile number"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        value={formData.mobileNumber}
+                        onChange={handleInputChange}
+                        required
+                        disabled={authState.isAuthenticated || authState.showOtpInput || authState.showRegistrationForm}
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="Enter your mobile number"
+                        maxLength={10}
+                      />
+                      {!authState.isAuthenticated && !authState.showOtpInput && !authState.showRegistrationForm && (
+                        <button
+                          type="button"
+                          onClick={handleRequestOtp}
+                          disabled={isRequestingOtp || formData.mobileNumber.length !== 10}
+                          className="px-6 py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                          {isRequestingOtp ? 'Sending...' : 'Send OTP'}
+                        </button>
+                      )}
+                      {authState.isAuthenticated && (
+                        <div className="flex items-center px-4 py-3 bg-green-50 text-green-600 rounded-xl">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          <span className="ml-2 text-sm font-medium">Verified</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Registration Form */}
+                  {authState.showRegistrationForm && (
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 space-y-4">
+                      <div className="flex items-center gap-2 text-orange-600 font-medium">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>New User - Please Complete Registration</span>
+                      </div>
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          value={registrationData.name}
+                          onChange={(e) => setRegistrationData(prev => ({ ...prev, name: e.target.value }))}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={registrationData.email}
+                          onChange={(e) => setRegistrationData(prev => ({ ...prev, email: e.target.value }))}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                          placeholder="Enter your email"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRegisterWithOtp}
+                        disabled={isRequestingOtp}
+                        className="w-full px-6 py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isRequestingOtp ? 'Registering...' : 'Register & Send OTP'}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* OTP Input */}
+                  {authState.showOtpInput && !authState.isAuthenticated && (
+                    <div className="bg-green-50 border border-green-200 rounded-xl p-4 space-y-4">
+                      <div className="flex items-center gap-2 text-green-600 font-medium">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>OTP Sent to {formData.mobileNumber}</span>
+                      </div>
+                      <div>
+                        <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                          Enter OTP *
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            id="otp"
+                            value={otpCode}
+                            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                            required
+                            maxLength={6}
+                            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-center text-lg tracking-widest"
+                            placeholder="000000"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleVerifyOtp}
+                            disabled={isVerifyingOtp || otpCode.length !== 6}
+                            className="px-6 py-3 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                          >
+                            {isVerifyingOtp ? 'Verifying...' : 'Verify OTP'}
+                          </button>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRequestOtp}
+                        disabled={isRequestingOtp}
+                        className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                      >
+                        Resend OTP
+                      </button>
+                    </div>
+                  )}
 
                   <div className="flex items-center">
                     <input
@@ -691,8 +985,8 @@ const CustomCheckoutPage: React.FC = () => {
                 <div className="pt-6 border-t border-gray-200 mt-6">
                   <button
                     type="submit"
-                    disabled={isProcessing}
-                    className={`w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center ${isProcessing ? 'opacity-75 cursor-not-allowed' : ''}`}
+                    disabled={isProcessing || (!authState.isAuthenticated && (!user || !user.isAuthenticated))}
+                    className={`w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center ${(isProcessing || (!authState.isAuthenticated && (!user || !user.isAuthenticated))) ? 'opacity-75 cursor-not-allowed' : ''}`}
                     onClick={handleSubmit}
                   >
                     {isProcessing ? (
@@ -703,10 +997,17 @@ const CustomCheckoutPage: React.FC = () => {
                         </svg>
                         Processing Payment...
                       </>
+                    ) : (!authState.isAuthenticated && (!user || !user.isAuthenticated)) ? (
+                      'Please Authenticate to Proceed'
                     ) : (
                       `Proceed to Pay ₹${totalAmount.toLocaleString()}`
                     )}
                   </button>
+                  {(!authState.isAuthenticated && (!user || !user.isAuthenticated)) && (
+                    <p className="text-sm text-orange-600 text-center mt-2">
+                      Please verify your mobile number with OTP to continue
+                    </p>
+                  )}
 
                   <button
                     type="button"
