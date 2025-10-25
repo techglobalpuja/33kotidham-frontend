@@ -611,12 +611,12 @@ const CustomCheckoutPage: React.FC = () => {
                         value={formData.mobileNumber}
                         onChange={handleInputChange}
                         required
-                        disabled={authState.isAuthenticated || authState.showOtpInput || authState.showRegistrationForm}
+                        disabled={authState.showOtpInput || authState.showRegistrationForm}
                         className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder="Enter your mobile number"
                         maxLength={10}
                       />
-                      {!authState.isAuthenticated && !authState.showOtpInput && !authState.showRegistrationForm && (
+                      {!user?.isAuthenticated && !authState.isAuthenticated && !authState.showOtpInput && !authState.showRegistrationForm && (
                         <button
                           type="button"
                           onClick={handleRequestOtp}
@@ -626,7 +626,7 @@ const CustomCheckoutPage: React.FC = () => {
                           {isRequestingOtp ? 'Sending...' : 'Send OTP'}
                         </button>
                       )}
-                      {authState.isAuthenticated && (
+                      {(user?.isAuthenticated || authState.isAuthenticated) && (
                         <div className="flex items-center px-4 py-3 bg-green-50 text-green-600 rounded-xl">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

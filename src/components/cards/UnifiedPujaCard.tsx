@@ -75,7 +75,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
   };
 
   // Function to handle WhatsApp share click
-  const handleWhatsAppShare = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWhatsAppShare = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     e.preventDefault();
     const shareUrl = getWhatsAppShareUrl();
     
@@ -231,11 +231,13 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
               )}
             </div>
             {/* WhatsApp Share Icon - Top Right */}
-            <a 
-              href={getWhatsAppShareUrl()} 
-              onClick={handleWhatsAppShare}
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleWhatsAppShare(e);
+                window.open(getWhatsAppShareUrl(), '_blank', 'noopener,noreferrer');
+              }}
               className="absolute top-[11px] sm:top-[16px] md:top-[22px] right-[11px] sm:right-[16px] md:right-[22px] bg-green-500 text-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-green-600 transition-all duration-200 z-10 flex items-center gap-1 group/whatsapp"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover/whatsapp:opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 24 24">
@@ -244,7 +246,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
               <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/whatsapp:opacity-100 transition-opacity duration-200 text-xs sm:text-sm font-medium">
                 Share
               </span>
-            </a>
+            </button>
           </div>
         </div>
       </Link>
