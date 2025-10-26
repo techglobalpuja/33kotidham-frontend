@@ -371,3 +371,88 @@ export interface BlogPost {
   categories: BlogCategory[]; // Add categories array
   author: User | null;
 }
+
+// Booking Types
+export interface BookingChadawa {
+  id: number;
+  booking_id: number;
+  chadawa_id: number;
+  quantity?: number;
+  note: string | null;
+  created_at: string;
+  chadawa?: {
+    id: number;
+    name: string;
+    description: string;
+    image_url: string;
+    price: string;
+    requires_note: boolean;
+  };
+}
+
+export interface PujaResponse {
+  name: string;
+  sub_heading: string;
+  description: string;
+  date: string;
+  time: string;
+  temple_image_url: string;
+  temple_address: string;
+  temple_description: string;
+  prasad_price: number;
+  is_prasad_active: boolean;
+  dakshina_prices_inr: string;
+  dakshina_prices_usd: string;
+  is_dakshina_active: boolean;
+  manokamna_prices_inr: string;
+  manokamna_prices_usd: string;
+  is_manokamna_active: boolean;
+  category: string;
+  id: number;
+  created_at: string;
+  updated_at: string;
+  benefits: any[];
+  images: any[];
+  plan_ids: number[];
+  chadawas: Chadawa[];
+}
+
+export interface PlanResponse {
+  name: string;
+  description: string;
+  image_url: string;
+  actual_price: string;
+  discounted_price: string;
+  id: number;
+  created_at: string;
+}
+
+export interface UserResponse {
+  name: string;
+  email: string;
+  mobile: string;
+  id: number;
+  role: string;
+  is_active: boolean;
+  email_verified: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BookingResponse {
+  puja_id: number | null;
+  plan_id: number | null;
+  booking_date: string | null;
+  mobile_number: string | null;
+  whatsapp_number: string | null;
+  gotra: string | null;
+  id: number;
+  user_id: number;
+  status: string;
+  puja_link: string | null;
+  created_at: string;
+  user: UserResponse | null;
+  puja: PujaResponse | null;
+  plan: PlanResponse | null;
+  booking_chadawas: BookingChadawa[];
+}

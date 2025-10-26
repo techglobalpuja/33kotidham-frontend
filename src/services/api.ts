@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa } from '@/types';
+import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa, BookingResponse } from '@/types';
 import { parseCookies } from 'nookies';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
@@ -544,6 +544,10 @@ class ApiService {
         method: 'POST',
       }
     );
+  }
+
+  async getBookingById(bookingId: number): Promise<BookingResponse> {
+    return this.request<BookingResponse>(`/api/v1/bookings/${bookingId}`);
   }
 }
 
