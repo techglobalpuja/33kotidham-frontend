@@ -71,7 +71,8 @@ interface ExtendedPujaCard extends PujaCard {
   plan_ids?: number[];
   selectedPlans?: Plan[];
   created_at?: string; // Add created_at field
-  time?: string; // Add time field
+  time?: string; // Add time field,
+  sub_heading?: string;
 }
 
 // Define the backend plan structure based on the API response
@@ -419,7 +420,8 @@ class ApiService {
 
     return {
       id: backendPuja.id.toString(),
-      image: imageUrl, // Use the constructed image URL
+      image: imageUrl, // Use the constructed image URL,
+      sub_heading: backendPuja.sub_heading,
       title: backendPuja.name,
       temple: backendPuja.temple_address || 'Temple Address',
       description: backendPuja.description,

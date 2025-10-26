@@ -207,6 +207,16 @@ const PujaDetailPage: React.FC = () => {
       pujaBenefits = [];
     }
   }
+  const formatDate = (dateString: string | null) => {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-IN', { 
+    day: '2-digit', 
+    month: 'short', 
+    year: 'numeric' 
+  });
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
@@ -221,41 +231,32 @@ const PujaDetailPage: React.FC = () => {
               
               {/* Left - Image Card */}
               <div className="relative">
-                <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-3xl p-6 shadow-2xl border-4 border-white">
+                <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
                   {/* Badge */}
-                  <div className="absolute -top-3 left-6 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg z-10">
-                    DIWALI SPECIAL
-                  </div>
                   
-                  {/* Trust Badge */}
-                  <div className="absolute -top-3 right-6 bg-white text-orange-600 px-4 py-2 rounded-full text-sm font-bold shadow-lg z-10 border-2 border-orange-400">
-                    150k+ <br/> <span className="text-xs">Devotees Trust</span>
-                  </div>
 
-                  {/* Image */}
-                  <div className="relative rounded-2xl overflow-hidden mb-6 mt-4">
-                    <div className="relative w-full h-[350px]">
-                      {pujaImages.length > 0 && pujaImages[selectedImageIndex] ? (
-                        <Image
-                          src={constructImageUrl(pujaImages[selectedImageIndex].image_url)}
-                          alt={selectedPuja.title}
-                          fill
-                          className="object-cover"
-                          unoptimized={true}
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-300 to-amber-400">
-                          <span className="text-white text-7xl">🛕</span>
-                        </div>
-                      )}
-                    </div>
+                  {/* Image Carousel */}
+                  <div className="relative w-full h-[600px]">
+                    {pujaImages.length > 0 && pujaImages[selectedImageIndex] ? (
+                      <Image
+                        src={constructImageUrl(pujaImages[selectedImageIndex].image_url)}
+                        alt={selectedPuja.title}
+                        fill
+                        className="object-cover"
+                        unoptimized={true}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-300 to-amber-400">
+                        <span className="text-white text-7xl">🛕</span>
+                      </div>
+                    )}
 
                     {/* Carousel Navigation */}
                     {pujaImages.length > 1 && (
                       <>
                         <button 
                           onClick={prevImage}
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all"
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all z-10"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -263,7 +264,7 @@ const PujaDetailPage: React.FC = () => {
                         </button>
                         <button 
                           onClick={nextImage}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all z-10"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -271,7 +272,7 @@ const PujaDetailPage: React.FC = () => {
                         </button>
                         
                         {/* Dots */}
-                        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                           {pujaImages.map((_, index) => (
                             <button
                               key={index}
@@ -285,20 +286,6 @@ const PujaDetailPage: React.FC = () => {
                       </>
                     )}
                   </div>
-
-                  {/* Card Title */}
-                  <h3 className="text-center text-xl font-bold text-gray-900 mb-2">
-                    {selectedPuja.title || 'Baglamukhi-Mahalakshmi 11000 Mool Mantra Jaap + Havan'}
-                  </h3>
-                  <p className="text-center text-sm text-gray-700 mb-4">
-                    For accomplishment of tasks, power of attraction (Vashikaran), destruction of enemies, and wealth
-                  </p>
-                  
-                  {/* Location */}
-                  <div className="flex items-center justify-center gap-2 bg-orange-500 text-white py-2 px-4 rounded-full text-sm font-semibold">
-                    <span>📍</span>
-                    <span>{selectedPuja.temple || 'Nalkheda, MP'}</span>
-                  </div>
                 </div>
               </div>
 
@@ -308,7 +295,7 @@ const PujaDetailPage: React.FC = () => {
                   {selectedPuja.title || 'Baglamukhi-Mahalakshmi 11000 Mool Mantra Jaap + Havan'}
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                  For accomplishment of tasks, power of attraction (Vashikaran), destruction of enemies, and wealth
+                  {isExtendedPuja(selectedPuja) ? selectedPuja.sub_heading: 'For accomplishment of tasks, power of attraction (Vashikaran), destruction of enemies, and wealth'}
                 </p>
 
                 {/* Info Grid */}
@@ -316,39 +303,52 @@ const PujaDetailPage: React.FC = () => {
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">📅</span>
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">Diwali, 20 Oct, 2025 3:00 PM</p>
+                      <p className="text-md font-semibold text-gray-900">{formatDate(selectedPuja.date)}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">🛕</span>
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">Nalkheda, MP</p>
+                      <p className="text-sm font-semibold text-gray-900">{selectedPuja.temple}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-orange-500 text-xl">🕉️</span>
-                    <div>
-                      <p className="text-sm text-gray-700">Enemy Destruction</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-orange-500 text-xl">🕉️</span>
-                    <div>
-                      <p className="text-sm text-gray-700">Attraction of Wealth</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-orange-500 text-xl">🕉️</span>
-                    <div>
-                      <p className="text-sm text-gray-700">Freedom from Black Magic & Evil Eye</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-orange-500 text-xl">🕉️</span>
-                    <div>
-                      <p className="text-sm text-gray-700">Relief from Court Cases & Legal Issues</p>
-                    </div>
-                  </div>
+                  {pujaBenefits && pujaBenefits.length > 0 ? (
+                    pujaBenefits.slice(0, 4).map((benefit) => (
+                      <div key={benefit.id} className="flex items-start gap-3">
+                        <span className="text-orange-500 text-xl">🕉️</span>
+                        <div>
+                          <p className="text-sm text-gray-700">{benefit.benefit_title}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <div className="flex items-start gap-3">
+                        <span className="text-orange-500 text-xl">🕉️</span>
+                        <div>
+                          <p className="text-sm text-gray-700">Enemy Destruction</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-orange-500 text-xl">🕉️</span>
+                        <div>
+                          <p className="text-sm text-gray-700">Attraction of Wealth</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-orange-500 text-xl">🕉️</span>
+                        <div>
+                          <p className="text-sm text-gray-700">Freedom from Black Magic & Evil Eye</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-orange-500 text-xl">🕉️</span>
+                        <div>
+                          <p className="text-sm text-gray-700">Relief from Court Cases & Legal Issues</p>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Booking Info */}
@@ -359,19 +359,8 @@ const PujaDetailPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-yellow-50 border border-yellow-200 p-4 mb-6 rounded-lg">
-                  <p className="text-gray-800 font-semibold flex items-center gap-2">
-                    <span className="text-2xl">😊</span>
-                    <span>100k+ Satisfied Customers</span>
-                  </p>
-                </div>
-
                 {/* CTA Buttons */}
                 <div className="flex gap-4">
-                  <button className="flex-1 bg-white border-2 border-orange-500 text-orange-600 font-bold py-3 px-6 rounded-lg hover:bg-orange-50 transition-all flex items-center justify-center gap-2">
-                    <span>🎁</span>
-                    Gift This Puja
-                  </button>
                   <button className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center gap-2">
                     <span>PARTICIPATE NOW</span>
                   </button>

@@ -77,6 +77,7 @@ export const fetchPujaById = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await apiService.getPujaById(id);
+      console.log("response----",response);
       return response;
     } catch (error: unknown) {
       // Type guard to check if error has a message property
@@ -139,6 +140,7 @@ const pujaSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchPujaById.fulfilled, (state, action: PayloadAction<ExtendedPujaCard>) => {
+        console.log("action.payload",action.payload);
         state.isLoading = false;
         state.selectedPuja = action.payload;
         state.error = null;
