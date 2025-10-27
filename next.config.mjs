@@ -31,6 +31,30 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.gujarattourism.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tamilnadutourism.tn.gov.in',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'uttarakhandtourism.gov.in',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.varanasibest.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   webpack(config) {

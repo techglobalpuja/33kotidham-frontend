@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 import '../../styles/horoscope-animations.css';
 
 const ForumsPage: React.FC = () => {
@@ -391,7 +391,7 @@ const ForumsPage: React.FC = () => {
         </div>
       </section>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

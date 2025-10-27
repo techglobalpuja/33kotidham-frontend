@@ -439,6 +439,19 @@ export interface UserResponse {
   updated_at: string;
 }
 
+export interface Temple {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  location: string;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+  recommended_pujas: any[];
+  chadawas: any[];
+}
+
 export interface BookingResponse {
   puja_id: number | null;
   plan_id: number | null;

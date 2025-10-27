@@ -1,66 +1,80 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-
-// Dummy temple data
-const dummyTemples = [
-  {
-    id: 1,
-    name: "Shri Vaishnav Temple",
-    description: "A sacred temple dedicated to Lord Vishnu, known for its beautiful architecture and spiritual significance. Located in the heart of Vrindavan, this temple offers a serene environment for all pujas and rituals.",
-    location: "Vrindavan, Uttar Pradesh",
-    distance: "2.5 km from main shrine",
-    rating: 4.9,
-    image: "/images/temple1.jpg",
-    priests: 12,
-    experience: "25+ years average",
-    chadawaCount: 24
-  },
-  {
-    id: 2,
-    name: "Divine Shakti Peeth",
-    description: "A powerful shrine dedicated to Goddess Shakti, attracting devotees from across the country. Known for its divine energy and the expertise of its priests in performing tantric rituals.",
-    location: "Kolkata, West Bengal",
-    distance: "1.2 km from main shrine",
-    rating: 4.7,
-    image: "/images/temple2.jpg",
-    priests: 8,
-    experience: "20+ years average",
-    chadawaCount: 18
-  },
-  {
-    id: 3,
-    name: "Golden Lotus Temple",
-    description: "A magnificent temple with lotus-shaped architecture, dedicated to multiple deities. Famous for its grand celebrations during festivals and the wide variety of chadawas available.",
-    location: "Haridwar, Uttarakhand",
-    distance: "0.8 km from main shrine",
-    rating: 4.8,
-    image: "/images/temple3.jpg",
-    priests: 15,
-    experience: "30+ years average",
-    chadawaCount: 32
-  },
-  {
-    id: 4,
-    name: "Sacred Rudra Mandir",
-    description: "An ancient temple dedicated to Lord Shiva, known for its powerful Rudra puja ceremonies. The temple has a peaceful atmosphere and highly experienced priests specializing in Vedic rituals.",
-    location: "Varanasi, Uttar Pradesh",
-    distance: "3.1 km from main shrine",
-    rating: 4.9,
-    image: "/images/temple4.jpg",
-    priests: 10,
-    experience: "28+ years average",
-    chadawaCount: 28
-  },
-];
+import GlobalFooter from '@/components/layout/GlobalFooter';
+import { apiService } from '@/services/api';
+import { Temple } from '@/types';
 
 const ChadawaStorePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
+  const [temples, setTemples] = useState<Temple[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchTemples();
+  }, []);
+
+  const fetchTemples = async () => {
+    try {
+      setLoading(true);
+      const fetchedTemples = await apiService.getTemples(0, 100);
+      setTemples(fetchedTemples);
+      setError(null);
+    } catch (err) {
+      setError('Failed to fetch temples');
+      console.error('Error fetching temples:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Helper function to construct full image URL
+  const constructImageUrl = (imagePath: string) => {
+    // If it's already a full URL, return as is
+    if (imagePath && imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // If it's a relative path, construct the full URL using the production API domain
+    if (imagePath && !imagePath.startsWith('http')) {
+      try {
+        const trimmedPath = imagePath.trim();
+        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
+            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+          // Use the production API domain as specified
+          const baseUrl = 'https://api.33kotidham.com';
+          const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          return fullPath;
+        }
+      } catch (error) {
+        console.warn('Error constructing full image URL:', error);
+      }
+    }
+    
+    // Fallback to dummy image
+    return 'https://placehold.co/600x400/orange/white?text=Temple+Image';
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-2xl font-['Philosopher'] text-orange-600">Loading temples...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-2xl font-['Philosopher'] text-red-600">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50">
@@ -151,7 +165,7 @@ const ChadawaStorePage: React.FC = () => {
 
           {/* Temple Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dummyTemples.map((temple) => (
+            {temples.map((temple) => (
               <Link 
                 key={temple.id} 
                 href={`/chadawa-store/${temple.id}`}
@@ -159,13 +173,15 @@ const ChadawaStorePage: React.FC = () => {
               >
                 <div className="relative h-60 overflow-hidden rounded-t-2xl">
                   <Image
-                    src={temple.image || '/images/placeholder.jpg'}
+                    src={constructImageUrl(temple.image_url)}
                     alt={temple.name}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    unoptimized={true}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = '/images/placeholder.jpg';
+                      // Use a dummy image as fallback
+                      target.src = 'https://placehold.co/600x400/orange/white?text=Temple+Image';
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -180,7 +196,7 @@ const ChadawaStorePage: React.FC = () => {
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                       </svg>
-                      <span className="text-sm font-bold">{temple.rating}</span>
+                      <span className="text-sm font-bold">5.0</span>
                     </div>
                   </div>
                   
@@ -191,17 +207,17 @@ const ChadawaStorePage: React.FC = () => {
                   <div className="flex justify-between items-center mb-4">
                     <div className="text-sm">
                       <div className="font-bold text-gray-800">{temple.location}</div>
-                      <div className="text-gray-500">{temple.distance}</div>
+                      <div className="text-gray-500">Sacred Temple</div>
                     </div>
                     <div className="text-sm">
-                      <div className="font-bold text-gray-800">{temple.priests} priests</div>
-                      <div className="text-gray-500">{temple.experience}</div>
+                      <div className="font-bold text-gray-800">Experienced priests</div>
+                      <div className="text-gray-500">Devotional service</div>
                     </div>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <div className="text-sm text-gray-600">
-                      {temple.chadawaCount} chadawas available
+                      Divine offerings available
                     </div>
                     <button className="bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105">
                       Select Temple
@@ -217,7 +233,7 @@ const ChadawaStorePage: React.FC = () => {
         </div>
       </section>
 
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

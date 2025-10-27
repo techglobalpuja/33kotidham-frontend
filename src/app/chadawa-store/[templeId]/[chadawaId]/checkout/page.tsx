@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 
 // Dummy data
 const dummyTemples = [
@@ -649,7 +649,7 @@ const CheckoutPage: React.FC = () => {
         </div>
       </section>
 
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

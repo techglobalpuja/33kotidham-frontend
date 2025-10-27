@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 import HeroSection from '@/components/sections/HeroSection';
 import TrustSection from '@/components/sections/TrustSection';
 import PujaSection from '@/components/sections/PujaSection';
@@ -135,7 +135,7 @@ export default function HomePage() {
       <FeaturedBlogsSection />
       {/* <ArticlesSection articles={articles} /> */}
       {/* <DownloadAppSection /> */}
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 }

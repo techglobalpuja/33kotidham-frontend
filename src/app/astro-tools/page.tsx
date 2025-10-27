@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 
 const AstroToolsPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -115,7 +115,7 @@ const AstroToolsPage: React.FC = () => {
         </div>
       </section>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

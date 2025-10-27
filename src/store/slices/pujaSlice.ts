@@ -29,6 +29,7 @@ interface ExtendedPujaCard extends PujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
   chadawas?: BackendChadawa[];
+  temple_image_url?: string;
   plan_ids?: number[];
   selectedPlans?: Plan[];
   created_at?: string; 
@@ -141,6 +142,7 @@ const pujaSlice = createSlice({
       })
       .addCase(fetchPujaById.fulfilled, (state, action: PayloadAction<ExtendedPujaCard>) => {
         console.log("action.payload",action.payload);
+        console.log("temple_image_url in payload:", action.payload.temple_image_url);
         state.isLoading = false;
         state.selectedPuja = action.payload;
         state.error = null;

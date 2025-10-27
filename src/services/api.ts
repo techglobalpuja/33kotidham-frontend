@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa, BookingResponse } from '@/types';
+import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa, BookingResponse, Temple } from '@/types';
 import { parseCookies } from 'nookies';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
@@ -60,6 +60,7 @@ interface ExtendedPujaCard extends PujaCard {
   images: BackendPujaImage[];
   chadawas?: BackendChadawa[];
   temple_description?: string;
+  temple_image_url?: string;
   prasad_price?: number;
   is_prasad_active?: boolean;
   dakshina_prices_inr?: string;
@@ -343,8 +344,10 @@ class ApiService {
 
   // Helper function to construct full image URL
   private constructImageUrl(imagePath: string): string {
+    console.log('API Service - Constructing image URL for:', imagePath);
     // If it's already a full URL, return as is
     if (imagePath && imagePath.startsWith('http')) {
+      console.log('API Service - Returning full URL as is:', imagePath);
       return imagePath;
     }
     
@@ -352,11 +355,12 @@ class ApiService {
     if (imagePath && !imagePath.startsWith('http')) {
       try {
         const trimmedPath = imagePath.trim();
-        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
-            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+        console.log('API Service - Trimmed path:', trimmedPath);
+        if (trimmedPath && trimmedPath.length > 0) {
           // Use the production API domain as specified
           const baseUrl = 'https://api.33kotidham.com';
           const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          console.log('API Service - Constructed full path:', fullPath);
           return fullPath;
         }
       } catch (error) {
@@ -365,6 +369,7 @@ class ApiService {
     }
     
     // Fallback to placeholder
+    console.log('API Service - Returning placeholder for:', imagePath);
     return '/placeholder.jpg';
   }
 
@@ -395,6 +400,7 @@ class ApiService {
 
   // Transform backend puja to frontend PujaCard
   private transformPuja(backendPuja: BackendPuja): ExtendedPujaCard {
+    console.log('Backend puja data:', backendPuja);
     // Get the first valid image URL if available, otherwise use temple_image_url
     let imageUrl = '';
     
@@ -415,10 +421,13 @@ class ApiService {
       imageUrl = this.constructImageUrl(backendPuja.temple_image_url);
     }
 
+    console.log('Temple image URL from backend:', backendPuja.temple_image_url);
+    console.log('Constructed temple image URL:', this.constructImageUrl(backendPuja.temple_image_url || ''));
+
     // Format the date - if null, use today's date
     const formattedDate = backendPuja.date || new Date().toISOString().split('T')[0];
 
-    return {
+    const result = {
       id: backendPuja.id.toString(),
       image: imageUrl, // Use the constructed image URL,
       sub_heading: backendPuja.sub_heading,
@@ -430,6 +439,7 @@ class ApiService {
       benefits: backendPuja.benefits || [],
       images: backendPuja.images || [],
       temple_description: backendPuja.temple_description || undefined,
+      temple_image_url: backendPuja.temple_image_url || undefined,
       prasad_price: backendPuja.prasad_price,
       is_prasad_active: backendPuja.is_prasad_active,
       dakshina_prices_inr: backendPuja.dakshina_prices_inr || undefined,
@@ -443,6 +453,9 @@ class ApiService {
       isNew: false, // We can set this based on created_at if needed
       created_at: backendPuja.created_at, // Add created_at field
     };
+    
+    console.log('Transformed puja result:', result);
+    return result;
   }
 
   // Puja API methods - Updated to match admin panel endpoints
@@ -550,6 +563,11 @@ class ApiService {
 
   async getBookingById(bookingId: number): Promise<BookingResponse> {
     return this.request<BookingResponse>(`/api/v1/bookings/${bookingId}`);
+  }
+
+  // Temple API methods
+  async getTemples(skip: number = 0, limit: number = 100): Promise<Temple[]> {
+    return this.request<Temple[]>(`/api/v1/temples/?skip=${skip}&limit=${limit}`);
   }
 }
 

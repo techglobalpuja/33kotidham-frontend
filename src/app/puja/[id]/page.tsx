@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
+import CountdownTimer from '@/components/CountdownTimer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
@@ -34,6 +35,7 @@ interface ExtendedPujaCard {
   benefits: BackendPujaBenefit[];
   images: BackendPujaImage[];
   temple_description?: string;
+  temple_image_url?: string;
   prasad_price?: number;
   is_prasad_active?: boolean;
   dakshina_prices_inr?: string;
@@ -118,17 +120,23 @@ const PujaDetailPage: React.FC = () => {
   };
 
   const constructImageUrl = (imagePath: string) => {
+    console.log('Constructing image URL for:', imagePath);
+    // If it's already a full URL, return as is
     if (imagePath && imagePath.startsWith('http')) {
+      console.log('Returning full URL as is:', imagePath);
       return imagePath;
     }
     
+    // If it's a relative path, construct the full URL using the production API domain
     if (imagePath && !imagePath.startsWith('http')) {
       try {
         const trimmedPath = imagePath.trim();
-        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
-            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+        console.log('Trimmed path:', trimmedPath);
+        if (trimmedPath && trimmedPath.length > 0) {
+          // Use the production API domain as specified
           const baseUrl = 'https://api.33kotidham.com';
           const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          console.log('Constructed full path:', fullPath);
           return fullPath;
         }
       } catch (error) {
@@ -136,6 +144,8 @@ const PujaDetailPage: React.FC = () => {
       }
     }
     
+    // Fallback to placeholder
+    console.log('Returning placeholder for:', imagePath);
     return '/placeholder.jpg';
   };
 
@@ -207,15 +217,17 @@ const PujaDetailPage: React.FC = () => {
       pujaBenefits = [];
     }
   }
-  const formatDate = (dateString: string | null) => {
+ const formatDate = (dateString: string | null) => {
   if (!dateString) return 'N/A';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-IN', { 
+    weekday: 'short', // adds day name like Mon, Tue
     day: '2-digit', 
     month: 'short', 
-    year: 'numeric' 
+    year: 'numeric'
   });
 };
+
 
 
   return (
@@ -295,7 +307,7 @@ const PujaDetailPage: React.FC = () => {
                   {selectedPuja.title || 'Baglamukhi-Mahalakshmi 11000 Mool Mantra Jaap + Havan'}
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                  {isExtendedPuja(selectedPuja) ? selectedPuja.sub_heading: 'For accomplishment of tasks, power of attraction (Vashikaran), destruction of enemies, and wealth'}
+                  {isExtendedPuja(selectedPuja) ? (selectedPuja as ExtendedPujaCard).sub_heading: 'For accomplishment of tasks, power of attraction (Vashikaran), destruction of enemies, and wealth'}
                 </p>
 
                 {/* Info Grid */}
@@ -352,16 +364,26 @@ const PujaDetailPage: React.FC = () => {
                 </div>
 
                 {/* Booking Info */}
-                <div className="bg-orange-100 border-l-4 border-orange-500 p-4 mb-6 rounded-r-lg">
+                <div className="bg-orange-100 border-l-4 border-orange-500 p-4 mb-4 rounded-r-lg">
                   <p className="text-orange-800 font-semibold flex items-center gap-2">
                     <span className="text-2xl">🔥</span>
                     <span>194 | Devotees already booked this Puja.</span>
                   </p>
                 </div>
 
+                {/* Countdown Timer */}
+                {selectedPuja.date && selectedPuja.time && (
+                  <div className="mb-6 w-[165px]">
+                    <CountdownTimer date={selectedPuja.date} time={selectedPuja.time} />
+                  </div>
+                )}
+
                 {/* CTA Buttons */}
                 <div className="flex gap-4">
-                  <button className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center gap-2">
+                  <button 
+                    onClick={() => scrollToSection(packagesRef, 'packages')}
+                    className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center gap-2"
+                  >
                     <span>PARTICIPATE NOW</span>
                   </button>
                 </div>
@@ -443,7 +465,7 @@ const PujaDetailPage: React.FC = () => {
             <p className="text-gray-600">Choose the offering that suits your spiritual needs</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {loadingPlans ? (
               <div className="col-span-full flex justify-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
@@ -457,7 +479,7 @@ const PujaDetailPage: React.FC = () => {
                 return (
                   <div
                     key={plan.id}
-                    className={`bg-white rounded-2xl p-6 shadow-lg border-2 hover:shadow-xl transition-all ${
+                    className={`w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-sm bg-white rounded-2xl p-6 shadow-lg border-2 hover:shadow-xl transition-all ${
                       isFeatured ? 'border-orange-400 relative scale-105' : isLuxury ? 'border-red-300' : 'border-orange-100 hover:scale-105'
                     }`}
                   >
@@ -522,7 +544,7 @@ const PujaDetailPage: React.FC = () => {
               ].map((pkg, index) => (
                 <div
                   key={index}
-                  className={`bg-white rounded-2xl p-6 shadow-lg border-2 hover:shadow-xl transition-all ${
+                  className={`w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-sm bg-white rounded-2xl p-6 shadow-lg border-2 hover:shadow-xl transition-all ${
                     pkg.featured ? 'border-orange-400 relative scale-105' : pkg.luxury ? 'border-red-300' : 'border-orange-100 hover:scale-105'
                   }`}
                 >
@@ -719,17 +741,25 @@ const PujaDetailPage: React.FC = () => {
               </div>
 
               <div className="relative h-[400px] lg:h-auto">
-                {pujaImages.length > 0 && pujaImages[0] ? (
-                  <Image
-                    src={constructImageUrl(pujaImages[0].image_url)}
-                    alt={selectedPuja.temple}
-                    fill
-                    className="object-cover"
-                    unoptimized={true}
-                  />
+                {isExtendedPuja(selectedPuja) && (selectedPuja as ExtendedPujaCard).temple_image_url ? (
+                  (() => {
+                    const templeImageUrl = (selectedPuja as ExtendedPujaCard).temple_image_url || '';
+                    console.log('Temple image URL from data:', templeImageUrl);
+                    const constructedUrl = constructImageUrl(templeImageUrl);
+                    console.log('Constructed temple image URL:', constructedUrl);
+                    return (
+                      <Image
+                        src={constructedUrl}
+                        alt={selectedPuja.temple}
+                        fill
+                        className="object-cover"
+                        unoptimized={true}
+                      />
+                    );
+                  })()
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-200 to-orange-400">
-                    <span className="text-white text-8xl">🛕</span>
+                    <span className="text-white text-4xl font-semibold">Temple image here 🛕</span>
                   </div>
                 )}
               </div>

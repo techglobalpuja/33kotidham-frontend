@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujas } from '@/store/slices/pujaSlice';
@@ -521,7 +521,7 @@ const AllPujasPage: React.FC = () => {
         </div>
       </section>
 
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

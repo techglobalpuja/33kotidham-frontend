@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 
 const AskQuestionPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -176,7 +176,7 @@ const AskQuestionPage: React.FC = () => {
         </div>
       </section>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

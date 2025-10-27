@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 import '../../styles/horoscope-animations.css';
 
 const DailyHoroscopePage: React.FC = () => {
@@ -462,7 +462,7 @@ const DailyHoroscopePage: React.FC = () => {
         </div>
       </section>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

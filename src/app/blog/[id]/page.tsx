@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import parse from 'html-react-parser';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import GlobalFooter from '@/components/layout/GlobalFooter';
 import { apiService } from '@/services/api';
 import { BlogPost, BlogCategory } from '@/types';
 
@@ -424,7 +424,7 @@ const BlogPostPage: React.FC = () => {
         </div>
       </section>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };
