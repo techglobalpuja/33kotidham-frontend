@@ -461,7 +461,7 @@ const PujaDetailPage: React.FC = () => {
         </div>
 
         {/* Sticky Navigation */}
-        <div ref={navRef} className={`bg-white border-b-2 border-gray-200 ${isNavSticky ? 'fixed top-0 left-0 right-0 z-50 shadow-lg' : ''}`}>
+        <div ref={navRef} className={`bg-white border-b-2 border-gray-200 ${isNavSticky ? 'fixed top-20 left-0 right-0 z-40 shadow-lg' : ''}`}>
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between overflow-x-auto">
               <button
