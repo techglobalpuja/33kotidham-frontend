@@ -1,148 +1,119 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
-
-// Dummy temple data
-const dummyTemples = [
-  {
-    id: 1,
-    name: "Shri Vaishnav Temple",
-    description: "A sacred temple dedicated to Lord Vishnu, known for its beautiful architecture and spiritual significance. Located in the heart of Vrindavan, this temple offers a serene environment for all pujas and rituals.",
-    fullDescription: "The Shri Vaishnav Temple is a magnificent structure that embodies centuries of spiritual tradition. Built with intricate carvings and detailed craftsmanship, the temple stands as a testament to the devotion of its founders. The main sanctum houses the idol of Lord Vishnu in a reclining posture, symbolizing the cosmic ocean. The temple is particularly famous for its daily rituals and the divine aarti ceremonies that attract devotees throughout the day. The peaceful atmosphere and the fragrance of flowers and incense create a perfect environment for meditation and prayer.",
-    location: "Vrindavan, Uttar Pradesh",
-    distance: "2.5 km from main shrine",
-    rating: 4.9,
-    image: "/images/temple1.jpg",
-    priests: 12,
-    experience: "25+ years average",
-    chadawaCount: 24
-  },
-  {
-    id: 2,
-    name: "Divine Shakti Peeth",
-    description: "A powerful shrine dedicated to Goddess Shakti, attracting devotees from across the country. Known for its divine energy and the expertise of its priests in performing tantric rituals.",
-    fullDescription: "The Divine Shakti Peeth is renowned for its powerful spiritual energy and the deep knowledge of its priests in tantric practices. The temple complex features multiple shrines dedicated to different forms of Goddess Shakti, each with its own unique significance. The main idol is made of black stone and is believed to be self-manifested. The temple is especially active during Navratri when thousands of devotees gather to witness the special pujas and cultural programs. The priests here are trained in ancient scriptures and are known for their ability to perform complex rituals with precision.",
-    location: "Kolkata, West Bengal",
-    distance: "1.2 km from main shrine",
-    rating: 4.7,
-    image: "/images/temple2.jpg",
-    priests: 8,
-    experience: "20+ years average",
-    chadawaCount: 18
-  },
-  {
-    id: 3,
-    name: "Golden Lotus Temple",
-    description: "A magnificent temple with lotus-shaped architecture, dedicated to multiple deities. Famous for its grand celebrations during festivals and the wide variety of chadawas available.",
-    fullDescription: "The Golden Lotus Temple is an architectural marvel with its distinctive lotus-shaped design that symbolizes purity and spiritual awakening. The temple's golden exterior gleams in the sunlight, making it visible from miles away. Inside, the temple houses idols of multiple deities including Lord Vishnu, Goddess Lakshmi, and Lord Shiva. The temple is particularly famous for its elaborate decorations during Diwali and Holi. The spacious halls can accommodate thousands of devotees, and the temple also has a museum showcasing ancient religious artifacts and manuscripts.",
-    location: "Haridwar, Uttarakhand",
-    distance: "0.8 km from main shrine",
-    rating: 4.8,
-    image: "/images/temple3.jpg",
-    priests: 15,
-    experience: "30+ years average",
-    chadawaCount: 32
-  },
-  {
-    id: 4,
-    name: "Sacred Rudra Mandir",
-    description: "An ancient temple dedicated to Lord Shiva, known for its powerful Rudra puja ceremonies. The temple has a peaceful atmosphere and highly experienced priests specializing in Vedic rituals.",
-    fullDescription: "The Sacred Rudra Mandir is one of the oldest temples in the region, with historical records dating back over 500 years. The temple's architecture reflects the ancient Nagara style, with its distinctive curved spire and intricate stone carvings. The main lingam is made of black basalt and is believed to have been installed by Adi Shankaracharya himself. The temple is famous for its daily Rudra abhishekam, a special ritual performed with the chanting of Vedic mantras. The peaceful atmosphere is enhanced by the temple's location near the banks of the holy Ganges, making it a popular destination for spiritual seekers.",
-    location: "Varanasi, Uttar Pradesh",
-    distance: "3.1 km from main shrine",
-    rating: 4.9,
-    image: "/images/temple4.jpg",
-    priests: 10,
-    experience: "28+ years average",
-    chadawaCount: 28
-  },
-];
-
-// Dummy chadawa data
-const dummyChadawas = [
-  {
-    id: 1,
-    name: "Silver Chadar",
-    description: "A beautiful silver chadar for offering to deities. Made with pure silver threads and traditional craftsmanship.",
-    price: "₹1,200",
-    image: "/images/chadawa1.jpg",
-    rating: 4.8,
-    reviews: 124,
-  },
-  {
-    id: 2,
-    name: "Golden Chadar",
-    description: "An exquisite golden chadar with intricate designs. Perfect for special occasions and pujas.",
-    price: "₹2,500",
-    image: "/images/chadawa2.jpg",
-    rating: 4.9,
-    reviews: 89,
-  },
-  {
-    id: 3,
-    name: "Crystal Chadar",
-    description: "A shimmering crystal chadar that catches light beautifully. Adds divine sparkle to any puja.",
-    price: "₹1,800",
-    image: "/images/chadawa3.jpg",
-    rating: 4.7,
-    reviews: 156,
-  },
-  {
-    id: 4,
-    name: "Pearl Chadar",
-    description: "Elegant pearl chadar with hand-sewn pearls. A symbol of purity and devotion.",
-    price: "₹3,200",
-    image: "/images/chadawa4.jpg",
-    rating: 4.9,
-    reviews: 72,
-  },
-  {
-    id: 5,
-    name: "Silk Chadar",
-    description: "Luxurious silk chadar with traditional patterns. Soft to touch and visually stunning.",
-    price: "₹1,500",
-    image: "/images/chadawa5.jpg",
-    rating: 4.6,
-    reviews: 98,
-  },
-  {
-    id: 6,
-    name: "Brocade Chadar",
-    description: "Rich brocade chadar with golden embroidery. Perfect for festive celebrations.",
-    price: "₹2,800",
-    image: "/images/chadawa6.jpg",
-    rating: 4.8,
-    reviews: 112,
-  },
-];
+import { apiService } from '@/services/api';
+import { Temple, Chadawa } from '@/types';
 
 const TempleDetailPage: React.FC = () => {
   const params = useParams();
   const { templeId } = params;
   
-  // Find the temple based on the ID
-  const temple = dummyTemples.find(item => item.id === parseInt(templeId as string)) || dummyTemples[0];
-  
+  const [temple, setTemple] = useState<Temple | null>(null);
+  const [chadawas, setChadawas] = useState<Chadawa[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedChadawa, setSelectedChadawa] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchTempleData = async () => {
+      try {
+        setLoading(true);
+        // Fetch specific temple data by ID
+        const templeData = await apiService.getTempleById(parseInt(templeId as string));
+        setTemple(templeData);
+        
+        // Use chadawas from temple data directly
+        // If the temple data doesn't include chadawas, fetch all chadawas as fallback
+        if (templeData.chadawas && templeData.chadawas.length > 0) {
+          // Convert the chadawas data to the proper Chadawa type
+          const formattedChadawas = templeData.chadawas.map((chadawa: any) => ({
+            id: chadawa.id,
+            name: chadawa.name,
+            description: chadawa.description,
+            image_url: chadawa.image_url,
+            price: chadawa.price,
+            requires_note: chadawa.requires_note
+          }));
+          setChadawas(formattedChadawas);
+        } else {
+          // Fallback: fetch all chadawas if temple doesn't have them
+          const chadawaData = await apiService.getChadawas();
+          setChadawas(chadawaData);
+        }
+      } catch (err) {
+        setError('Failed to fetch temple data');
+        console.error('Error fetching temple data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (templeId) {
+      fetchTempleData();
+    }
+  }, [templeId]);
 
   // Handle chadawa selection
   const handleChadawaSelect = (chadawaId: number) => {
-    setSelectedChadawa(chadawaId === selectedChadawa ? null : chadawaId);
+    // Navigate to the specific chadawa checkout page
+    window.location.href = `/chadawa-store/${templeId}/${chadawaId}/checkout`;
   };
 
-  // Handle checkout (currently unused - will be implemented when checkout flow is added)
-  // const handleCheckout = () => {
-  //   if (selectedChadawa) {
-  //     // In a real app, this would navigate to the checkout page
-  //     // For now, we'll just show an alert
-  //     alert(`Proceeding to checkout for ${dummyChadawas.find(c => c.id === selectedChadawa)?.name} at ${temple.name}`);
-  //   }
-  // };
+  // Helper function to construct full image URL
+  const constructImageUrl = (imagePath: string) => {
+    // If it's already a full URL, return as is
+    if (imagePath && imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // If it's a relative path, construct the full URL using the production API domain
+    if (imagePath && !imagePath.startsWith('http')) {
+      try {
+        const trimmedPath = imagePath.trim();
+        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
+            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+          // Use the production API domain as specified
+          const baseUrl = 'https://api.33kotidham.com';
+          const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          return fullPath;
+        }
+      } catch (error) {
+        console.warn('Error constructing full image URL:', error);
+      }
+    }
+    
+    // Fallback to dummy image
+    return 'https://placehold.co/600x400/orange/white?text=Temple+Image';
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-2xl font-['Philosopher'] text-orange-600">Loading temple details...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-2xl font-['Philosopher'] text-red-600">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!temple) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
+        <div className="text-2xl font-['Philosopher'] text-red-600">Temple not found</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50">
@@ -169,13 +140,14 @@ const TempleDetailPage: React.FC = () => {
             <div className="space-y-6">
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src={temple.image || '/images/placeholder.jpg'}
+                  src={constructImageUrl(temple.image_url)}
                   alt={temple.name}
                   fill
                   className="object-cover"
+                  unoptimized={true}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = '/images/placeholder.jpg';
+                    target.src = 'https://placehold.co/600x400/orange/white?text=Temple+Image';
                   }}
                 />
               </div>
@@ -190,8 +162,8 @@ const TempleDetailPage: React.FC = () => {
                     <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
-                    <span className="font-bold">{temple.rating}</span>
-                    <span className="text-xs ml-1">({temple.priests} priests)</span>
+                    <span className="font-bold">5.0</span>
+                    <span className="text-xs ml-1">(Experienced priests)</span>
                   </div>
                 </div>
                 
@@ -201,7 +173,7 @@ const TempleDetailPage: React.FC = () => {
                   </svg>
                   <span>{temple.location}</span>
                   <span className="mx-2">•</span>
-                  <span>{temple.distance}</span>
+                  <span>Sacred Temple</span>
                 </div>
                 
                 <p className="text-gray-600 mb-6">{temple.description}</p>
@@ -213,13 +185,13 @@ const TempleDetailPage: React.FC = () => {
                       <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-gray-700">{temple.experience} average priest experience</span>
+                      <span className="text-gray-700">Experienced priests</span>
                     </li>
                     <li className="flex items-center">
                       <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-gray-700">{temple.chadawaCount} different chadawas available</span>
+                      <span className="text-gray-700">{chadawas.length} different chadawas available</span>
                     </li>
                     <li className="flex items-center">
                       <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,7 +220,7 @@ const TempleDetailPage: React.FC = () => {
           {/* Full Description */}
           <div className="mt-12 bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">About This Temple</h2>
-            <p className="text-gray-600 leading-relaxed">{temple.fullDescription}</p>
+            <p className="text-gray-600 leading-relaxed">{temple.description}</p>
           </div>
           
           {/* Chadawa Selection */}
@@ -262,7 +234,7 @@ const TempleDetailPage: React.FC = () => {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {dummyChadawas.map((chadawa) => (
+              {chadawas.map((chadawa) => (
                 <div 
                   key={chadawa.id}
                   onClick={() => handleChadawaSelect(chadawa.id)}
@@ -274,13 +246,14 @@ const TempleDetailPage: React.FC = () => {
                 >
                   <div className="relative h-52 overflow-hidden rounded-t-2xl">
                     <Image
-                      src={chadawa.image || '/images/placeholder.jpg'}
+                      src={constructImageUrl(chadawa.image_url)}
                       alt={chadawa.name}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      unoptimized={true}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = '/images/placeholder.jpg';
+                        target.src = 'https://placehold.co/600x400/orange/white?text=Chadawa+Image';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -295,15 +268,15 @@ const TempleDetailPage: React.FC = () => {
                         <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
-                        <span className="text-xs font-bold">{chadawa.rating}</span>
+                        <span className="text-xs font-bold">5.0</span>
                       </div>
                     </div>
                     
                     <p className="text-sm text-gray-600 mb-4 line-clamp-2">{chadawa.description}</p>
                     
                     <div className="flex justify-between items-center">
-                      <div className="text-lg font-bold text-orange-600">{chadawa.price}</div>
-                      <div className="text-xs text-gray-500">{chadawa.reviews} reviews</div>
+                      <div className="text-lg font-bold text-orange-600">₹{parseFloat(chadawa.price).toFixed(2)}</div>
+                      <div className="text-xs text-gray-500">Popular choice</div>
                     </div>
                   </div>
                   
@@ -325,23 +298,17 @@ const TempleDetailPage: React.FC = () => {
             <div className="mt-12 text-center">
               <button
                 onClick={() => {
-                  if (selectedChadawa) {
-                    window.location.href = `/chadawa-store/${templeId}/${selectedChadawa}/checkout`;
-                  }
+                  // If there's a selected chadawa, go to its checkout page
+                  // Otherwise, go to the first chadawa checkout page
+                  const chadawaToCheckout = selectedChadawa || (chadawas.length > 0 ? chadawas[0].id : 1);
+                  window.location.href = `/chadawa-store/${templeId}/${chadawaToCheckout}/checkout`;
                 }}
-                disabled={!selectedChadawa}
-                className={`px-12 py-4 rounded-2xl text-lg font-bold shadow-lg transform transition-all duration-300 ${
-                  selectedChadawa
-                    ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 hover:scale-105'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
+                className="px-12 py-4 rounded-2xl text-lg font-bold shadow-lg transform transition-all duration-300 bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 hover:scale-105"
               >
                 Proceed to Checkout
               </button>
-              {!selectedChadawa && (
-                <p className="text-gray-500 mt-2 text-sm">Please select a chadawa to proceed</p>
-              )}
             </div>
+
           </div>
         </div>
       </section>

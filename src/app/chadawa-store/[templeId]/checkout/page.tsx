@@ -41,9 +41,9 @@ const additionalChadawas = [
   },
 ];
 
-const CheckoutPage: React.FC = () => {
+const TempleCheckoutPage: React.FC = () => {
   const params = useParams();
-  const { templeId, chadawaId } = params;
+  const { templeId } = params;
   
   const [temple, setTemple] = useState<Temple | null>(null);
   const [chadawas, setChadawas] = useState<Chadawa[]>([]);
@@ -51,7 +51,7 @@ const CheckoutPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const [selectedChadawas, setSelectedChadawas] = useState<number[]>([parseInt(chadawaId as string)]);
+  const [selectedChadawas, setSelectedChadawas] = useState<number[]>([]);
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [paymentMethod, setPaymentMethod] = useState('upi');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -76,17 +76,11 @@ const CheckoutPage: React.FC = () => {
         const templeData = await apiService.getTempleById(parseInt(templeId as string));
         setTemple(templeData);
         
-        // Fetch all chadawas for this temple
-        const chadawaData = await apiService.getChadawas();
-        setChadawas(chadawaData);
+        // Set chadawas from temple data
+        setChadawas(templeData.chadawas || []);
         
         // Set recommended pujas from temple data
         setRecommendedPujas(templeData.recommended_pujas || []);
-        
-        // Initialize with the chadawa from the URL
-        if (chadawaId) {
-          setSelectedChadawas([parseInt(chadawaId as string)]);
-        }
       } catch (err) {
         setError('Failed to fetch checkout data');
         console.error('Error fetching checkout data:', err);
@@ -98,7 +92,7 @@ const CheckoutPage: React.FC = () => {
     if (templeId) {
       fetchCheckoutData();
     }
-  }, [templeId, chadawaId]);
+  }, [templeId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -213,8 +207,6 @@ const CheckoutPage: React.FC = () => {
             <Link href="/" className="hover:text-orange-600">Home</Link>
             <span className="mx-2">/</span>
             <Link href="/chadawa-store" className="hover:text-orange-600">Chadawa Store</Link>
-            <span className="mx-2">/</span>
-            <Link href={`/chadawa-store/${templeId}`} className="hover:text-orange-600">{temple.name}</Link>
             <span className="mx-2">/</span>
             <span className="text-orange-600 font-medium">Checkout</span>
           </nav>
@@ -337,7 +329,7 @@ const CheckoutPage: React.FC = () => {
                     
                     {chadawas.length === 0 ? (
                       <div className="text-center py-8 text-gray-500">
-                        No chadawas available
+                        No chadawas available for this temple
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -735,4 +727,4 @@ const CheckoutPage: React.FC = () => {
   );
 };
 
-export default CheckoutPage;
+export default TempleCheckoutPage;

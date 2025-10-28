@@ -33,6 +33,12 @@ const ChadawaStorePage: React.FC = () => {
     }
   };
 
+  // Handle temple selection - navigate directly to checkout with a default chadawa ID
+  const handleTempleSelect = (templeId: number) => {
+    // Navigate to checkout page with temple ID and a default chadawa ID (you can modify this as needed)
+    window.location.href = `/chadawa-store/${templeId}/4/checkout`;
+  };
+
   // Helper function to construct full image URL
   const constructImageUrl = (imagePath: string) => {
     // If it's already a full URL, return as is
@@ -219,7 +225,14 @@ const ChadawaStorePage: React.FC = () => {
                     <div className="text-sm text-gray-600">
                       Divine offerings available
                     </div>
-                    <button className="bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleTempleSelect(temple.id);
+                      }}
+                      className="bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
+                    >
                       Select Temple
                     </button>
                   </div>

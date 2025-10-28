@@ -55,6 +55,8 @@ export const fetchChadawaById = createAsyncThunk(
   }
 );
 
+
+
 const chadawaSlice = createSlice({
   name: 'chadawa',
   initialState,
@@ -113,7 +115,8 @@ const chadawaSlice = createSlice({
       .addCase(fetchChadawaById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
-      });
+      })
+
   },
 });
 

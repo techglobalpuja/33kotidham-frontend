@@ -569,6 +569,10 @@ class ApiService {
   async getTemples(skip: number = 0, limit: number = 100): Promise<Temple[]> {
     return this.request<Temple[]>(`/api/v1/temples/?skip=${skip}&limit=${limit}`);
   }
+
+  async getTempleById(id: number): Promise<Temple> {
+    return this.request<Temple>(`/api/v1/temples/${id}`);
+  }
 }
 
 export const apiService = new ApiService();

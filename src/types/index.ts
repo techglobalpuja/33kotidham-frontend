@@ -449,7 +449,7 @@ export interface Temple {
   created_at: string;
   updated_at: string;
   recommended_pujas: any[];
-  chadawas: any[];
+  chadawas: Chadawa[];
 }
 
 export interface BookingResponse {

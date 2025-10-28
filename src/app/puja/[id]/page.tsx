@@ -60,7 +60,7 @@ const PujaDetailPage: React.FC = () => {
   const { selectedPuja, isLoading, error } = useSelector((state: RootState) => state.puja);
   
   const pujaId = params.id as string;
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(1);
   const [isNavSticky, setIsNavSticky] = useState(false);
   const [activeSection, setActiveSection] = useState('packages');
   const [selectedPlans, setSelectedPlans] = useState<Plan[]>([]);
