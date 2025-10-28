@@ -49,7 +49,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
           height={16}
           className="w-[10px] h-[12px] sm:w-[12px] sm:h-[14px] md:w-[14px] md:h-[16px] flex-shrink-0"
         /> */}
-        <span className={`text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[14px] sm:leading-[16px] md:leading-[19px] text-left font-['Work_Sans'] ${
+        <span className={`text-[12px] sm:text-[16px] md:text-[18px] font-normal leading-[14px] sm:leading-[16px] md:leading-[19px] text-left font-['Work_Sans'] ${
           isHighlighted ? 'text-[#111111]' : 'text-[#333333]'
         }`}>
           {location}

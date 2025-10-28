@@ -235,13 +235,13 @@ const CheckoutPage: React.FC = () => {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50 sticky top-32">
-                <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
+                {/* <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2> */}
                 
                 {/* Temple */}
                 <div className="mb-6 pb-6 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-800 mb-3">Temple</h3>
-                  <div className="flex items-center">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden">
+                  {/* <h3 className="font-bold text-gray-800 mb-3">Temple</h3> */}
+                  
+                    <div className="relative w-100 h-[150px] rounded-lg overflow-hidden">
                       <Image
                         src={constructImageUrl(temple.image_url)}
                         alt={temple.name}
@@ -254,11 +254,15 @@ const CheckoutPage: React.FC = () => {
                         }}
                       />
                     </div>
-                    <div className="ml-3">
+                    {/* <div className="ml-3">
+                      <div className="font-bold text-gray-800">{temple.name}</div>
+                      <div className="text-sm text-gray-600">{temple.location}</div>
+                    </div> */}
+                  
+                  <div className="mt-2">
                       <div className="font-bold text-gray-800">{temple.name}</div>
                       <div className="text-sm text-gray-600">{temple.location}</div>
                     </div>
-                  </div>
                   <p className="text-sm text-gray-600 mt-2">{temple.description}</p>
                 </div>
                 

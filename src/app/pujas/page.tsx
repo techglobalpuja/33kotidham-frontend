@@ -447,46 +447,7 @@ const AllPujasPage: React.FC = () => {
       </section>
 
       {/* Sacred Newsletter Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-600 via-rose-500 to-yellow-500 overflow-hidden">
-        {/* Sacred Background Elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 text-8xl text-white animate-float">ॐ</div>
-          <div className="absolute top-1/4 right-20 text-6xl text-white animate-pulse animation-delay-2000">🕊</div>
-          <div className="absolute bottom-20 left-1/3 text-7xl text-white animate-float animation-delay-4000">🪔</div>
-          <div className="absolute bottom-10 right-10 text-5xl text-white animate-pulse animation-delay-6000">🕋</div>
-        </div>
-        
-        <div className="relative max-w-4xl mx-auto text-center">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-white font-['Philosopher'] mb-6">
-              Stay Connected with
-              <br />
-              Divine Blessings
-            </h2>
-            <p className="text-xl text-white/90 font-['Lato'] mb-8 max-w-2xl mx-auto">
-              Subscribe to receive sacred puja notifications, auspicious dates, and spiritual guidance directly to your inbox
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-full text-gray-700 font-medium focus:outline-none focus:ring-4 focus:ring-white/50 transition-all duration-300"
-              />
-              <button className="bg-white text-orange-600 font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Subscribe
-              </button>
-            </div>
-            
-            <div className="flex items-center justify-center gap-2 mt-6 text-white/80 text-sm">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 1l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <span>Join 50,000+ devotees receiving divine guidance</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       <GlobalFooter />
     </div>
