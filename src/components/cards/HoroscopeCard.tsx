@@ -27,7 +27,7 @@ const HoroscopeCard: React.FC<HoroscopeCardProps> = ({ id, icon, name, onClick }
       className="flex justify-start items-center w-full border border-[#e7e7e7] rounded-[10px] bg-white shadow-[-2px_0px_28px_#0000000c] px-[15px] sm:px-[18px] md:px-[20px] py-[15px] sm:px-[18px] md:py-[20px] group relative overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105 cursor-pointer"
     >
       <div className="absolute inset-0 w-full h-full rounded-[10px] bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 transition-all duration-300 ease-in-out transform scale-95 group-hover:opacity-100 group-hover:scale-100" />
-      <div className="flex flex-col gap-[10px] sm:gap-[12px] md:gap-[14px] justify-start items-center w-full relative z-10">
+      <div className="flex flex-col gap-[10px] sm:gap-[12px] md:gap-[14px] justify-start items-center w-full relative z-[1]">
         <div className="flex justify-start items-center w-auto shadow-[-2px_0px_15px_#0000000f] bg-white rounded-[28px] p-[8px] sm:p-[9px] md:p-[10px] group-hover:shadow-lg transition-shadow duration-300">
           <Image
             src={icon}

@@ -1,4 +1,4 @@
-'use client';
+  'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
@@ -133,7 +133,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full flex justify-center items-center py-6 bg-transparent">
+    <header className="fixed top-0 left-0 right-0 z-[100] w-full flex justify-center items-center py-6 bg-transparent">
       <div className="w-full max-w-7xl flex items-center justify-between px-2 sm:px-4">
         {/* Logo Section */}
         <div className="flex items-center">
@@ -195,7 +195,7 @@ const Header: React.FC = () => {
 
                 {/* Dropdown Menu */}
                 {showMoreDropdown && (
-                  <div className="absolute top-12 right-0 w-52 rounded-xl shadow-2xl border overflow-hidden z-50 transition-all duration-300 bg-white/95 border-orange-200">
+                  <div className="absolute top-12 right-0 w-52 rounded-xl shadow-2xl border overflow-hidden z-[101] transition-all duration-300 bg-white/95 border-orange-200">
                     <div className="py-1">
                       {moreMenuItems.map((item, index) => (
                         <button
@@ -307,7 +307,7 @@ const Header: React.FC = () => {
       {/* Mobile Navigation */}
       <nav
         ref={mobileMenuRef}
-        className={`fixed top-20 left-0 right-0 mx-auto max-w-xs w-full z-50 rounded-2xl shadow-lg bg-white/95 border border-orange-200 transition-all duration-300
+        className={`fixed top-20 left-0 right-0 mx-auto max-w-xs w-full z-[101] rounded-2xl shadow-lg bg-white/95 border border-orange-200 transition-all duration-300
           ${isMobileMenuOpen ? 'block animate-fadeIn' : 'hidden'}
         `}
       >

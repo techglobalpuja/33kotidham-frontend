@@ -25,7 +25,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials 
       backgroundRepeat: 'no-repeat',
     }}
   >
-    <div className="w-full max-w-[1440px] mx-auto px-8 sm:px-16 md:px-24 relative z-10">
+    <div className="w-full max-w-[1440px] mx-auto px-8 sm:px-16 md:px-24 relative z-0">
       <div className="flex justify-center items-center w-full">
         <div className="flex flex-col justify-start items-start w-full">
           <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111] font-['Philosopher'] w-auto">
