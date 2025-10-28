@@ -565,6 +565,11 @@ class ApiService {
     return this.request<BookingResponse>(`/api/v1/bookings/${bookingId}`);
   }
 
+  // User Bookings API methods
+  async getMyBookings(skip: number = 0, limit: number = 100): Promise<BookingResponse[]> {
+    return this.request<BookingResponse[]>(`/api/v1/bookings/my?skip=${skip}&limit=${limit}`);
+  }
+
   // Temple API methods
   async getTemples(skip: number = 0, limit: number = 100): Promise<Temple[]> {
     return this.request<Temple[]>(`/api/v1/temples/?skip=${skip}&limit=${limit}`);

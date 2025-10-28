@@ -85,18 +85,6 @@ export interface TokenResponse {
 }
 
 // User Dashboard Types
-export interface UserPuja {
-  id: string;
-  title: string;
-  temple: string;
-  date: string;
-  time: string;
-  status: 'completed' | 'upcoming' | 'processing';
-  amount: number;
-  image: string;
-  videoUrl?: string;
-  certificateUrl?: string;
-}
 
 // Complete Puja Details Interface
 export interface Puja {
@@ -468,4 +456,18 @@ export interface BookingResponse {
   puja: PujaResponse | null;
   plan: PlanResponse | null;
   booking_chadawas: BookingChadawa[];
+}
+
+// User Puja interface for dashboard
+export interface UserPuja {
+  id: string;
+  title: string;
+  temple: string;
+  date: string;
+  time: string;
+  status: 'completed' | 'upcoming' | 'processing';
+  amount: number;
+  image: string;
+  videoUrl?: string;
+  certificateUrl?: string;
 }

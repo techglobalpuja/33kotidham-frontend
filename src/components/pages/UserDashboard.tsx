@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { logout, fetchUserInfo, updateUserInfo } from '@/store/slices/authSlice';
+import { apiService } from '@/services/api';
+import { BookingResponse } from '@/types';
 import Button from '@/components/ui/Button';
 
 // User Dashboard Interface Types
@@ -181,15 +183,104 @@ const UserDashboard: React.FC = () => {
     }
   };
 
+  // State for user bookings
+  const [userBookings, setUserBookings] = useState<BookingResponse[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [bookingsError, setBookingsError] = useState<string | null>(null);
+
+  // Fetch user bookings when the orders tab is active
+  useEffect(() => {
+    if (activeTab === 'orders' && user?.id) {
+      const fetchBookings = async () => {
+        try {
+          setBookingsLoading(true);
+          setBookingsError(null);
+          const bookings = await apiService.getMyBookings(0, 100);
+          setUserBookings(bookings);
+        } catch (error) {
+          console.error('Failed to fetch bookings:', error);
+          setBookingsError('Failed to load bookings. Please try again later.');
+        } finally {
+          setBookingsLoading(false);
+        }
+      };
+
+      fetchBookings();
+    }
+  }, [activeTab, user?.id]);
+
+  // Helper function to construct full image URL
+  const constructImageUrl = (imagePath: string) => {
+    // If it's already a full URL, return as is
+    if (imagePath && imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // If it's a relative path, construct the full URL using the production API domain
+    if (imagePath && !imagePath.startsWith('http')) {
+      try {
+        const trimmedPath = imagePath.trim();
+        if (trimmedPath && !trimmedPath.includes(' ') && !trimmedPath.includes('\\') && 
+            !trimmedPath.includes('..') && trimmedPath.length > 3) {
+          // Use the production API domain as specified
+          const baseUrl = 'https://api.33kotidham.com';
+          const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
+          return fullPath;
+        }
+      } catch (error) {
+        console.warn('Error constructing full image URL:', error);
+      }
+    }
+    
+    // Fallback to placeholder
+    return '/images/placeholder.jpg';
+  };
+
+  // Helper function to format date
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+    } catch (error) {
+      return dateString;
+    }
+  };
+
+  // Helper function to format time
+  const formatTime = (timeString: string) => {
+    try {
+      return new Date(`2000-01-01T${timeString}`).toLocaleTimeString('en-IN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      return timeString;
+    }
+  };
+
+  // Helper function to get puja amount
+  const getPujaAmount = (booking: BookingResponse) => {
+    if (booking.plan?.discounted_price) {
+      return parseFloat(booking.plan.discounted_price);
+    }
+    return 0;
+  };
+
+  // Helper function to get status color
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status?.toLowerCase()) {
       case 'completed':
       case 'delivered':
         return 'text-green-600 bg-green-100';
       case 'upcoming':
-      case 'shipped':
+      case 'confirmed':
         return 'text-blue-600 bg-blue-100';
       case 'processing':
+      case 'pending':
         return 'text-yellow-600 bg-yellow-100';
       case 'cancelled':
         return 'text-red-600 bg-red-100';
@@ -474,44 +565,115 @@ const UserDashboard: React.FC = () => {
             {/* Orders Tab */}
             {activeTab === 'orders' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">My Orders</h2>
-                <div className="space-y-6">
-                  {userOrders.map((order) => (
-                    <div key={order.id} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">Order #{order.orderNumber}</h3>
-                          <p className="text-sm text-gray-500">Placed on {new Date(order.date).toLocaleDateString()}</p>
-                        </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                        </span>
-                      </div>
-                      <div className="space-y-2">
-                        {order.items.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gray-200 rounded"></div>
-                              <div>
-                                <p className="font-medium">{item.name}</p>
-                                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">My Booked Pujas</h2>
+                
+                {bookingsLoading ? (
+                  <div className="flex justify-center items-center py-12">
+                    <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="ml-3 text-gray-600">Loading your bookings...</span>
+                  </div>
+                ) : bookingsError ? (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+                    <p className="text-red-600">{bookingsError}</p>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="mt-3 bg-gradient-to-r from-orange-400 to-orange-500"
+                      onClick={() => {
+                        // Retry fetching bookings
+                        const fetchBookings = async () => {
+                          try {
+                            setBookingsLoading(true);
+                            setBookingsError(null);
+                            const bookings = await apiService.getMyBookings(0, 100);
+                            setUserBookings(bookings);
+                          } catch (error) {
+                            console.error('Failed to fetch bookings:', error);
+                            setBookingsError('Failed to load bookings. Please try again later.');
+                          } finally {
+                            setBookingsLoading(false);
+                          }
+                        };
+                        fetchBookings();
+                      }}
+                    >
+                      Retry
+                    </Button>
+                  </div>
+                ) : userBookings.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="text-5xl mb-4">🙏</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No Bookings Yet</h3>
+                    <p className="text-gray-600 mb-4">You haven't booked any pujas yet.</p>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="bg-gradient-to-r from-orange-400 to-orange-500"
+                      onClick={() => router.push('/pujas')}
+                    >
+                      Book a Puja
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {userBookings.map((booking) => (
+                      <div key={booking.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div className="flex gap-4">
+                          <div className="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden">
+                            {booking.puja?.temple_image_url ? (
+                              <Image
+                                src={constructImageUrl(booking.puja.temple_image_url)}
+                                alt={booking.puja.name || 'Puja'}
+                                width={80}
+                                height={80}
+                                className="w-full h-full object-cover"
+                                unoptimized={true}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = '/images/placeholder.jpg';
+                                }}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+                                <span className="text-orange-500 text-2xl">🛕</span>
                               </div>
-                            </div>
-                            <p className="font-medium">₹{item.price.toLocaleString()}</p>
+                            )}
                           </div>
-                        ))}
-                      </div>
-                      <div className="border-t pt-4 mt-4 flex justify-between items-center">
-                        <div>
-                          {order.trackingNumber && (
-                            <p className="text-sm text-gray-500">Tracking: {order.trackingNumber}</p>
-                          )}
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 font-['Philosopher']">
+                              {booking.puja?.name || 'Puja Booking'}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {booking.puja?.temple_address || 'Temple Address'}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {booking.booking_date ? formatDate(booking.booking_date) : 'Date not set'} 
+                              {booking.puja?.time && ` at ${formatTime(booking.puja.time)}`}
+                            </p>
+                            <p className="text-lg font-bold text-orange-600">
+                              ₹{getPujaAmount(booking).toLocaleString()}
+                            </p>
+                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${getStatusColor(booking.status)}`}>
+                              {booking.status?.charAt(0).toUpperCase() + booking.status?.slice(1) || 'Unknown'}
+                            </span>
+                          </div>
                         </div>
-                        <p className="text-lg font-bold">Total: ₹{order.total.toLocaleString()}</p>
+                        {booking.puja_link && (
+                          <div className="flex gap-2 mt-4">
+                            <Button 
+                              variant="primary" 
+                              size="sm" 
+                              className="text-xs"
+                              onClick={() => window.open(booking.puja_link || '', '_blank')}
+                            >
+                              View Puja Link
+                            </Button>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
