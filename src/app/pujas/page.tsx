@@ -318,40 +318,7 @@ const AllPujasPage: React.FC = () => {
       </section>
 
       {/* Sacred Timings Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-50/30 to-rose-50/30">
-        <div className="max-w-7xl mx-auto">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-[38px] sm:text-[42px] md:text-[48px] font-bold leading-[44px] sm:leading-[48px] md:leading-[54px] text-gray-800 font-['Philosopher'] mb-6">
-              
-              <br />
-              <span className="bg-gradient-to-r from-rose-600 to-yellow-600 bg-clip-text text-transparent">
-                Auspicious Timings
-              </span>
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {sacredTimings.map((timing, index) => (
-              <div
-                key={index}
-                className={`group relative bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 border border-orange-200/50 hover:border-orange-300 transform hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
-                style={{ animationDelay: `${800 + index * 200}ms` }}
-              >
-                <div className="text-center">
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{timing.icon}</div>
-                  <h3 className="text-xl font-bold text-orange-700 font-['Philosopher'] mb-2">
-                    {timing.time}
-                  </h3>
-                  <div className="text-lg font-semibold text-gray-700 mb-3">{timing.period}</div>
-                  <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed">
-                    {timing.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Divine Testimonials Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50/40 to-rose-50/40">

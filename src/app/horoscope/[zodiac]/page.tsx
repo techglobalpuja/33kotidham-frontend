@@ -1,12 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import {
+  getDailyHoroscope,
+  getWeeklyHoroscope,
+  getMonthlyHoroscope,
+  formatZodiacSignForApi,
+  type DailyHoroscopeResponse,
+  type WeeklyHoroscopeResponse,
+  type MonthlyHoroscopeResponse
+} from '@/services/horoscopeApi';
 
-// Comprehensive horoscope data
-const horoscopeData = {
+// Comprehensive zodiac data
+const zodiacData = {
   aries: {
     name: "Aries",
     dateRange: "Mar 21 - Apr 19",
@@ -189,45 +199,48 @@ const horoscopeData = {
   }
 };
 
-// Sample horoscope content for different periods
-const horoscopeContent = {
-  daily: {
-    general: "Today brings new opportunities for growth and self-discovery. Trust your instincts and take calculated risks.",
-    love: "Your relationships are highlighted today. Express your feelings openly and honestly with your partner.",
-    career: "Professional success is within reach. Focus on your goals and maintain good relationships with colleagues.",
-    health: "Pay attention to your physical and mental well-being. Balance work with proper rest and nutrition.",
-    finance: "Financial decisions made today will have long-term implications. Be cautious with investments."
-  },
-  weekly: {
-    general: "This week emphasizes personal transformation and new beginnings. Embrace change with confidence.",
-    love: "Romantic relationships flourish this week. Single? You might meet someone special at a social gathering.",
-    career: "Career advancement opportunities present themselves. Your hard work is finally getting recognition.",
-    health: "Focus on maintaining a healthy lifestyle. Regular exercise and proper diet are crucial this week.",
-    finance: "Good week for financial planning. Consider consulting with financial advisors for investment strategies."
-  },
-  monthly: {
-    general: "This month brings significant changes in your personal and professional life. Stay adaptable and positive.",
-    love: "Love relationships undergo positive transformations. Communication improves significantly with your partner.",
-    career: "Professional growth accelerates this month. New projects and responsibilities come your way.",
-    health: "Health requires attention this month. Regular check-ups and preventive care are recommended.",
-    finance: "Financial stability improves gradually. Avoid major expenses in the first half of the month."
-  },
-  yearly: {
-    general: "2025 is a year of tremendous growth and achievement. Your patience and perseverance will pay off.",
-    love: "Relationships reach new levels of understanding and commitment. Wedding bells might ring for some.",
-    career: "Career reaches new heights with promotions and recognition. Leadership opportunities await.",
-    health: "Overall health remains good with proper care. Focus on preventive measures and regular exercise.",
-    finance: "Financial growth is steady throughout the year. Investment decisions prove profitable."
-  }
-};
-
 const ZodiacDetailPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
+  const [activeTab, setActiveTab] = useState<'daily' | 'weekly' | 'monthly'>('daily');
+  const [apiHoroscopeData, setApiHoroscopeData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const zodiacId = params?.zodiac as string;
-  const zodiacInfo = horoscopeData[zodiacId as keyof typeof horoscopeData];
+  const zodiacInfo = zodiacData[zodiacId as keyof typeof zodiacData];
+
+  // Fetch horoscope data based on active tab
+  useEffect(() => {
+    const fetchHoroscope = async () => {
+      if (!zodiacInfo) return;
+      
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const zodiacSign = formatZodiacSignForApi(zodiacId);
+        
+        if (activeTab === 'daily') {
+          const response = await getDailyHoroscope(zodiacSign, 'TODAY');
+          setApiHoroscopeData(response.data);
+        } else if (activeTab === 'weekly') {
+          const response = await getWeeklyHoroscope(zodiacSign);
+          setApiHoroscopeData(response.data);
+        } else if (activeTab === 'monthly') {
+          const response = await getMonthlyHoroscope(zodiacSign);
+          setApiHoroscopeData(response.data);
+        }
+      } catch (err) {
+        console.error('Error fetching horoscope:', err);
+        setError('Failed to load horoscope data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchHoroscope();
+  }, [activeTab, zodiacId, zodiacInfo]);
 
   if (!zodiacInfo) {
     return (
@@ -244,8 +257,6 @@ const ZodiacDetailPage: React.FC = () => {
       </div>
     );
   }
-
-  const currentContent = horoscopeContent[activeTab];
 
   return (
     <div className="min-h-screen bg-white">
@@ -313,10 +324,10 @@ const ZodiacDetailPage: React.FC = () => {
         <div className="w-full max-w-[1440px] mx-auto">
           <div className="flex justify-center">
             <div className="flex bg-white rounded-full p-2 shadow-lg border border-gray-200">
-              {['daily', 'weekly', 'monthly', 'yearly'].map((tab) => (
+              {['daily', 'weekly', 'monthly'].map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab as 'daily' | 'weekly' | 'monthly' | 'yearly')}
+                  onClick={() => setActiveTab(tab as 'daily' | 'weekly' | 'monthly')}
                   className={`px-6 py-3 rounded-full text-sm font-medium uppercase font-['Work_Sans'] transition-all duration-300 ${
                     activeTab === tab
                       ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow-md'
@@ -337,27 +348,82 @@ const ZodiacDetailPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Horoscope Content */}
             <div className="lg:col-span-2">
-              <h2 className="text-[28px] sm:text-[32px] md:text-[36px] font-bold leading-[32px] sm:leading-[36px] md:leading-[40px] text-[#111111] font-['Philosopher'] mb-8 capitalize">
-                {activeTab} Horoscope for {zodiacInfo.name}
-              </h2>
-              
-              <div className="space-y-6">
-                {Object.entries(currentContent).map(([category, content]) => (
-                  <div key={category} className="bg-white border border-gray-200 rounded-[15px] p-6 shadow-sm">
-                    <h3 className="text-[20px] font-bold text-orange-600 font-['Philosopher'] mb-3 capitalize flex items-center gap-2">
-                      {category === 'general' && '🌟'}
-                      {category === 'love' && '💖'}
-                      {category === 'career' && '💼'}
-                      {category === 'health' && '🌿'}
-                      {category === 'finance' && '💰'}
-                      {category}
-                    </h3>
-                    <p className="text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-[24px] sm:leading-[26px] md:leading-[28px] text-[#6d6d6d] font-['Lato']">
-                      {content}
-                    </p>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-[28px] sm:text-[32px] md:text-[36px] font-bold leading-[32px] sm:leading-[36px] md:leading-[40px] text-[#111111] font-['Philosopher'] capitalize">
+                  {activeTab} Horoscope for {zodiacInfo.name}
+                </h2>
+                {apiHoroscopeData && (
+                  <div className="text-sm text-gray-600 font-['Lato']">
+                    {activeTab === 'daily' && apiHoroscopeData.date && `📅 ${apiHoroscopeData.date}`}
+                    {activeTab === 'weekly' && apiHoroscopeData.week && `📅 ${apiHoroscopeData.week}`}
+                    {activeTab === 'monthly' && apiHoroscopeData.month && `📅 ${apiHoroscopeData.month}`}
                   </div>
-                ))}
+                )}
               </div>
+              
+              {loading && (
+                <div className="flex items-center justify-center py-20">
+                  <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500"></div>
+                </div>
+              )}
+              
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-[15px] p-6 text-center">
+                  <p className="text-red-600 font-['Lato']">{error}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-4 px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              
+              {!loading && !error && apiHoroscopeData && (
+                <div className="space-y-6">
+                  {/* Main Horoscope Content */}
+                  <div className="bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200 rounded-[20px] p-8 shadow-md">
+                    <div className="flex items-start gap-4">
+                      <div className="text-4xl">✨</div>
+                      <div className="flex-1">
+                        <h3 className="text-[20px] font-bold text-orange-700 font-['Philosopher'] mb-4">Your Cosmic Reading</h3>
+                        <p className="text-[15px] sm:text-[16px] md:text-[17px] font-normal leading-[26px] sm:leading-[28px] md:leading-[30px] text-gray-700 font-['Lato'] whitespace-pre-wrap">
+                          {apiHoroscopeData.horoscope_data}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Monthly Special Info */}
+                  {activeTab === 'monthly' && apiHoroscopeData.standout_days && apiHoroscopeData.challenging_days && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-[15px] p-6 shadow-sm">
+                        <h3 className="text-[18px] font-bold text-green-700 font-['Philosopher'] mb-3 flex items-center gap-2">
+                          🌟 Standout Days
+                        </h3>
+                        <p className="text-[15px] font-semibold text-gray-700 font-['Lato']">
+                          {apiHoroscopeData.standout_days}
+                        </p>
+                        <p className="text-[13px] text-gray-600 mt-2">
+                          These days offer exceptional opportunities for success and positive outcomes.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-[15px] p-6 shadow-sm">
+                        <h3 className="text-[18px] font-bold text-amber-700 font-['Philosopher'] mb-3 flex items-center gap-2">
+                          ⚠️ Challenging Days
+                        </h3>
+                        <p className="text-[15px] font-semibold text-gray-700 font-['Lato']">
+                          {apiHoroscopeData.challenging_days}
+                        </p>
+                        <p className="text-[13px] text-gray-600 mt-2">
+                          Exercise caution and patience on these days. Think before you act.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -369,7 +435,7 @@ const ZodiacDetailPage: React.FC = () => {
                 <div className="mb-4">
                   <h4 className="text-[16px] font-semibold text-green-600 mb-2 font-['Philosopher']">Positive Traits</h4>
                   <div className="flex flex-wrap gap-2">
-                    {zodiacInfo.traits.positive.map((trait, index) => (
+                    {zodiacInfo.traits.positive.map((trait: string, index: number) => (
                       <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                         {trait}
                       </span>
@@ -380,7 +446,7 @@ const ZodiacDetailPage: React.FC = () => {
                 <div>
                   <h4 className="text-[16px] font-semibold text-red-600 mb-2 font-['Philosopher']">Areas to Work On</h4>
                   <div className="flex flex-wrap gap-2">
-                    {zodiacInfo.traits.negative.map((trait, index) => (
+                    {zodiacInfo.traits.negative.map((trait: string, index: number) => (
                       <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                         {trait}
                       </span>
@@ -393,7 +459,7 @@ const ZodiacDetailPage: React.FC = () => {
               <div className="bg-white border border-gray-200 rounded-[15px] p-6 shadow-sm">
                 <h3 className="text-[20px] font-bold text-[#111111] font-['Philosopher'] mb-4">Compatible Signs</h3>
                 <div className="space-y-2">
-                  {zodiacInfo.compatibility.map((sign, index) => (
+                  {zodiacInfo.compatibility.map((sign: string, index: number) => (
                     <div key={index} className="flex items-center gap-3 p-2 bg-orange-50 rounded-lg">
                       <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
                         <span className="text-orange-600 text-xs font-bold">
@@ -410,7 +476,7 @@ const ZodiacDetailPage: React.FC = () => {
               <div className="bg-white border border-gray-200 rounded-[15px] p-6 shadow-sm">
                 <h3 className="text-[20px] font-bold text-[#111111] font-['Philosopher'] mb-4">Lucky Numbers</h3>
                 <div className="flex gap-3">
-                  {zodiacInfo.luckyNumbers.map((number, index) => (
+                  {zodiacInfo.luckyNumbers.map((number: number, index: number) => (
                     <div key={index} className="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-full flex items-center justify-center font-bold">
                       {number}
                     </div>
@@ -429,6 +495,7 @@ const ZodiacDetailPage: React.FC = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
