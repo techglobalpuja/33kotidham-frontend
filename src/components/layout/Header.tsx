@@ -71,8 +71,8 @@ const Header: React.FC = () => {
       setActiveMenuItem('Puja');
     } else if (pathname?.startsWith('/horoscope')) {
       setActiveMenuItem('Horoscope');
-    } else if (pathname?.startsWith('/blog')) {
-      setActiveMenuItem('Blog');
+    } else if (pathname?.startsWith('/chadawa-store')) {
+      setActiveMenuItem('Chadawa');
     } else if (
       pathname?.startsWith('/about') ||
       pathname?.startsWith('/panchang') ||
@@ -80,6 +80,7 @@ const Header: React.FC = () => {
       pathname?.startsWith('/match-making') ||
       pathname?.startsWith('/numerology') ||
       pathname?.startsWith('/contact') ||
+      pathname?.startsWith('/blog') ||
       pathname?.startsWith('/ask-question') ||
       pathname?.startsWith('/astro-watch') ||
       pathname?.startsWith('/manglik-dosh') ||
@@ -94,14 +95,13 @@ const Header: React.FC = () => {
   // Dropdown menu items
   const moreMenuItems = [
     // { name: 'Panchang', href: '/panchang', icon: '📅' },
-    // { name: 'Blog', href: '/blog', icon: '📚' },
     // { name: 'Free Kundli', href: '/free-kundli', icon: '🔮' },
     // { name: 'Match Making', href: '/match-making', icon: '💕' },
     // { name: 'Numerology', href: '/numerology', icon: '🔢' },
     // { name: 'Astro Tools', href: '/astro-tools', icon: '🛠️' },
     // { name: 'Ask Question', href: '/ask-question', icon: '❓' },
     // { name: 'Career', href: '/career', icon: '💼' },
-    { name: 'Chadawa Store', href: '/chadawa-store', icon: '🛍️' },
+    { name: 'Blog', href: '/blog', icon: '📚' },
     { name: 'Contact', href: '/contact', icon: '📞' },
   ];
 
@@ -110,7 +110,7 @@ const Header: React.FC = () => {
     { name: 'Puja', href: '/pujas', active: activeMenuItem === 'Puja' },
     { name: 'Horoscope', href: '/horoscope', active: activeMenuItem === 'Horoscope' },
     // { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
-    { name: 'Blog', href: '/blog', active: activeMenuItem === 'Blog' },
+    { name: 'Chadawa', href: '/chadawa-store', active: activeMenuItem === 'Chadawa' },
     { name: 'More', href: '/about', active: activeMenuItem === 'More' },
   ];
 
