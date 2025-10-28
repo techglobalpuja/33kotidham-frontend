@@ -75,6 +75,9 @@ const PujaDetailPage: React.FC = () => {
   const reviewsRef = useRef<HTMLDivElement>(null!);
   const faqRef = useRef<HTMLDivElement>(null!);
 
+  // Auto-slide interval ref
+  const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     if (pujaId) {
       dispatch(fetchPujaById(pujaId));
@@ -92,6 +95,29 @@ const PujaDetailPage: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Auto-slide effect
+  useEffect(() => {
+    const startAutoSlide = () => {
+      if (autoSlideRef.current) {
+        clearInterval(autoSlideRef.current);
+      }
+      
+      autoSlideRef.current = setInterval(() => {
+        nextImage();
+      }, 5000); // Change slide every 5 seconds
+    };
+
+    if (selectedPuja && isExtendedPuja(selectedPuja) && selectedPuja.images && selectedPuja.images.length > 1) {
+      startAutoSlide();
+    }
+
+    return () => {
+      if (autoSlideRef.current) {
+        clearInterval(autoSlideRef.current);
+      }
+    };
+  }, [selectedPuja]);
 
   // Fetch plans when puja data is loaded
   useEffect(() => {
@@ -149,20 +175,62 @@ const PujaDetailPage: React.FC = () => {
     return '/placeholder.jpg';
   };
 
+  // const nextImage = () => {
+  //   if (selectedPuja) {
+  //     const puja = selectedPuja as ExtendedPujaCard;
+  //     if (puja.images && puja.images.length > 1) {
+  //       setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
+  //     }
+  //   }
+  // };
+
   const nextImage = () => {
     if (selectedPuja) {
       const puja = selectedPuja as ExtendedPujaCard;
       if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
+        setSelectedImageIndex((prevIndex) => {
+          // Skip index 0 and loop from index 1 onwards
+          let nextIndex = prevIndex + 1;
+          if (nextIndex >= puja.images.length) {
+            // If we reach the end, go back to index 1 (skip 0)
+            return 1;
+          }
+          // Skip index 0 if somehow we land on it
+          if (nextIndex === 0) {
+            return 1;
+          }
+          return nextIndex;
+        });
       }
     }
   };
+
+  // const prevImage = () => {
+  //   if (selectedPuja) {
+  //     const puja = selectedPuja as ExtendedPujaCard;
+  //     if (puja.images && puja.images.length > 1) {
+  //       setSelectedImageIndex((prevIndex) => (prevIndex - 1 + puja.images.length) % puja.images.length);
+  //     }
+  //   }
+  // };
 
   const prevImage = () => {
     if (selectedPuja) {
       const puja = selectedPuja as ExtendedPujaCard;
       if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => (prevIndex - 1 + puja.images.length) % puja.images.length);
+        setSelectedImageIndex((prevIndex) => {
+          // Skip index 0 and loop from index 1 onwards
+          let prevIndexValue = prevIndex - 1;
+          if (prevIndexValue < 1) {
+            // If we go before index 1, go to the last image
+            return puja.images.length - 1;
+          }
+          // Skip index 0 if somehow we land on it
+          if (prevIndexValue === 0) {
+            return puja.images.length - 1;
+          }
+          return prevIndexValue;
+        });
       }
     }
   };
@@ -312,13 +380,13 @@ const PujaDetailPage: React.FC = () => {
 
                 {/* Info Grid */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-center gap-3">
                     <span className="text-2xl">📅</span>
                     <div>
                       <p className="text-md font-semibold text-gray-900">{formatDate(selectedPuja.date)}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-center gap-3">
                     <span className="text-2xl">🛕</span>
                     <div>
                       <p className="text-sm font-semibold text-gray-900">{selectedPuja.temple}</p>
@@ -326,7 +394,7 @@ const PujaDetailPage: React.FC = () => {
                   </div>
                   {pujaBenefits && pujaBenefits.length > 0 ? (
                     pujaBenefits.slice(0, 4).map((benefit) => (
-                      <div key={benefit.id} className="flex items-start gap-3">
+                      <div key={benefit.id} className="flex items-center gap-3">
                         <span className="text-orange-500 text-xl">🕉️</span>
                         <div>
                           <p className="text-sm text-gray-700">{benefit.benefit_title}</p>
@@ -335,25 +403,25 @@ const PujaDetailPage: React.FC = () => {
                     ))
                   ) : (
                     <>
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <span className="text-orange-500 text-xl">🕉️</span>
                         <div>
                           <p className="text-sm text-gray-700">Enemy Destruction</p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <span className="text-orange-500 text-xl">🕉️</span>
                         <div>
                           <p className="text-sm text-gray-700">Attraction of Wealth</p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <span className="text-orange-500 text-xl">🕉️</span>
                         <div>
                           <p className="text-sm text-gray-700">Freedom from Black Magic & Evil Eye</p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <span className="text-orange-500 text-xl">🕉️</span>
                         <div>
                           <p className="text-sm text-gray-700">Relief from Court Cases & Legal Issues</p>
