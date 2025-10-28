@@ -174,7 +174,7 @@ const ChadawaStorePage: React.FC = () => {
             {temples.map((temple) => (
               <Link 
                 key={temple.id} 
-                href={`/chadawa-store/${temple.id}`}
+                href={`/chadawa-store/${temple.id}/4/checkout`}
                 className="group relative bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 overflow-hidden transform hover:-translate-y-2"
               >
                 <div className="relative h-60 overflow-hidden rounded-t-2xl">

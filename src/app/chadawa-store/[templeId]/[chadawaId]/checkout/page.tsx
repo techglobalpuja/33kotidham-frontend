@@ -403,7 +403,7 @@ const CheckoutPage: React.FC = () => {
                             <div className="flex items-center">
                               <div className="relative w-16 h-16 rounded-lg overflow-hidden mr-4">
                                 <Image
-                                  src={constructImageUrl(puja.temple_image_url || '/images/placeholder.jpg')}
+                                  src={constructImageUrl(puja.images && puja.images.length > 0 ? puja.images[0].image_url : puja.temple_image_url || '/images/placeholder.jpg')}
                                   alt={puja.name}
                                   fill
                                   className="object-cover"
@@ -421,9 +421,9 @@ const CheckoutPage: React.FC = () => {
                                   {puja.dakshina_prices_inr ? `₹${puja.dakshina_prices_inr.split(',')[0]}` : 'Price varies'}
                                 </div>
                               </div>
-                              <button className="text-orange-600 hover:text-orange-700 font-medium text-sm">
+                              <Link href={`/puja/${puja.id}`} className="text-orange-600 hover:text-orange-700 font-medium text-sm hover:underline">
                                 Book Now
-                              </button>
+                              </Link>
                             </div>
                           </div>
                         ))}
@@ -533,54 +533,6 @@ const CheckoutPage: React.FC = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                       placeholder="Any special requests for the puja ceremony..."
                     ></textarea>
-                  </div>
-                  
-                  {/* Add-ons Selection */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Enhance Your Offering</h2>
-                    <p className="text-gray-600 mb-4">Select additional items to make your offering more complete</p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {additionalChadawas.map((addon) => (
-                        <div 
-                          key={addon.id}
-                          onClick={() => handleAddonToggle(addon.id)}
-                          className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
-                            selectedAddons.includes(addon.id)
-                              ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100'
-                              : 'border-gray-200 hover:border-orange-300'
-                          }`}
-                        >
-                          <div className="flex items-center">
-                            <div className="relative w-16 h-16 rounded-lg overflow-hidden mr-4">
-                              <Image
-                                src={addon.image}
-                                alt={addon.name}
-                                fill
-                                className="object-cover"
-                                unoptimized={true}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = 'https://placehold.co/600x400/orange/white?text=Addon+Image';
-                                }}
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-bold text-gray-800">{addon.name}</div>
-                              <div className="text-sm text-gray-600 line-clamp-1">{addon.description}</div>
-                              <div className="text-lg font-bold text-orange-600 mt-1">₹{addon.price.toFixed(2)}</div>
-                            </div>
-                            {selectedAddons.includes(addon.id) && (
-                              <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
-                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                   
                   {/* Payment Method */}
