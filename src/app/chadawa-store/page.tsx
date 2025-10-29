@@ -87,7 +87,7 @@ const ChadawaStorePage: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-28 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-64 h-64 bg-orange-200/30 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
           <div className="absolute top-40 right-10 w-80 h-80 bg-rose-200/30 rounded-full mix-blend-multiply filter blur-xl animate-float animation-delay-2000"></div>
@@ -104,11 +104,11 @@ const ChadawaStorePage: React.FC = () => {
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 font-['Philosopher'] mb-6">
             <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
-              Divine Temple Selection
+              Perform Your Chadhawa
             </span>
           </h1>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+          <p className="text-xl text-gray-600 max-w-4xl mx-0 mb-12">
             Choose from our associated temples where you can offer your sacred chadawas. 
             Each temple has experienced priests who will perform the offering ceremony with devotion.
           </p>
@@ -118,7 +118,7 @@ const ChadawaStorePage: React.FC = () => {
       {/* Filters */}
       <section className="px-4 sm:px-6 lg:px-8 pb-12">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 mb-8 border border-white/50">
+          {/* <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 mb-8 border border-white/50">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div className="flex flex-wrap gap-3">
                 <button
@@ -167,7 +167,7 @@ const ChadawaStorePage: React.FC = () => {
                 </select>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Temple Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -198,12 +198,12 @@ const ChadawaStorePage: React.FC = () => {
                     <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] group-hover:text-orange-600 transition-colors duration-300">
                       {temple.name}
                     </h3>
-                    <div className="flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+                    {/* <div className="flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                       </svg>
                       <span className="text-sm font-bold">5.0</span>
-                    </div>
+                    </div> */}
                   </div>
                   
                   <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -211,29 +211,30 @@ const ChadawaStorePage: React.FC = () => {
                   </p>
                   
                   <div className="flex justify-between items-center mb-4">
-                    <div className="text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">🛕</span>
                       <div className="font-bold text-gray-800">{temple.location}</div>
-                      <div className="text-gray-500">Sacred Temple</div>
+                      {/* <div className="text-gray-500">Sacred Temple</div> */}
                     </div>
-                    <div className="text-sm">
+                    {/* <div className="text-sm">
                       <div className="font-bold text-gray-800">Experienced priests</div>
                       <div className="text-gray-500">Devotional service</div>
-                    </div>
+                    </div> */}
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <div className="text-sm text-gray-600">
+                    {/* <div className="text-sm text-gray-600">
                       Divine offerings available
-                    </div>
+                    </div> */}
                     <button 
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         handleTempleSelect(temple.id);
                       }}
-                      className="bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
+                      className="w-full bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
                     >
-                      Select Temple
+                      Make Offering
                     </button>
                   </div>
                 </div>

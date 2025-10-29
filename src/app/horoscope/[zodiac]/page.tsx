@@ -334,7 +334,7 @@ const ZodiacDetailPage: React.FC = () => {
                       : 'text-gray-600 hover:text-orange-500'
                   }`}
                 >
-                  {tab} Horoscope
+                  {tab}
                 </button>
               ))}
             </div>
@@ -383,7 +383,7 @@ const ZodiacDetailPage: React.FC = () => {
                 <div className="space-y-6">
                   {/* Main Horoscope Content */}
                   <div className="bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200 rounded-[20px] p-8 shadow-md">
-                    <div className="flex items-start gap-4">
+                    <div className="flex flex-col items-start gap-4 lg:flex-row">
                       <div className="text-4xl">✨</div>
                       <div className="flex-1">
                         <h3 className="text-[20px] font-bold text-orange-700 font-['Philosopher'] mb-4">Your Cosmic Reading</h3>

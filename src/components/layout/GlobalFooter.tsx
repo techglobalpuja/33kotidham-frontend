@@ -5,7 +5,7 @@ import React from 'react';
 const GlobalFooter: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white py-12 w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-bold text-lg mb-4 text-orange-400">Quick Links</h3>
@@ -35,7 +35,7 @@ const GlobalFooter: React.FC = () => {
                 <span>📱</span> +91 98765 43210
               </li>
               <li className="flex items-center gap-2">
-                <span>📍</span> Temple Address, India
+                <span>📍</span> Gujrat, India
               </li>
             </ul>
           </div>

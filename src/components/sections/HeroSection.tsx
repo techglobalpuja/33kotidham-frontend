@@ -1,61 +1,39 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import Header from '../../components/layout/Header';
+import HeroCarousel from '../carousel/HeroCarousel';
 
 const HeroSection: React.FC = () => {
-  const handleBookNowClick = () => {
-    const pujaSection = document.getElementById('puja-section');
-    if (pujaSection) {
-      pujaSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+  const heroSlides = [
+    {
+      id: 1,
+      desktopImage: '/images/home/hero1/desktop/2024-11-05T08_05_37.142Z-Panchmukhi Hanuman_Website.png',
+      mobileImage: '/images/home/hero1/mobile/2024-11-05T08_05_34.596Z-Panchmukhi Hanuman_Responsive.png',
+      alt: 'Panchmukhi Hanuman Puja'
+    },
+    {
+      id: 2,
+      desktopImage: '/images/home/hero2/desktop/2024-10-24T13_46_40.726Z-Sarva Karya Siddhi Puja web.png',
+      mobileImage: '/images/home/hero2/mobile/2024-10-24T13_46_34.486Z-Baglamukhi Responsive.png',
+      alt: 'Sarva Karya Siddhi Puja'
+    },
+    {
+      id: 3,
+      desktopImage: '/images/home/hero3/desktop/2024-10-24T13_17_20.561Z-Rahu-Ketu Shanti Puja_Puja web 1.png',
+      mobileImage: '/images/home/hero3/mobile/2024-10-24T13_17_14.434Z-rahu ketu mobile response.png',
+      alt: 'Rahu-Ketu Shanti Puja'
     }
-  };
+  ];
 
   return (
-  <section className="w-full min-h-screen bg-gradient-to-r from-orange-100/20 to-orange-200/40 relative overflow-hidden">
-    <div 
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90"
-      style={{ backgroundImage: "url('/images/hero1.webp')" }}
-    />
-    <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
-      <Header />
-      <div className="flex flex-col min-h-[calc(100vh-120px)] sm:min-h-[calc(100vh-100px)]">
-        <div className="flex-1 flex items-center pt-20 sm:pt-20 lg:pt-20">
-          <div className="w-full max-w-2xl">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900 font-['Philosopher'] mb-4 sm:mb-6">
-              Unlock the Power of Your Stars, Illuminate Your Path.
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-['Lato'] mb-6 sm:mb-8 max-w-xl leading-relaxed">
-              Connect with divine blessings through authentic online pujas, personalized astrology readings, and sacred rituals performed by experienced Vedic pandits — all from the comfort of your home.
-            </p>
-            <button 
-              onClick={handleBookNowClick}
-              className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:shadow-lg transition-all duration-200 font-['Work_Sans'] uppercase text-xs sm:text-sm cursor-pointer hover:scale-105"
-            >
-              <Image
-                src="/images/img_vector.svg"
-                alt="Book Icon"
-                width={14}
-                height={14}
-                className="w-3 h-3 sm:w-4 sm:h-4"
-              />
-              Book Now
-              <Image
-                src="/images/img_vector.svg"
-                alt="Book Icon"
-                width={14}
-                height={14}
-                className="w-3 h-3 sm:w-4 sm:h-4"
-              />
-            </button>
-          </div>
+    <section className="w-full md:h-screen h-auto relative overflow-hidden">
+      <HeroCarousel slides={heroSlides} />
+      <div className="absolute top-0 left-0 right-0 z-20">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Header />
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 };
 

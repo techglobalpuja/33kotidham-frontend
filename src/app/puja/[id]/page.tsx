@@ -963,7 +963,7 @@ const PujaDetailPage: React.FC = () => {
                   <span>📱</span> +91 98765 43210
                 </li>
                 <li className="flex items-center gap-2">
-                  <span>📍</span> Temple Address, India
+                  <span>📍</span> Gujrat, India
                 </li>
               </ul>
             </div>
