@@ -281,7 +281,7 @@ const StorePage: React.FC = () => {
       <Header />
       
       {/* Enhanced Hero Section */}
-      <section className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-28 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Sacred Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full">
@@ -304,10 +304,7 @@ const StorePage: React.FC = () => {
             
             {/* Main Heading */}
             <h1 className="text-[52px] sm:text-[64px] md:text-[72px] lg:text-[84px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] lg:leading-[92px] font-['Philosopher'] mb-8">
-              <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
-                आध्यात्मिक भंडार
-              </span>
-              <br />
+              
               <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
                 Sacred Store
               </span>
@@ -340,77 +337,14 @@ const StorePage: React.FC = () => {
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="group relative px-10 py-4 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-2xl">
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <div className="text-xl">🛍️</div>
-                  Explore Products
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-rose-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              
-              <button className="group relative px-10 py-4 bg-white/80 backdrop-blur-sm text-orange-600 font-bold text-lg rounded-full border-2 border-orange-300 hover:border-orange-400 transition-all duration-500 hover:scale-105 shadow-md hover:shadow-lg">
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <div className="text-xl">📞</div>
-                  Contact Us
-                </span>
-              </button>
-            </div>
+            
           </div>
         </div>
       </section>
 
-      {/* Sacred Benefits Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className={`text-center mb-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="mb-6">
-              <span className="inline-block px-6 py-2 bg-gradient-to-r from-orange-100 to-rose-100 text-orange-700 rounded-full text-sm font-semibold mb-4">
-                ✨ Sacred Collection
-              </span>
-            </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-8">
-              <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
-                Why Choose Our
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-rose-600 to-yellow-600 bg-clip-text text-transparent">
-                Spiritual Products
-              </span>
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-rose-500 mx-auto mb-8 rounded-full"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {sacredBenefits.map((benefit, index) => (
-              <div
-                key={index}
-                className={`group relative bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-700 border border-white/50 overflow-hidden transform hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
-                style={{ animationDelay: `${600 + index * 150}ms` }}
-              >
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-10 transition-all duration-500 rounded-3xl`}></div>
-                
-                <div className="relative z-10 text-center">
-                  <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">{benefit.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600 font-['Lato'] leading-relaxed text-sm">
-                    {benefit.description}
-                  </p>
-                </div>
-                
-                {/* Hover Glow Effect */}
-                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-20 blur-xl transition-all duration-700 -z-10`}></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Products Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-50/30 to-rose-50/30">
+      <section className="relative py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-50/30 to-rose-50/30">
         <div className="max-w-7xl mx-auto">
           
           {/* Enhanced Filter Tabs */}
@@ -591,6 +525,55 @@ const StorePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Sacred Benefits Section */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className={`text-center mb-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="mb-6">
+              <span className="inline-block px-6 py-2 bg-gradient-to-r from-orange-100 to-rose-100 text-orange-700 rounded-full text-sm font-semibold mb-4">
+                ✨ Sacred Collection
+              </span>
+            </div>
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-8">
+              <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
+                Why Choose Our
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-rose-600 to-yellow-600 bg-clip-text text-transparent">
+                Spiritual Products
+              </span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-rose-500 mx-auto mb-8 rounded-full"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {sacredBenefits.map((benefit, index) => (
+              <div
+                key={index}
+                className={`group relative bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-700 border border-white/50 overflow-hidden transform hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
+                style={{ animationDelay: `${600 + index * 150}ms` }}
+              >
+                {/* Background Gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-10 transition-all duration-500 rounded-3xl`}></div>
+                
+                <div className="relative z-10 text-center">
+                  <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">{benefit.icon}</div>
+                  <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600 font-['Lato'] leading-relaxed text-sm">
+                    {benefit.description}
+                  </p>
+                </div>
+                
+                {/* Hover Glow Effect */}
+                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-20 blur-xl transition-all duration-700 -z-10`}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-yellow-50/30 to-orange-50/30">
         <div className="max-w-7xl mx-auto">
@@ -735,84 +718,7 @@ const StorePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Modern Newsletter Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-900 to-purple-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            
-            {/* Modern Icon */}
-            <div className="mb-8 flex justify-center">
-              <div className="relative p-4 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 backdrop-blur-sm border border-cyan-400/30 shadow-xl">
-                <div className="text-4xl text-cyan-400">📨</div>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 rounded-2xl blur-xl animate-pulse"></div>
-              </div>
-            </div>
-            
-            <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[42px] sm:leading-[48px] md:leading-[54px] text-white font-['Philosopher'] mb-6">
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                Stay Updated with
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Latest Products
-              </span>
-            </h2>
-            
-            <p className="text-lg text-gray-300 font-['Lato'] mb-12 max-w-2xl mx-auto leading-relaxed">
-              Get exclusive access to new arrivals, special discounts, and product recommendations 
-              tailored just for you.
-            </p>
-            
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20 max-w-2xl mx-auto">
-              <form className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <input
-                    type="email"
-                    placeholder="Enter your email address..."
-                    className="w-full px-6 py-4 border border-white/20 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white font-medium bg-white/10 backdrop-blur-sm transition-all duration-300 placeholder-gray-300"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-xl overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-2xl"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    <div className="text-lg">➡️</div>
-                    Subscribe
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
-              </form>
-              
-              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-300">
-                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                </svg>
-                Unsubscribe anytime. No spam, just great products.
-              </div>
-            </div>
-            
-            {/* Modern Benefits */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-              <div className="text-center">
-                <div className="text-3xl mb-4">🎁</div>
-                <h3 className="text-lg font-bold text-white font-['Philosopher'] mb-2">Exclusive Deals</h3>
-                <p className="text-gray-300 text-sm">Get first access to sales and special promotions</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-4">🚀</div>
-                <h3 className="text-lg font-bold text-white font-['Philosopher'] mb-2">New Arrivals</h3>
-                <p className="text-gray-300 text-sm">Be the first to discover our latest products</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-4">🎯</div>
-                <h3 className="text-lg font-bold text-white font-['Philosopher'] mb-2">Personalized</h3>
-                <p className="text-gray-300 text-sm">Curated recommendations based on your interests</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
       
       <GlobalFooter />
     </div>

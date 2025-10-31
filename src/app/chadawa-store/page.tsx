@@ -107,8 +107,8 @@ const ChadawaStorePage: React.FC = () => {
               Perform Your Chadhawa
             </span>
           </h1>
-          
-          <p className="text-xl text-gray-600 max-w-4xl mx-0 mb-12">
+           
+          <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
             Choose from our associated temples where you can offer your sacred chadawas. 
             Each temple has experienced priests who will perform the offering ceremony with devotion.
           </p>

@@ -199,43 +199,7 @@ const AllPujasPage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           
           {/* Enhanced Filter Tabs */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 mb-12 border border-white/50">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-3">
-                <button
-                  key="all"
-                  onClick={() => setSelectedCategory('all')}
-                  className={`group relative px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 ${
-                    selectedCategory === 'all'
-                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
-                      : 'bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 hover:from-orange-100 hover:to-rose-100 hover:text-orange-600 hover:shadow-md'
-                  }`}
-                >
-                  <span className="relative z-10">All Pujas ({pujas.length})</span>
-                  {selectedCategory === 'all' && (
-                    <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
-                  )}
-                </button>
-              </div>
-              
-              {/* Sort Options */}
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-bold text-gray-700">🔄 Sort by:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-6 py-3 border-2 border-orange-200 rounded-full focus:ring-4 focus:ring-orange-200 focus:border-orange-400 text-sm font-medium bg-white/80 backdrop-blur-sm transition-all duration-300"
-                >
-                  <option value="featured">⭐ Featured</option>
-                  <option value="date">📅 Date</option>
-                  <option value="price">💰 Price</option>
-                  <option value="name">🅰️ Name</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          
 
           {/* Enhanced Pujas Grid - Updated to use home variant */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
