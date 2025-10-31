@@ -3,68 +3,54 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import Script from 'next/script';
+import { useParams, useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '@/store';
+import { loginSuccess } from '@/store/slices/authSlice';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 import { apiService } from '@/services/api';
-import { Temple, Chadawa, PujaResponse } from '@/types';
-
-// Additional chadawas for add-ons
-const additionalChadawas = [
-  {
-    id: 7,
-    name: "Mini Silver Chadar",
-    description: "A smaller version of our popular silver chadar, perfect for personal use.",
-    price: 600,
-    image: "/images/chadawa7.jpg",
-  },
-  {
-    id: 8,
-    name: "Golden Threaded Diya",
-    description: "Traditional diya with golden threading, perfect for lighting during pujas.",
-    price: 450,
-    image: "/images/chadawa8.jpg",
-  },
-  {
-    id: 9,
-    name: "Sandalwood Incense Set",
-    description: "Premium sandalwood incense sticks for a divine fragrance during rituals.",
-    price: 350,
-    image: "/images/chadawa9.jpg",
-  },
-  {
-    id: 10,
-    name: "Rudraksha Garland",
-    description: "Sacred rudraksha beads strung together for spiritual protection.",
-    price: 800,
-    image: "/images/chadawa10.jpg",
-  },
-];
+import { storeAuthToken } from '@/utils/auth';
+import { Temple, Chadawa } from '@/types';
 
 const CheckoutPage: React.FC = () => {
   const params = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { templeId, chadawaId } = params;
+  const { user } = useSelector((state: RootState) => state.auth);
   
   const [temple, setTemple] = useState<Temple | null>(null);
   const [chadawas, setChadawas] = useState<Chadawa[]>([]);
-  const [recommendedPujas, setRecommendedPujas] = useState<PujaResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
   const [selectedChadawas, setSelectedChadawas] = useState<number[]>([parseInt(chadawaId as string)]);
-  const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
-  const [paymentMethod, setPaymentMethod] = useState('upi');
   const [isProcessing, setIsProcessing] = useState(false);
   
+  // OTP Authentication states
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    showOtpInput: false,
+    requiresRegistration: false,
+    showRegistrationForm: false,
+    otpSent: false,
+    mobile: ''
+  });
+  const [otpCode, setOtpCode] = useState('');
+  const [registrationData, setRegistrationData] = useState({
+    name: '',
+    email: ''
+  });
+  const [isRequestingOtp, setIsRequestingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    specialInstructions: '',
+    mobileNumber: '',
+    whatsappNumber: '',
+    gotra: '',
+    dontKnowGotra: false,
   });
 
   useEffect(() => {
@@ -79,9 +65,6 @@ const CheckoutPage: React.FC = () => {
         // Fetch all chadawas for this temple
         const chadawaData = await apiService.getChadawas();
         setChadawas(chadawaData);
-        
-        // Set recommended pujas from temple data
-        setRecommendedPujas(templeData.recommended_pujas || []);
         
         // Initialize with the chadawa from the URL
         if (chadawaId) {
@@ -100,6 +83,22 @@ const CheckoutPage: React.FC = () => {
     }
   }, [templeId, chadawaId]);
 
+  // Pre-fill mobile number if user is authenticated
+  useEffect(() => {
+    if (user && user.isAuthenticated && user.mobile) {
+      setFormData(prev => ({
+        ...prev,
+        mobileNumber: user.mobile || '',
+        whatsappNumber: prev.whatsappNumber || user.mobile || ''
+      }));
+      setAuthState(prev => ({
+        ...prev,
+        isAuthenticated: true,
+        mobile: user.mobile || ''
+      }));
+    }
+  }, [user]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -116,28 +115,299 @@ const CheckoutPage: React.FC = () => {
     );
   };
 
-  const handleAddonToggle = (addonId: number) => {
-    setSelectedAddons(prev => 
-      prev.includes(addonId) 
-        ? prev.filter(id => id !== addonId) 
-        : [...prev, addonId]
-    );
+
+  // Request OTP
+  const handleRequestOtp = async () => {
+    if (!formData.mobileNumber || formData.mobileNumber.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
+    setIsRequestingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.in/api/v1/auth/request-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: JSON.stringify({ mobile: formData.mobileNumber })
+      });
+
+      const data = await response.json();
+
+      if (data.requires_registration) {
+        // New user - show registration form
+        setAuthState({
+          ...authState,
+          requiresRegistration: true,
+          showRegistrationForm: true,
+          mobile: formData.mobileNumber
+        });
+        alert('New user detected. Please complete registration.');
+      } else if (data.message && data.message.includes('OTP sent')) {
+        // Existing user - show OTP input
+        setAuthState({
+          ...authState,
+          showOtpInput: true,
+          otpSent: true,
+          mobile: formData.mobileNumber
+        });
+        alert('OTP sent to your mobile number');
+      } else {
+        alert('Failed to send OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('OTP request error:', error);
+      alert('Failed to send OTP. Please try again.');
+    } finally {
+      setIsRequestingOtp(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Register new user
+  const handleRegister = async () => {
+    if (!registrationData.name || !registrationData.email) {
+      alert('Please enter your name and email');
+      return;
+    }
+
+    setIsRequestingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.in/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: registrationData.name,
+          email: registrationData.email,
+          mobile: authState.mobile
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.id) {
+        // Registration successful, now request OTP
+        const otpResponse = await fetch('https://api.33kotidham.in/api/v1/auth/request-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
+          },
+          body: JSON.stringify({ mobile: authState.mobile })
+        });
+
+        const otpData = await otpResponse.json();
+
+        if (otpData.message && otpData.message.includes('OTP sent')) {
+          setAuthState({
+            ...authState,
+            showRegistrationForm: false,
+            showOtpInput: true,
+            otpSent: true
+          });
+          alert('Registration successful! OTP sent to your mobile number.');
+        }
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed. Please try again.');
+    } finally {
+      setIsRequestingOtp(false);
+    }
+  };
+
+  // Verify OTP
+  const handleVerifyOtp = async () => {
+    if (!otpCode || otpCode.length !== 6) {
+      alert('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    setIsVerifyingOtp(true);
+    try {
+      const response = await fetch('https://api.33kotidham.in/api/v1/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: JSON.stringify({
+          mobile: authState.mobile,
+          otp_code: otpCode
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.access_token) {
+        // Store token
+        storeAuthToken(data.access_token);
+        
+        // Fetch user info
+        const userResponse = await fetch('https://api.33kotidham.in/api/v1/users/me', {
+          headers: {
+            'Authorization': `Bearer ${data.access_token}`,
+            'accept': 'application/json'
+          }
+        });
+
+        const userData = await userResponse.json();
+
+        // Update Redux state
+        dispatch(loginSuccess({
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          mobile: userData.mobile,
+          isAuthenticated: true,
+          access_token: data.access_token,
+          token_type: data.token_type
+        }));
+
+        setAuthState({
+          ...authState,
+          isAuthenticated: true,
+          showOtpInput: false
+        });
+
+        alert('Authentication successful!');
+      } else {
+        alert('Invalid OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('OTP verification error:', error);
+      alert('OTP verification failed. Please try again.');
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if user is authenticated (either from Redux or local auth state)
+    if (!user?.isAuthenticated && !authState.isAuthenticated) {
+      alert('Please authenticate with OTP to continue');
+      return;
+    }
+
+    // Validate required fields
+    if (!formData.mobileNumber) {
+      alert('Please enter your mobile number');
+      return;
+    }
+    
+    if (!formData.whatsappNumber) {
+      alert('Please enter your WhatsApp number');
+      return;
+    }
+    
+    // Validate gotra field if "don't know gotra" is not checked
+    if (!formData.dontKnowGotra && !formData.gotra) {
+      alert('Please enter your gotra or check "I don\'t know my Gotra"');
+      return;
+    }
+
     if (selectedChadawas.length === 0) {
       alert('Please select at least one chadawa');
       return;
     }
     
     setIsProcessing(true);
-    
-    // Simulate payment processing
-    setTimeout(() => {
+
+    try {
+      // Prepare booking data
+      const bookingData = {
+        puja_id: 0,
+        temple_id: parseInt(templeId as string),
+        plan_id: 0,
+        booking_date: new Date().toISOString(),
+        mobile_number: formData.mobileNumber,
+        whatsapp_number: formData.whatsappNumber,
+        gotra: formData.dontKnowGotra ? 'Unknown' : formData.gotra,
+        chadawas: [],
+        chadawa_ids: selectedChadawas
+      };
+
+      // Create Razorpay booking
+      const response = await apiService.createRazorpayBooking(bookingData);
+      
+      if (!response || !response.razorpay_order_id) {
+        throw new Error('Failed to create booking');
+      }
+
+      // Get Razorpay key from environment
+      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      
+      if (!razorpayKey) {
+        throw new Error('Razorpay key not configured. Please contact support.');
+      }
+
+      // Initialize Razorpay payment
+      const options = {
+        key: razorpayKey,
+        amount: response.razorpay_order.amount,
+        currency: response.razorpay_order.currency,
+        name: '33KotiDham',
+        description: temple?.name || 'Chadawa Offering',
+        order_id: response.razorpay_order_id,
+        handler: async function (razorpayResponse: {razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string}) {
+          // Payment successful from Razorpay, now verify on backend
+          console.log('Payment successful from Razorpay:', razorpayResponse);
+          
+          try {
+            // Verify payment with backend
+            const verificationData = {
+              booking_id: response.booking.id,
+              razorpay_order_id: razorpayResponse.razorpay_order_id,
+              razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+              razorpay_signature: razorpayResponse.razorpay_signature
+            };
+            
+            const verificationResult = await apiService.verifyPayment(verificationData);
+            console.log('Payment verification result:', verificationResult);
+            
+            // Redirect to success page with booking details
+            router.push(`/chadawa-store/${templeId}/${chadawaId}/checkout/success?bookingId=${response.booking.id}&paymentId=${razorpayResponse.razorpay_payment_id}&orderId=${razorpayResponse.razorpay_order_id}`);
+          } catch (verificationError) {
+            console.error('Payment verification failed:', verificationError);
+            // Redirect to failure page
+            router.push(`/chadawa-store/${templeId}/${chadawaId}/checkout/failure?bookingId=${response.booking.id}&orderId=${razorpayResponse.razorpay_order_id}`);
+          }
+        },
+        prefill: {
+          name: user?.name || '',
+          email: user?.email || '',
+          contact: formData.mobileNumber
+        },
+        theme: {
+          color: '#f97316'
+        },
+        modal: {
+          ondismiss: function() {
+            setIsProcessing(false);
+            alert('Payment cancelled. You can try again.');
+          }
+        }
+      };
+
+      if (typeof window !== 'undefined' && (window as unknown as {Razorpay: any}).Razorpay) {
+        const razorpay = new (window as unknown as {Razorpay: any}).Razorpay(options);
+        razorpay.open();
+      } else {
+        throw new Error('Razorpay SDK not loaded');
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert(error instanceof Error ? error.message : 'Failed to process booking');
       setIsProcessing(false);
-      alert('Order placed successfully! You will receive a confirmation email shortly.');
-    }, 2000);
+    }
   };
 
   // Helper function to construct full image URL
@@ -168,15 +438,9 @@ const CheckoutPage: React.FC = () => {
   };
 
   // Calculate total
-  const chadawasPrice = chadawas
+  const total = chadawas
     .filter(chadawa => selectedChadawas.includes(chadawa.id))
     .reduce((total, chadawa) => total + parseFloat(chadawa.price), 0);
-    
-  const addonsPrice = additionalChadawas
-    .filter(addon => selectedAddons.includes(addon.id))
-    .reduce((total, addon) => total + addon.price, 0);
-  
-  const total = chadawasPrice + addonsPrice;
 
   if (loading) {
     return (
@@ -204,37 +468,41 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50">
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="lazyOnload"
+      />
       <Header />
       
       {/* Breadcrumb */}
-      <section className="pt-28 px-4 sm:px-6 lg:px-8">
+      <section className="pt-20 sm:pt-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <nav className="flex items-center text-sm text-gray-500 mb-8">
+          <nav className="flex flex-wrap items-center text-xs sm:text-sm text-gray-500 mb-4 sm:mb-8 gap-1">
             <Link href="/" className="hover:text-orange-600">Home</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
             <Link href="/chadawa-store" className="hover:text-orange-600">Chadawa Store</Link>
-            <span className="mx-2">/</span>
-            <Link href={`/chadawa-store/${templeId}`} className="hover:text-orange-600">{temple.name}</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
+            <Link href={`/chadawa-store/${templeId}`} className="hover:text-orange-600 truncate max-w-[100px] sm:max-w-none">{temple.name}</Link>
+            <span className="mx-1">/</span>
             <span className="text-orange-600 font-medium">Checkout</span>
           </nav>
         </div>
       </section>
 
       {/* Checkout Section */}
-      <section className="pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="pb-8 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2 font-['Philosopher']">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2 font-['Philosopher'] px-2">
             Complete Your Temple Offering
           </h1>
-          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 text-center mb-6 sm:mb-12 max-w-2xl mx-auto px-4">
             Select your chadawas and provide your details to complete the offering process at {temple.name}
           </p>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50 sticky top-32">
+            <div className="lg:col-span-1 order-2 lg:order-1">
+              <div className="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-white/50 lg:sticky lg:top-32">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2> */}
                 
                 {/* Temple */}
@@ -283,80 +551,43 @@ const CheckoutPage: React.FC = () => {
                   </div>
                 )}
                 
-                {/* Add-ons */}
-                {selectedAddons.length > 0 && (
-                  <div className="mb-6 pb-6 border-b border-gray-200">
-                    <h3 className="font-bold text-gray-800 mb-3">Add-ons</h3>
-                    <div className="space-y-3">
-                      {additionalChadawas
-                        .filter(addon => selectedAddons.includes(addon.id))
-                        .map(addon => (
-                          <div key={addon.id} className="flex justify-between">
-                            <span className="text-gray-600">{addon.name}</span>
-                            <span className="font-medium">₹{addon.price}</span>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                )}
-                
                 {/* Pricing */}
                 <div className="space-y-3">
-                  {selectedChadawas.length > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Chadawas Total</span>
-                      <span className="font-medium">₹{chadawasPrice.toFixed(2)}</span>
-                    </div>
-                  )}
-                  {selectedAddons.length > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Add-ons</span>
-                      <span className="font-medium">₹{addonsPrice.toFixed(2)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Temple Offering Fee</span>
-                    <span className="font-medium">₹100.00</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Processing Fee</span>
-                    <span className="font-medium">₹50.00</span>
-                  </div>
                   <div className="flex justify-between pt-3 border-t border-gray-200">
-                    <span className="text-lg font-bold text-gray-800">Total</span>
-                    <span className="text-lg font-bold text-orange-600">₹{(total + 150).toFixed(2)}</span>
+                    <span className="text-lg font-bold text-gray-800">Total Amount</span>
+                    <span className="text-lg font-bold text-orange-600">₹{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Checkout Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50">
+            <div className="lg:col-span-2 order-1 lg:order-2">
+              <div className="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-white/50">
                 <form onSubmit={handleSubmit}>
                   {/* Chadawa Selection */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Select Chadawas</h2>
-                    <p className="text-gray-600 mb-4">Choose one or more chadawas for your offering</p>
+                  <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Select Chadawas</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">Choose one or more chadawas for your offering</p>
                     
                     {chadawas.length === 0 ? (
                       <div className="text-center py-8 text-gray-500">
                         No chadawas available
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-3 sm:gap-4">
                         {chadawas.map((chadawa) => (
                           <div 
                             key={chadawa.id}
                             onClick={() => handleChadawaToggle(chadawa.id)}
-                            className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
+                            className={`border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 cursor-pointer transition-all duration-300 active:scale-98 ${
                               selectedChadawas.includes(chadawa.id)
                                 ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100'
                                 : 'border-gray-200 hover:border-orange-300'
                             }`}
                           >
-                            <div className="flex items-center">
-                              <div className="relative w-16 h-16 rounded-lg overflow-hidden mr-4">
+                            <div className="flex items-center gap-3 sm:gap-4">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden flex-shrink-0">
                                 <Image
                                   src={constructImageUrl(chadawa.image_url)}
                                   alt={chadawa.name}
@@ -369,13 +600,13 @@ const CheckoutPage: React.FC = () => {
                                   }}
                                 />
                               </div>
-                              <div className="flex-1">
-                                <div className="font-bold text-gray-800">{chadawa.name}</div>
-                                <div className="text-sm text-gray-600 line-clamp-1">{chadawa.description}</div>
-                                <div className="text-lg font-bold text-orange-600 mt-1">₹{parseFloat(chadawa.price).toFixed(2)}</div>
+                              <div className="flex-1 min-w-0">
+                                <div className="font-bold text-gray-800 text-sm sm:text-base">{chadawa.name}</div>
+                                <div className="text-xs sm:text-sm text-gray-600 line-clamp-2 sm:line-clamp-1">{chadawa.description}</div>
+                                <div className="text-base sm:text-lg font-bold text-orange-600 mt-1">₹{parseFloat(chadawa.price).toFixed(2)}</div>
                               </div>
                               {selectedChadawas.includes(chadawa.id) && (
-                                <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
                                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                   </svg>
@@ -392,268 +623,154 @@ const CheckoutPage: React.FC = () => {
                     )}
                   </div>
                   
-                  {/* Recommended Pujas */}
-                  {recommendedPujas.length > 0 && (
-                    <div className="mb-8">
-                      <h2 className="text-xl font-bold text-gray-800 mb-4">Recommended Pujas</h2>
-                      <p className="text-gray-600 mb-4">Consider adding these pujas to enhance your spiritual experience</p>
+                  {/* Personal Information - Required for Razorpay */}
+                  <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Contact Details</h2>
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <input
+                            type="tel"
+                            name="mobileNumber"
+                            value={formData.mobileNumber}
+                            onChange={handleInputChange}
+                            placeholder="Enter your mobile number"
+                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
+                            required
+                            disabled={authState.showOtpInput || authState.isAuthenticated || user?.isAuthenticated}
+                            maxLength={10}
+                          />
+                          {!authState.showOtpInput && !authState.showRegistrationForm && !authState.isAuthenticated && !user?.isAuthenticated && (
+                            <button
+                              type="button"
+                              onClick={handleRequestOtp}
+                              disabled={isRequestingOtp || formData.mobileNumber.length !== 10}
+                              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-orange-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-orange-600 active:scale-95 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed whitespace-nowrap"
+                            >
+                              {isRequestingOtp ? 'Sending...' : 'Send OTP'}
+                            </button>
+                          )}
+                        </div>
+                        {(authState.isAuthenticated || user?.isAuthenticated) && (
+                          <p className="text-green-600 text-sm mt-1 flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Verified
+                          </p>
+                        )}
+                      </div>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {recommendedPujas.map((puja: any) => (
-                          <div 
-                            key={puja.id}
-                            className="border-2 border-gray-200 rounded-2xl p-4 hover:border-orange-300 transition-all duration-300"
-                          >
-                            <div className="flex items-center">
-                              <div className="relative w-16 h-16 rounded-lg overflow-hidden mr-4">
-                                <Image
-                                  src={constructImageUrl(puja.images && puja.images.length > 0 ? puja.images[0].image_url : puja.temple_image_url || '/images/placeholder.jpg')}
-                                  alt={puja.name}
-                                  fill
-                                  className="object-cover"
-                                  unoptimized={true}
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = 'https://placehold.co/600x400/orange/white?text=Puja+Image';
-                                  }}
-                                />
-                              </div>
-                              <div className="flex-1">
-                                <div className="font-bold text-gray-800">{puja.name}</div>
-                                <div className="text-sm text-gray-600 line-clamp-1">{puja.sub_heading}</div>
-                                <div className="text-lg font-bold text-orange-600 mt-1">
-                                  {puja.dakshina_prices_inr ? `₹${puja.dakshina_prices_inr.split(',')[0]}` : 'Price varies'}
-                                </div>
-                              </div>
-                              <Link href={`/puja/${puja.id}`} className="text-orange-600 hover:text-orange-700 font-medium text-sm hover:underline">
-                                Book Now
-                              </Link>
+                      {/* Registration Form */}
+                      {authState.showRegistrationForm && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-3">Complete Registration</h3>
+                          <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                            <div>
+                              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                              <input
+                                type="text"
+                                value={registrationData.name}
+                                onChange={(e) => setRegistrationData({ ...registrationData, name: e.target.value })}
+                                placeholder="Enter your full name"
+                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email *</label>
+                              <input
+                                type="email"
+                                value={registrationData.email}
+                                onChange={(e) => setRegistrationData({ ...registrationData, email: e.target.value })}
+                                placeholder="Enter your email"
+                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <button
+                                type="button"
+                                onClick={handleRegister}
+                                disabled={isRequestingOtp}
+                                className="w-full px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-green-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-green-600 active:scale-95 transition-all disabled:bg-gray-400"
+                              >
+                                {isRequestingOtp ? 'Registering...' : 'Register & Send OTP'}
+                              </button>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Personal Information */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Personal Information</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        </div>
+                      )}
+                      
+                      {/* OTP Input */}
+                      {authState.showOtpInput && !authState.isAuthenticated && (
+                        <div className="bg-green-50 border border-green-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-3">Enter OTP</h3>
+                          <div className="flex flex-col sm:flex-row gap-2">
+                            <input
+                              type="text"
+                              value={otpCode}
+                              onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                              placeholder="Enter 6-digit OTP"
+                              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-center text-base sm:text-lg tracking-widest"
+                              maxLength={6}
+                            />
+                            <button
+                              type="button"
+                              onClick={handleVerifyOtp}
+                              disabled={isVerifyingOtp || otpCode.length !== 6}
+                              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-green-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-green-600 active:scale-95 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                              {isVerifyingOtp ? 'Verifying...' : 'Verify OTP'}
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleRequestOtp}
+                            disabled={isRequestingOtp}
+                            className="text-orange-600 hover:underline text-sm mt-2"
+                          >
+                            Resend OTP
+                          </button>
+                        </div>
+                      )}
+                      
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                        <input
-                          type="text"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">WhatsApp Number *</label>
                         <input
                           type="tel"
-                          name="phone"
-                          value={formData.phone}
+                          name="whatsappNumber"
+                          value={formData.whatsappNumber}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Address Information */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Delivery Address</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
-                        <input
-                          type="text"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
+                          placeholder="Enter your WhatsApp number"
+                          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Gotra *</label>
                         <input
                           type="text"
-                          name="city"
-                          value={formData.city}
+                          name="gotra"
+                          value={formData.gotra}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
+                          placeholder="Enter your gotra"
+                          disabled={formData.dontKnowGotra}
+                          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300 disabled:bg-gray-100"
+                          required={!formData.dontKnowGotra}
                         />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                        <input
-                          type="text"
-                          name="state"
-                          value={formData.state}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">ZIP Code</label>
-                        <input
-                          type="text"
-                          name="zipCode"
-                          value={formData.zipCode}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Special Instructions */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Special Instructions</h2>
-                    <textarea
-                      name="specialInstructions"
-                      value={formData.specialInstructions}
-                      onChange={handleInputChange}
-                      rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                      placeholder="Any special requests for the puja ceremony..."
-                    ></textarea>
-                  </div>
-                  
-                  {/* Payment Method */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div 
-                        onClick={() => setPaymentMethod('upi')}
-                        className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
-                          paymentMethod === 'upi' 
-                            ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100' 
-                            : 'border-gray-200 hover:border-orange-300'
-                        }`}
-                      >
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
-                            <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                          </div>
-                          <div>
-                            <div className="font-bold text-gray-800">UPI</div>
-                            <div className="text-sm text-gray-600">Google Pay, PhonePe, etc.</div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div 
-                        onClick={() => setPaymentMethod('card')}
-                        className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
-                          paymentMethod === 'card' 
-                            ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100' 
-                            : 'border-gray-200 hover:border-orange-300'
-                        }`}
-                      >
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
-                            <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
-                            </svg>
-                          </div>
-                          <div>
-                            <div className="font-bold text-gray-800">Credit/Debit Card</div>
-                            <div className="text-sm text-gray-600">Visa, Mastercard, etc.</div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div 
-                        onClick={() => setPaymentMethod('netbanking')}
-                        className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
-                          paymentMethod === 'netbanking' 
-                            ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100' 
-                            : 'border-gray-200 hover:border-orange-300'
-                        }`}
-                      >
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
-                            <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M4 10.44l3.62 3.18c.37.34.94.34 1.31 0L12.56 10.44l3.63 3.18c.37.34.94.34 1.31 0L20 10.44V18c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-7.56z"/>
-                              <path d="M20 6v2.44l-3.63 3.18c-.37.34-.94.34-1.31 0L11.44 8.44 7.81 11.62c-.37.34-.94.34-1.31 0L4 8.44V6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2z"/>
-                            </svg>
-                          </div>
-                          <div>
-                            <div className="font-bold text-gray-800">Net Banking</div>
-                            <div className="text-sm text-gray-600">All Indian banks</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Payment Details */}
-                  {paymentMethod === 'card' && (
-                    <div className="mb-8 bg-gray-50 rounded-2xl p-6">
-                      <h3 className="text-lg font-bold text-gray-800 mb-4">Card Details</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                        <div className="mt-2 flex items-center">
                           <input
-                            type="text"
-                            placeholder="1234 5678 9012 3456"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
+                            type="checkbox"
+                            id="dontKnowGotra"
+                            checked={formData.dontKnowGotra}
+                            onChange={(e) => setFormData({ ...formData, dontKnowGotra: e.target.checked, gotra: e.target.checked ? '' : formData.gotra })}
+                            className="mr-2 h-4 w-4 text-orange-600 rounded focus:ring-orange-500"
                           />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                          <input
-                            type="text"
-                            placeholder="MM/YY"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">CVV</label>
-                          <input
-                            type="text"
-                            placeholder="123"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                          />
+                          <label htmlFor="dontKnowGotra" className="text-xs sm:text-sm text-gray-600">I don&apos;t know my Gotra</label>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {/* Terms and Conditions */}
-                  <div className="mb-8">
-                    <div className="flex items-start">
-                      <input
-                        type="checkbox"
-                        id="terms"
-                        className="mt-1 mr-3 h-5 w-5 text-orange-600 rounded focus:ring-orange-500"
-                        required
-                      />
-                      <label htmlFor="terms" className="text-gray-700">
-                        I agree to the <Link href="/terms-conditions" className="text-orange-600 hover:underline">Terms & Conditions</Link> and <Link href="/privacy-policy" className="text-orange-600 hover:underline">Privacy Policy</Link>. I understand that this is a religious offering and the puja will be performed as per traditional rituals.
-                      </label>
                     </div>
                   </div>
                   
@@ -661,7 +778,7 @@ const CheckoutPage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isProcessing || selectedChadawas.length === 0}
-                    className={`w-full py-4 rounded-2xl text-lg font-bold shadow-lg transform transition-all duration-300 ${
+                    className={`w-full py-3 sm:py-4 rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold shadow-lg transform transition-all duration-300 active:scale-95 ${
                       isProcessing || selectedChadawas.length === 0
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 hover:scale-105'
@@ -676,7 +793,7 @@ const CheckoutPage: React.FC = () => {
                         Processing Payment...
                       </div>
                     ) : (
-                      `Pay ₹${(total + 150).toFixed(2)} & Confirm Offering`
+                      `Pay ₹${total.toFixed(2)} & Confirm Offering`
                     )}
                   </button>
                 </form>
