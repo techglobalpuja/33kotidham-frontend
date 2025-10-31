@@ -442,6 +442,7 @@ export interface Temple {
 
 export interface BookingResponse {
   puja_id: number | null;
+  temple_id: number | null;
   plan_id: number | null;
   booking_date: string | null;
   mobile_number: string | null;
@@ -454,6 +455,7 @@ export interface BookingResponse {
   created_at: string;
   user: UserResponse | null;
   puja: PujaResponse | null;
+  temple: Temple | null;
   plan: PlanResponse | null;
   booking_chadawas: BookingChadawa[];
 }
