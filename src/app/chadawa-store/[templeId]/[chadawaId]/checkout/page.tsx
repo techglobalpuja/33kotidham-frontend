@@ -475,34 +475,34 @@ const CheckoutPage: React.FC = () => {
       <Header />
       
       {/* Breadcrumb */}
-      <section className="pt-28 px-4 sm:px-6 lg:px-8">
+      <section className="pt-20 sm:pt-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <nav className="flex items-center text-sm text-gray-500 mb-8">
+          <nav className="flex flex-wrap items-center text-xs sm:text-sm text-gray-500 mb-4 sm:mb-8 gap-1">
             <Link href="/" className="hover:text-orange-600">Home</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
             <Link href="/chadawa-store" className="hover:text-orange-600">Chadawa Store</Link>
-            <span className="mx-2">/</span>
-            <Link href={`/chadawa-store/${templeId}`} className="hover:text-orange-600">{temple.name}</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
+            <Link href={`/chadawa-store/${templeId}`} className="hover:text-orange-600 truncate max-w-[100px] sm:max-w-none">{temple.name}</Link>
+            <span className="mx-1">/</span>
             <span className="text-orange-600 font-medium">Checkout</span>
           </nav>
         </div>
       </section>
 
       {/* Checkout Section */}
-      <section className="pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="pb-8 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2 font-['Philosopher']">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2 font-['Philosopher'] px-2">
             Complete Your Temple Offering
           </h1>
-          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 text-center mb-6 sm:mb-12 max-w-2xl mx-auto px-4">
             Select your chadawas and provide your details to complete the offering process at {temple.name}
           </p>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50 sticky top-32">
+            <div className="lg:col-span-1 order-2 lg:order-1">
+              <div className="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-white/50 lg:sticky lg:top-32">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2> */}
                 
                 {/* Temple */}
@@ -562,32 +562,32 @@ const CheckoutPage: React.FC = () => {
             </div>
             
             {/* Checkout Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50">
+            <div className="lg:col-span-2 order-1 lg:order-2">
+              <div className="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-white/50">
                 <form onSubmit={handleSubmit}>
                   {/* Chadawa Selection */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Select Chadawas</h2>
-                    <p className="text-gray-600 mb-4">Choose one or more chadawas for your offering</p>
+                  <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Select Chadawas</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">Choose one or more chadawas for your offering</p>
                     
                     {chadawas.length === 0 ? (
                       <div className="text-center py-8 text-gray-500">
                         No chadawas available
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-3 sm:gap-4">
                         {chadawas.map((chadawa) => (
                           <div 
                             key={chadawa.id}
                             onClick={() => handleChadawaToggle(chadawa.id)}
-                            className={`border-2 rounded-2xl p-4 cursor-pointer transition-all duration-300 ${
+                            className={`border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 cursor-pointer transition-all duration-300 active:scale-98 ${
                               selectedChadawas.includes(chadawa.id)
                                 ? 'border-orange-500 bg-orange-50 ring-4 ring-orange-100'
                                 : 'border-gray-200 hover:border-orange-300'
                             }`}
                           >
-                            <div className="flex items-center">
-                              <div className="relative w-16 h-16 rounded-lg overflow-hidden mr-4">
+                            <div className="flex items-center gap-3 sm:gap-4">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden flex-shrink-0">
                                 <Image
                                   src={constructImageUrl(chadawa.image_url)}
                                   alt={chadawa.name}
@@ -600,13 +600,13 @@ const CheckoutPage: React.FC = () => {
                                   }}
                                 />
                               </div>
-                              <div className="flex-1">
-                                <div className="font-bold text-gray-800">{chadawa.name}</div>
-                                <div className="text-sm text-gray-600 line-clamp-1">{chadawa.description}</div>
-                                <div className="text-lg font-bold text-orange-600 mt-1">₹{parseFloat(chadawa.price).toFixed(2)}</div>
+                              <div className="flex-1 min-w-0">
+                                <div className="font-bold text-gray-800 text-sm sm:text-base">{chadawa.name}</div>
+                                <div className="text-xs sm:text-sm text-gray-600 line-clamp-2 sm:line-clamp-1">{chadawa.description}</div>
+                                <div className="text-base sm:text-lg font-bold text-orange-600 mt-1">₹{parseFloat(chadawa.price).toFixed(2)}</div>
                               </div>
                               {selectedChadawas.includes(chadawa.id) && (
-                                <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
                                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                   </svg>
@@ -624,19 +624,19 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   {/* Personal Information - Required for Razorpay */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Contact Details</h2>
-                    <div className="grid grid-cols-1 gap-6">
+                  <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Contact Details</h2>
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
-                        <div className="flex gap-2">
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <input
                             type="tel"
                             name="mobileNumber"
                             value={formData.mobileNumber}
                             onChange={handleInputChange}
                             placeholder="Enter your mobile number"
-                            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
+                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                             required
                             disabled={authState.showOtpInput || authState.isAuthenticated || user?.isAuthenticated}
                             maxLength={10}
@@ -646,7 +646,7 @@ const CheckoutPage: React.FC = () => {
                               type="button"
                               onClick={handleRequestOtp}
                               disabled={isRequestingOtp || formData.mobileNumber.length !== 10}
-                              className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-xl hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed whitespace-nowrap"
+                              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-orange-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-orange-600 active:scale-95 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed whitespace-nowrap"
                             >
                               {isRequestingOtp ? 'Sending...' : 'Send OTP'}
                             </button>
@@ -664,37 +664,37 @@ const CheckoutPage: React.FC = () => {
                       
                       {/* Registration Form */}
                       {authState.showRegistrationForm && (
-                        <div className="md:col-span-2 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                          <h3 className="font-bold text-gray-800 mb-3">Complete Registration</h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-3">Complete Registration</h3>
+                          <div className="grid grid-cols-1 gap-3 sm:gap-4">
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                               <input
                                 type="text"
                                 value={registrationData.name}
                                 onChange={(e) => setRegistrationData({ ...registrationData, name: e.target.value })}
                                 placeholder="Enter your full name"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                 required
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email *</label>
                               <input
                                 type="email"
                                 value={registrationData.email}
                                 onChange={(e) => setRegistrationData({ ...registrationData, email: e.target.value })}
                                 placeholder="Enter your email"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                 required
                               />
                             </div>
-                            <div className="md:col-span-2">
+                            <div>
                               <button
                                 type="button"
                                 onClick={handleRegister}
                                 disabled={isRequestingOtp}
-                                className="w-full px-6 py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition-colors disabled:bg-gray-400"
+                                className="w-full px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-green-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-green-600 active:scale-95 transition-all disabled:bg-gray-400"
                               >
                                 {isRequestingOtp ? 'Registering...' : 'Register & Send OTP'}
                               </button>
@@ -705,22 +705,22 @@ const CheckoutPage: React.FC = () => {
                       
                       {/* OTP Input */}
                       {authState.showOtpInput && !authState.isAuthenticated && (
-                        <div className="md:col-span-2 bg-green-50 border border-green-200 rounded-xl p-4">
-                          <h3 className="font-bold text-gray-800 mb-3">Enter OTP</h3>
-                          <div className="flex gap-2">
+                        <div className="bg-green-50 border border-green-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-3">Enter OTP</h3>
+                          <div className="flex flex-col sm:flex-row gap-2">
                             <input
                               type="text"
                               value={otpCode}
                               onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
                               placeholder="Enter 6-digit OTP"
-                              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-center text-lg tracking-widest"
+                              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-center text-base sm:text-lg tracking-widest"
                               maxLength={6}
                             />
                             <button
                               type="button"
                               onClick={handleVerifyOtp}
                               disabled={isVerifyingOtp || otpCode.length !== 6}
-                              className="px-6 py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-green-500 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-green-600 active:scale-95 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed"
                             >
                               {isVerifyingOtp ? 'Verifying...' : 'Verify OTP'}
                             </button>
@@ -737,19 +737,19 @@ const CheckoutPage: React.FC = () => {
                       )}
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number *</label>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">WhatsApp Number *</label>
                         <input
                           type="tel"
                           name="whatsappNumber"
                           value={formData.whatsappNumber}
                           onChange={handleInputChange}
                           placeholder="Enter your WhatsApp number"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
+                          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Gotra *</label>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Gotra *</label>
                         <input
                           type="text"
                           name="gotra"
@@ -757,7 +757,7 @@ const CheckoutPage: React.FC = () => {
                           onChange={handleInputChange}
                           placeholder="Enter your gotra"
                           disabled={formData.dontKnowGotra}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300 disabled:bg-gray-100"
+                          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300 disabled:bg-gray-100"
                           required={!formData.dontKnowGotra}
                         />
                         <div className="mt-2 flex items-center">
@@ -768,7 +768,7 @@ const CheckoutPage: React.FC = () => {
                             onChange={(e) => setFormData({ ...formData, dontKnowGotra: e.target.checked, gotra: e.target.checked ? '' : formData.gotra })}
                             className="mr-2 h-4 w-4 text-orange-600 rounded focus:ring-orange-500"
                           />
-                          <label htmlFor="dontKnowGotra" className="text-sm text-gray-600">I don&apos;t know my Gotra</label>
+                          <label htmlFor="dontKnowGotra" className="text-xs sm:text-sm text-gray-600">I don&apos;t know my Gotra</label>
                         </div>
                       </div>
                     </div>
@@ -778,7 +778,7 @@ const CheckoutPage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isProcessing || selectedChadawas.length === 0}
-                    className={`w-full py-4 rounded-2xl text-lg font-bold shadow-lg transform transition-all duration-300 ${
+                    className={`w-full py-3 sm:py-4 rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold shadow-lg transform transition-all duration-300 active:scale-95 ${
                       isProcessing || selectedChadawas.length === 0
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 hover:scale-105'
