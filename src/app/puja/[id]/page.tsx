@@ -281,38 +281,38 @@ const PujaDetailPage: React.FC = () => {
 
 
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
-      <Header />
+return (
+  <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
+    <Header />
+    
+    <main className="pt-20 pb-16">
       
-      <main className="pt-24 pb-16">
-        
-        {/* Hero Section - Matching Image Design */}
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 border-b-4 border-orange-200 pb-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              
-              {/* Left - Image Card */}
-              <div className="relative">
-                <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-                  {/* Badge */}
-                  
+      {/* Hero Section - Matching Image Design */}
+      <div className="bg-gradient-to-br from-orange-50 to-amber-50 border-b-4 border-orange-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center">
+            
+            {/* Left - Image Card */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                {/* Badge */}
+                
 
-                  {/* Image Carousel */}
-                  <div className="relative w-full h-[600px]">
-                    {pujaImages.length > 0 && pujaImages[selectedImageIndex] ? (
-                      <Image
-                        src={constructImageUrl(pujaImages[selectedImageIndex].image_url)}
-                        alt={selectedPuja.title}
-                        fill
-                        className="object-cover"
-                        unoptimized={true}
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-300 to-amber-400">
-                        <span className="text-white text-7xl">🛕</span>
-                      </div>
-                    )}
+                {/* Image Carousel */}
+                <div className="relative w-full h-[400px] md:h-[400px] lg:h-[600px]">
+                  {pujaImages.length > 0 && pujaImages[selectedImageIndex] ? (
+                    <Image
+                      src={constructImageUrl(pujaImages[selectedImageIndex].image_url)}
+                      alt={selectedPuja.title}
+                      fill
+                      className="object-cover"
+                      unoptimized={true}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-300 to-amber-400">
+                      <span className="text-white text-7xl">🛕</span>
+                    </div>
+                  )}
 
                     {/* Carousel Navigation */}
                     {pujaImages.length > 1 && (
