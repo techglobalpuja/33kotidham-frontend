@@ -156,7 +156,7 @@ const Header: React.FC = () => {
         <div className="rounded-full p-[1px] bg-gradient-to-r from-orange-400 to-orange-500 shadow-md">
           <div className="flex items-center rounded-full" style={{ background: '#FFF0E9' }}>
             <nav className="hidden lg:flex items-center justify-between w-full">
-              {menuItems.slice(0, 4).map((item, index) => (
+              {menuItems.slice(0, 5).map((item, index) => (
                 <div key={index} className="relative">
                   <button
                     onClick={() => handleMenuItemClick(item.href, item.name)}
