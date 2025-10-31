@@ -604,7 +604,7 @@ const UserDashboard: React.FC = () => {
                   <div className="text-center py-12">
                     <div className="text-5xl mb-4">🙏</div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">No Bookings Yet</h3>
-                    <p className="text-gray-600 mb-4">You haven't booked any pujas yet.</p>
+                    <p className="text-gray-600 mb-4">You haven&apos;t booked any pujas yet.</p>
                     <Button
                       variant="primary"
                       size="sm"

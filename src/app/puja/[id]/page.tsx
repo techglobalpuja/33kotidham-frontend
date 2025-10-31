@@ -182,20 +182,15 @@ const PujaDetailPage: React.FC = () => {
   //       setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
   //     }
   //   }
-  // };
-
   const nextImage = () => {
     if (selectedPuja) {
       const puja = selectedPuja as ExtendedPujaCard;
       if (puja.images && puja.images.length > 1) {
         setSelectedImageIndex((prevIndex) => {
-          // Skip index 0 and loop from index 1 onwards
-          let nextIndex = prevIndex + 1;
+          const nextIndex = prevIndex + 1;
           if (nextIndex >= puja.images.length) {
-            // If we reach the end, go back to index 1 (skip 0)
             return 1;
           }
-          // Skip index 0 if somehow we land on it
           if (nextIndex === 0) {
             return 1;
           }
@@ -205,27 +200,15 @@ const PujaDetailPage: React.FC = () => {
     }
   };
 
-  // const prevImage = () => {
-  //   if (selectedPuja) {
-  //     const puja = selectedPuja as ExtendedPujaCard;
-  //     if (puja.images && puja.images.length > 1) {
-  //       setSelectedImageIndex((prevIndex) => (prevIndex - 1 + puja.images.length) % puja.images.length);
-  //     }
-  //   }
-  // };
-
   const prevImage = () => {
     if (selectedPuja) {
       const puja = selectedPuja as ExtendedPujaCard;
       if (puja.images && puja.images.length > 1) {
         setSelectedImageIndex((prevIndex) => {
-          // Skip index 0 and loop from index 1 onwards
-          let prevIndexValue = prevIndex - 1;
+          const prevIndexValue = prevIndex - 1;
           if (prevIndexValue < 1) {
-            // If we go before index 1, go to the last image
             return puja.images.length - 1;
           }
-          // Skip index 0 if somehow we land on it
           if (prevIndexValue === 0) {
             return puja.images.length - 1;
           }
