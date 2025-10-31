@@ -73,7 +73,10 @@ const Header: React.FC = () => {
       setActiveMenuItem('Horoscope');
     } else if (pathname?.startsWith('/chadawa-store')) {
       setActiveMenuItem('Chadawa');
-    } else if (
+    } else if (pathname?.startsWith('/store')) {
+      setActiveMenuItem('Store');
+    } 
+    else if (
       pathname?.startsWith('/about') ||
       pathname?.startsWith('/panchang') ||
       pathname?.startsWith('/free-kundli') ||
@@ -109,7 +112,7 @@ const Header: React.FC = () => {
     { name: 'Home', href: '/', active: activeMenuItem === 'Home' },
     { name: 'Puja', href: '/pujas', active: activeMenuItem === 'Puja' },
     { name: 'Horoscope', href: '/horoscope', active: activeMenuItem === 'Horoscope' },
-    // { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
+    { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
     { name: 'Chadawa', href: '/chadawa-store', active: activeMenuItem === 'Chadawa' },
     { name: 'More', href: '/about', active: activeMenuItem === 'More' },
   ];

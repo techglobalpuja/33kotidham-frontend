@@ -460,7 +460,7 @@ class ApiService {
 
   // Puja API methods - Updated to match admin panel endpoints
   async getPujas(): Promise<ExtendedPujaCard[]> {
-    const backendPujas = await this.request<BackendPuja[]>('/api/v1/pujas');
+    const backendPujas = await this.request<BackendPuja[]>('/api/v1/pujas?is_active=true');
     // Transform the backend data to match PujaCard interface
     return backendPujas.map(this.transformPuja.bind(this));
   }
