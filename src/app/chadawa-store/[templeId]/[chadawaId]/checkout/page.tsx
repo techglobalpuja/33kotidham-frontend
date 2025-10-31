@@ -357,7 +357,7 @@ const CheckoutPage: React.FC = () => {
         name: '33KotiDham',
         description: temple?.name || 'Chadawa Offering',
         order_id: response.razorpay_order_id,
-        handler: async function (razorpayResponse: any) {
+        handler: async function (razorpayResponse: {razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string}) {
           // Payment successful from Razorpay, now verify on backend
           console.log('Payment successful from Razorpay:', razorpayResponse);
           
@@ -397,8 +397,8 @@ const CheckoutPage: React.FC = () => {
         }
       };
 
-      if (typeof window !== 'undefined' && (window as any).Razorpay) {
-        const razorpay = new (window as any).Razorpay(options);
+      if (typeof window !== 'undefined' && (window as unknown as {Razorpay: any}).Razorpay) {
+        const razorpay = new (window as unknown as {Razorpay: any}).Razorpay(options);
         razorpay.open();
       } else {
         throw new Error('Razorpay SDK not loaded');
@@ -768,7 +768,7 @@ const CheckoutPage: React.FC = () => {
                             onChange={(e) => setFormData({ ...formData, dontKnowGotra: e.target.checked, gotra: e.target.checked ? '' : formData.gotra })}
                             className="mr-2 h-4 w-4 text-orange-600 rounded focus:ring-orange-500"
                           />
-                          <label htmlFor="dontKnowGotra" className="text-sm text-gray-600">I don't know my Gotra</label>
+                          <label htmlFor="dontKnowGotra" className="text-sm text-gray-600">I don&apos;t know my Gotra</label>
                         </div>
                       </div>
                     </div>

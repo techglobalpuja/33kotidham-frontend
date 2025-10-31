@@ -1,17 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import { apiService } from '@/services/api';
 import { BookingResponse } from '@/types';
 
 const ChadawaCheckoutSuccessPage: React.FC = () => {
-  const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { templeId, chadawaId } = params;
   
   const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -104,13 +102,6 @@ const ChadawaCheckoutSuccessPage: React.FC = () => {
       </div>
     );
   }
-
-  // Helper function to format date
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-  };
 
   // Calculate total amount
   const calculateTotal = () => {
