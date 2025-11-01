@@ -34,7 +34,7 @@ const HoroscopeSection: React.FC<HoroscopeSectionProps> = ({ horoscopeCards }) =
               className="w-[144px] h-[8px] sm:w-[168px] sm:h-[10px] md:w-[192px] md:h-[11px] lg:w-[240px] lg:h-[14px] mt-[5px] sm:mt-[6px] md:mt-[6px]"
             />
             <p className="text-[12px] sm:text-[14px] md:text-[18px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-[#6d6d6d] font-['Lato'] w-auto mt-[9px] sm:mt-[11px] md:mt-[12px]">
-              Explore the wisdom of the stars and gain insights into your destiny. <br />Get daily, weekly, or monthly horoscope readings from experienced astrologers, crafted using authentic Vedic principles.
+              Get daily, weekly, or monthly horoscope readings from experienced astrologers, crafted using authentic Vedic principles.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-[15px] sm:gap-[18px] md:gap-[20px] w-full mt-[50px] sm:mt-[58px] md:mt-[66px]">
               {horoscopeCards.map((card, index) => (

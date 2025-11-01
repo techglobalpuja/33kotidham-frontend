@@ -31,8 +31,8 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials 
           <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111] font-['Philosopher'] w-auto">
             Testimonials from Devotees
           </h2>
-          <p className="text-[13px] sm:text-[15px] md:text-[16px] font-normal leading-[15px] sm:leading-[17px] md:leading-[19px] text-left text-[#6d6d6d] font-['Work_Sans'] w-auto mt-[5px] sm:mt-[6px] md:mt-[6px]">
-            Suspendisse metus nisl, lacinia et fermentum oreet non sem.
+          <p className="text-[15px] mt-3 sm:text-[18px] md:text-[18px] font-normal leading-[21px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d] font-['Lato'] w-auto">
+            Happy devotees sharing their experience of 33KotiDham with you.
           </p>
           <div className="flex flex-col lg:flex-row gap-[22px] sm:gap-[26px] md:gap-[30px] w-full mt-[45px] sm:mt-[53px] md:mt-[60px]">
             {testimonials.map((testimonial, index) => (

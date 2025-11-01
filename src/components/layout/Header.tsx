@@ -332,9 +332,9 @@ const Header: React.FC = () => {
 
           {/* Mobile More Section */}
           <div className="border-t border-orange-200 pt-4 mt-4 w-4/5">
-            <div className="text-sm font-bold text-orange-500 px-4 py-2 uppercase tracking-wide text-center">
+            {/* <div className="text-sm font-bold text-orange-500 px-4 py-2 uppercase tracking-wide text-center">
               More Options
-            </div>
+            </div> */}
             {moreMenuItems.map((item, index) => (
               <div key={index} className="relative w-full flex justify-center">
                 <button
@@ -349,9 +349,9 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Language Switcher */}
-          <div className="w-4/5 mt-4">
+          {/* <div className="w-4/5 mt-4">
             <LanguageSwitcher />
-          </div>
+          </div> */}
 
           {/* Mobile Login/Profile Button */}
           {user?.isAuthenticated ? (
