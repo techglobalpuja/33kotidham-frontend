@@ -253,7 +253,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
       
       {/* Content Section - Clickable */}
       <Link href={`/puja/${id}`} className="w-full">
-        <div className="flex flex-col gap-[3px] sm:gap-[4px] md:gap-[6px] justify-start items-start w-full px-[10px] sm:px-[12px] md:px-[14px] py-[8px] sm:py-[9px] md:py-[10px] cursor-pointer hover:bg-gray-50 transition-colors duration-200">
+        <div className="flex flex-col gap-[3px] sm:gap-[4px] md:gap-[10px] justify-start items-start w-full px-[10px] sm:px-[12px] md:px-[14px] py-[8px] sm:py-[9px] md:py-[10px] cursor-pointer hover:bg-gray-50 transition-colors duration-200">
           <div className="flex justify-start items-center w-full">
             <h3 className="text-[18px] sm:text-[21px] md:text-[24px] font-bold leading-[20px] sm:leading-[24px] md:leading-[27px] text-left text-[#111111] font-['Philosopher'] mt-[2px] sm:mt-[3px] md:mt-[4px] hover:text-orange-600 transition-colors duration-200">
               {title}
@@ -264,7 +264,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
               <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
             </svg> {temple}
           </p>
-          <div className="flex justify-start items-center w-full bg-[#fff3ee] px-[6px] sm:px-[7px] md:px-[8px] mb-[10px] sm:mb-[12px] md:mb-[14px]">
+          <div className="flex justify-start items-center w-full bg-[#fff3ee] px-[6px] sm:px-[7px] md:px-[8px]">
             <p className="text-[10px] sm:text-[11px] md:text-[12px] font-normal leading-[14px] sm:leading-[16px] md:leading-[18px] text-center text-[#111111] font-['Lato'] w-full py-1">
               {/* Display benefits in the description area */}
               {benefitsText || `${description.split('. ')[0]}. ${description.split('. ')[1]}.`}
@@ -276,7 +276,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
       {/* Bottom Section with Date and Button */}
       <div className="flex justify-between items-center w-full px-[10px] sm:px-[12px] md:px-[14px] py-[8px] sm:py-[9px] md:py-[10px] border-b border-[#33333319]">
         <div className="flex flex-col">
-          <span className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-left text-[#111111] font-['Lato'] self-end mb-[3px] sm:mb-[4px] md:mb-[6px]">
+          <span className="text-[13px] sm:text-[14px] md:text-[16px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-left text-[#111111] font-['Lato'] self-end mb-[3px] sm:mb-[4px] md:mb-[6px]">
             <svg className="inline w-4 h-4 text-orange-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg> {formatDateWithDay(date)}
@@ -286,7 +286,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
           <Button
             variant="primary"
             size="sm"
-            className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[18px] px-[25px] sm:px-[30px] md:px-[34px] py-[6px] sm:py-[7px] md:py-[8px] font-['Lato'] hover:shadow-lg transition-shadow duration-200"
+            className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold px-6 py-2 sm:px-6 sm:py-2 md:px-6 md:py-2 rounded-full flex items-center gap-2 shadow-lg transform hover:scale-105 transition-transform duration-200"
           >
             Participate Now
           </Button>

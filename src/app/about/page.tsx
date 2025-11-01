@@ -136,10 +136,7 @@ const AboutUsPage: React.FC = () => {
                   
                   {/* Sacred Heading with Sanskrit Elements */}
                   <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
-                    <span className="bg-gradient-to-r from-amber-700 via-amber-600 to-orange-600 bg-clip-text text-transparent">
-                      हमारे बारे में
-                    </span>
-                    <br />
+                    
                     <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
                       About Us
                     </span>

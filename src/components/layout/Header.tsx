@@ -73,9 +73,10 @@ const Header: React.FC = () => {
       setActiveMenuItem('Horoscope');
     } else if (pathname?.startsWith('/chadawa-store')) {
       setActiveMenuItem('Chadawa');
-    } else if (pathname?.startsWith('/store')) {
-      setActiveMenuItem('Store');
     } 
+    // else if (pathname?.startsWith('/store')) {
+    //   setActiveMenuItem('Store');
+    // } 
     else if (
       pathname?.startsWith('/about') ||
       pathname?.startsWith('/panchang') ||
@@ -112,7 +113,7 @@ const Header: React.FC = () => {
     { name: 'Home', href: '/', active: activeMenuItem === 'Home' },
     { name: 'Puja', href: '/pujas', active: activeMenuItem === 'Puja' },
     { name: 'Horoscope', href: '/horoscope', active: activeMenuItem === 'Horoscope' },
-    { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
+    // { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
     { name: 'Chadawa', href: '/chadawa-store', active: activeMenuItem === 'Chadawa' },
     { name: 'More', href: '/about', active: activeMenuItem === 'More' },
   ];
@@ -156,7 +157,7 @@ const Header: React.FC = () => {
         <div className="rounded-full p-[1px] bg-gradient-to-r from-orange-400 to-orange-500 shadow-md">
           <div className="flex items-center rounded-full" style={{ background: '#FFF0E9' }}>
             <nav className="hidden lg:flex items-center justify-between w-full">
-              {menuItems.slice(0, 5).map((item, index) => (
+              {menuItems.slice(0, 4).map((item, index) => (
                 <div key={index} className="relative">
                   <button
                     onClick={() => handleMenuItemClick(item.href, item.name)}
@@ -332,9 +333,9 @@ const Header: React.FC = () => {
 
           {/* Mobile More Section */}
           <div className="border-t border-orange-200 pt-4 mt-4 w-4/5">
-            <div className="text-sm font-bold text-orange-500 px-4 py-2 uppercase tracking-wide text-center">
+            {/* <div className="text-sm font-bold text-orange-500 px-4 py-2 uppercase tracking-wide text-center">
               More Options
-            </div>
+            </div> */}
             {moreMenuItems.map((item, index) => (
               <div key={index} className="relative w-full flex justify-center">
                 <button
@@ -349,9 +350,9 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Language Switcher */}
-          <div className="w-4/5 mt-4">
+          {/* <div className="w-4/5 mt-4">
             <LanguageSwitcher />
-          </div>
+          </div> */}
 
           {/* Mobile Login/Profile Button */}
           {user?.isAuthenticated ? (

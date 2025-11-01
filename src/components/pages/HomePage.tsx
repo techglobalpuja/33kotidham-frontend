@@ -63,24 +63,24 @@ export default function HomePage() {
   const testimonials: TestimonialProps[] = [
     {
       avatar: "/images/img_ellipse_5.png",
-      name: "Jennifer Knight",
-      role: "Designer",
+      name: "Vikesh Sharma",
+      role: "Delhi, India",
       rating: 5, // Changed from string to number
       testimonial: "I joined the Lakshmi Puja through 33KotiDham and could truly feel the divine presence at home. The live experience was seamless and filled with peace."
     },
     {
       avatar: "/images/img_ellipse_5_86x86.png",
-      name: "Meadow Morrow",
-      role: "Designer",
+      name: "P.K. Chauhan",
+      role: "M.P, India",
       rating: 4, // Changed from string to number
-      testimonial: "Suspendisse elit eros, elementum quis massa sed, luctus pharetra risus. Morbi placerat fermentum mauris, eget egestas sem mollis ut. Proin vitae ltus at libero condimentum consectetur et anim."
+      testimonial: "My life changed after I participated in Baglamukhi havan organized by 33KotiDham. I also got Baglamukhi yantra which we keep in mandir area in our house."
     },
     {
       avatar: "/images/img_ellipse_5_1.png",
-      name: "Deborah Booker",
-      role: "Designer",
+      name: "Varsha Pandey",
+      role: "Delhi, India",
       rating: 5, // Changed from string to number
-      testimonial: "Suspendisse elit eros, elementum quis massa sed, luctus pharetra risus. Morbi placerat fermentum mauris, eget egestas sem mollis ut. Proin vitae ltus at libero condimentum consectetur et anim."
+      testimonial: "The Saraswati Puja helped my daughter excel in her studies. She topped her class and got admission to her dream college. Grateful to the divine!"
     }
   ];
 
