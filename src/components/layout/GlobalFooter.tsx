@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 const GlobalFooter: React.FC = () => {
   return (
@@ -10,19 +11,19 @@ const GlobalFooter: React.FC = () => {
           <div>
             <h3 className="font-bold text-lg mb-4 text-orange-400">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Home</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">All Pujas</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Contact</a></li>
+              <li><Link href="/" className="hover:text-orange-400 transition-colors">Home</Link></li>
+              <li><Link href="/about" className="hover:text-orange-400 transition-colors">About Us</Link></li>
+              <li><Link href="/pujas" className="hover:text-orange-400 transition-colors">All Pujas</Link></li>
+              <li><Link href="/contact" className="hover:text-orange-400 transition-colors">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-bold text-lg mb-4 text-orange-400">Services</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Online Puja</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Temple Visits</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">Astrology</a></li>
-              <li><a href="#" className="hover:text-orange-400 transition-colors">E-Store</a></li>
+              <li><Link href="/pujas" className="hover:text-orange-400 transition-colors">Online Puja</Link></li>
+              <li><Link href="/chadawa-store" className="hover:text-orange-400 transition-colors">Temple Visits</Link></li>
+              <li><Link href="/horoscope" className="hover:text-orange-400 transition-colors">Astrology</Link></li>
+              <li><Link href="/store" className="hover:text-orange-400 transition-colors">E-Store</Link></li>
             </ul>
           </div>
           <div>
@@ -42,18 +43,18 @@ const GlobalFooter: React.FC = () => {
           <div>
             <h3 className="font-bold text-lg mb-4 text-orange-400">Follow Us</h3>
             <div className="flex gap-3">
-              <a href="#" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
+              <Link href="https://facebook.com" target="_blank" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
                 <span className="font-bold">f</span>
-              </a>
-              <a href="#" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
+              </Link>
+              <Link href="https://twitter.com" target="_blank" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
                 <span className="font-bold">𝕏</span>
-              </a>
-              <a href="#" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
+              </Link>
+              <Link href="https://linkedin.com" target="_blank" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
                 <span className="font-bold">in</span>
-              </a>
-              <a href="#" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
+              </Link>
+              <Link href="https://instagram.com" target="_blank" className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors">
                 <span className="font-bold">📷</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
