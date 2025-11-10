@@ -424,7 +424,7 @@ return (
 
                 {/* Countdown Timer */}
                 {selectedPuja.date && selectedPuja.time && (
-                  <div className="mb-6 w-[165px]">
+                  <div className="mb-6 w-[165px]" translate="no">
                     <CountdownTimer date={selectedPuja.date} time={selectedPuja.time} />
                   </div>
                 )}

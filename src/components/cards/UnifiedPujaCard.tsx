@@ -227,7 +227,9 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
               )}
               {/* Add countdown timer if time is provided - positioned at top left */}
               {time && (
-                <CountdownTimer date={date} time={time} />
+                <div translate="no">
+                  <CountdownTimer date={date} time={time} />
+                </div>
               )}
             </div>
             {/* WhatsApp Share Icon - Top Right */}

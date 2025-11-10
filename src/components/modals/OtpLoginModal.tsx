@@ -383,6 +383,7 @@ const OtpLoginModal: React.FC = () => {
                     onClick={handleResendOtp}
                     disabled={countdown > 0 || isLoading}
                     className={`text-sm font-medium ${countdown > 0 ? 'text-gray-400' : 'text-orange-600 hover:text-orange-800'}`}
+                    translate="no"
                   >
                     {countdown > 0 ? `Resend in ${countdown}s` : 'Resend OTP'}
                   </button>

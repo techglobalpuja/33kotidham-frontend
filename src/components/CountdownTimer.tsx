@@ -49,7 +49,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ date, time }) => {
 
   if (isExpired) {
     return (
-      <div className="bg-red-500 text-white text-sm font-bold px-3 py-2 rounded-full shadow-lg animate-pulse transform hover:scale-105 transition-transform duration-200">
+      <div className="bg-red-500 text-white text-sm font-bold px-3 py-2 rounded-full shadow-lg animate-pulse transform hover:scale-105 transition-transform duration-200" translate="no">
         Puja Started
       </div>
     );
@@ -63,7 +63,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ date, time }) => {
   const displayText = `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`;
 
   return (
-    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold px-3 py-2 rounded-full flex items-center gap-2 shadow-lg transform hover:scale-105 transition-transform duration-200">
+    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold px-3 py-2 rounded-full flex items-center gap-2 shadow-lg transform hover:scale-105 transition-transform duration-200" translate="no">
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
