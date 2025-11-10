@@ -15,6 +15,7 @@ const GlobalFooter: React.FC = () => {
               <li><Link href="/about" className="hover:text-orange-400 transition-colors">About Us</Link></li>
               <li><Link href="/pujas" className="hover:text-orange-400 transition-colors">All Pujas</Link></li>
               <li><Link href="/contact" className="hover:text-orange-400 transition-colors">Contact</Link></li>
+              <li><Link href="/feedback" className="hover:text-orange-400 transition-colors">Feedback</Link></li>
             </ul>
           </div>
           <div>
@@ -59,7 +60,7 @@ const GlobalFooter: React.FC = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 33 Koti Dham. All rights reserved. Made with devotion 🙏</p>
+          <p>&copy; 2025 33 Koti Dham. All rights reserved. Made with devotion 🙏</p>
         </div>
       </div>
     </footer>

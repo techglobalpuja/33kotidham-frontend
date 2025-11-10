@@ -107,6 +107,7 @@ const Header: React.FC = () => {
     // { name: 'Career', href: '/career', icon: '💼' },
     { name: 'Blog', href: '/blog', icon: '📚' },
     { name: 'Contact', href: '/contact', icon: '📞' },
+    { name: 'Feedback', href: '/feedback', icon: '💬' },
   ];
 
   const menuItems = [
