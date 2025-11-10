@@ -222,7 +222,7 @@ const Header: React.FC = () => {
         {/* Right Section */}
         <div className="flex items-center gap-3 ml-4">
           {/* Language Switcher */}
-          {/* <LanguageSwitcher /> */}
+           <LanguageSwitcher /> 
 
           {/* User Profile or Login Button */}
           {user?.isAuthenticated ? (

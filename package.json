@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md,json}\""
   },
+  
   "dependencies": {
     "@dhiwise/component-tagger": "^1.0.10",
     "@emotion/react": "^11.14.0",
