@@ -164,7 +164,7 @@ const FeedbackPage: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Suggestions</h3>
               <p className="text-gray-600">
-                Have ideas to improve our services? We're all ears!
+                Have ideas to improve our services? We&#39;re all ears!
               </p>
             </div>
             

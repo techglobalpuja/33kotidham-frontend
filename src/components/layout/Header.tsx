@@ -73,10 +73,9 @@ const Header: React.FC = () => {
       setActiveMenuItem('Horoscope');
     } else if (pathname?.startsWith('/chadawa-store')) {
       setActiveMenuItem('Chadawa');
+    } else if (pathname?.startsWith('/store')) {
+      setActiveMenuItem('Store');
     } 
-    // else if (pathname?.startsWith('/store')) {
-    //   setActiveMenuItem('Store');
-    // } 
     else if (
       pathname?.startsWith('/about') ||
       pathname?.startsWith('/panchang') ||
@@ -114,8 +113,8 @@ const Header: React.FC = () => {
     { name: 'Home', href: '/', active: activeMenuItem === 'Home' },
     { name: 'Puja', href: '/pujas', active: activeMenuItem === 'Puja' },
     { name: 'Horoscope', href: '/horoscope', active: activeMenuItem === 'Horoscope' },
-    // { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
     { name: 'Chadawa', href: '/chadawa-store', active: activeMenuItem === 'Chadawa' },
+    { name: 'Store', href: '/store', active: activeMenuItem === 'Store' },
     { name: 'More', href: '/about', active: activeMenuItem === 'More' },
   ];
 
@@ -158,7 +157,7 @@ const Header: React.FC = () => {
         <div className="rounded-full p-[1px] bg-gradient-to-r from-orange-400 to-orange-500 shadow-md">
           <div className="flex items-center rounded-full" style={{ background: '#FFF0E9' }}>
             <nav className="hidden lg:flex items-center justify-between w-full">
-              {menuItems.slice(0, 4).map((item, index) => (
+              {menuItems.slice(0, 5).map((item, index) => (
                 <div key={index} className="relative">
                   <button
                     onClick={() => handleMenuItemClick(item.href, item.name)}
