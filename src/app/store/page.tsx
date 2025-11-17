@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -100,12 +101,12 @@ const StorePage: React.FC = () => {
 
   // Product categories
   const categories = [
-    { id: 'all', label: 'All Products', count: 24, icon: '🛍️' },
+    { id: 'all', label: 'All Products', count: 25, icon: '🛍️' },
     { id: 'idols', label: 'Sacred Idols', count: 8, icon: '🛕' },
     { id: 'jewelry', label: 'Spiritual Jewelry', count: 6, icon: '📿' },
+    { id: 'accessories', label: 'Puja Accessories', count: 6, icon: '🥥' },
     { id: 'books', label: 'Sacred Books', count: 5, icon: '📚' },
-    { id: 'incense', label: 'Incense & Oils', count: 3, icon: '🪔' },
-    { id: 'accessories', label: 'Puja Accessories', count: 2, icon: '🥥' }
+    { id: 'incense', label: 'Incense & Oils', count: 3, icon: '🪔' }
   ];
 
   // Mock products data
@@ -139,6 +140,21 @@ const StorePage: React.FC = () => {
       reviews: 89,
       inStock: true,
       tags: ['authentic', 'energized', 'meditation']
+    },
+    {
+      id: '7',
+      name: 'Sampurna Vyapar Vridhi Yantra',
+      subHeading: 'Complete Business Growth Yantra',
+      description: 'Sacred mystical instrument for business growth, prosperity, and success. Energized with mantras.',
+      price: 2499,
+      originalPrice: 3499,
+      images: ['/images/yantra-main.jpg'],
+      category: 'accessories',
+      isFeatured: true,
+      rating: 4.9,
+      reviews: 127,
+      inStock: true,
+      tags: ['business', 'prosperity', 'energized', 'yantra']
     },
     {
       id: '3',
@@ -401,6 +417,8 @@ const StorePage: React.FC = () => {
                 style={{ animationDelay: `${600 + index * 100}ms` }}
               >
                 
+                {/* Card Link Wrapper */}
+                <Link href={`/store/product/${product.id}`} className="block">
                 {/* Compact Image Section */}
                 <div className="relative h-48 overflow-hidden">
                   <Image
@@ -480,36 +498,51 @@ const StorePage: React.FC = () => {
                     </div>
                   </div>
                   
-                  {/* Compact Action Button */}
-                  <button 
-                    onClick={() => addToCart(product.id)}
-                    disabled={!product.inStock || isInCart(product.id)}
-                    className={`w-full py-2 px-4 rounded-xl font-medium text-sm transition-all duration-300 ${
-                      isInCart(product.id) 
-                        ? 'bg-green-500 text-white' 
-                        : product.inStock 
-                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transform hover:scale-105' 
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
-                  >
-                    {isInCart(product.id) ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        Added
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
-                          <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z"/>
-                        </svg>
-                        Add to Cart
-                      </span>
-                    )}
-                  </button>
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addToCart(product.id);
+                      }}
+                      disabled={!product.inStock || isInCart(product.id)}
+                      className={`flex-1 py-2 px-3 rounded-xl font-medium text-sm transition-all duration-300 ${
+                        isInCart(product.id) 
+                          ? 'bg-green-500 text-white' 
+                          : product.inStock 
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transform hover:scale-105' 
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                    >
+                      {isInCart(product.id) ? (
+                        <span className="flex items-center justify-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                          </svg>
+                          <span className="text-xs">Added</span>
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                            <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z"/>
+                          </svg>
+                          <span className="text-xs">Add</span>
+                        </span>
+                      )}
+                    </button>
+                    <Link 
+                      href={`/store/product/${product.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
+                </Link>
               </div>
             ))}
           </div>
