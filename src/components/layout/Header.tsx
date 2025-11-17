@@ -381,7 +381,12 @@ const Header: React.FC = () => {
           ) : (
             <button
               className="w-4/5 mt-4 px-4 py-2 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold uppercase text-base shadow hover:scale-105 transition-all"
-              onClick={() => dispatch(setLoginModalOpen(true))}
+              onClick={() => {
+                dispatch(setLoginModalOpen(true));
+                if (isMobileMenuOpen) {
+                  dispatch(setMobileMenuOpen(false));
+                }
+              }}
             >
               <div className="flex items-center justify-center gap-2">
                 <Image
