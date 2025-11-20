@@ -319,6 +319,24 @@ export interface ProductFormData {
   isActive: boolean;
 }
 
+export interface ProductImage {
+  id: number;
+  image_url: string;
+  is_primary: boolean;
+  display_order: number;
+  product_id: number;
+  created_at: string;
+}
+
+export interface ProductCategory {
+  id: number;
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -330,6 +348,64 @@ export interface Product {
   quantity: number;
   isActive: boolean;
   createdDate: string;
+}
+
+export interface BackendProductImage {
+  id: number;
+  image_url: string;
+  is_primary: boolean;
+  display_order: number;
+  product_id: number;
+  created_at: string;
+}
+
+export interface BackendProductCategory {
+  id: number;
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+// Add this new interface for product categories
+export interface ProductCategory {
+  id: number;
+  name: string;
+  description: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BackendProduct {
+  id: number;
+  name: string;
+  slug: string;
+  short_description: string;
+  mrp: string;
+  selling_price: string;
+  discount_percentage: string;
+  stock_quantity: number;
+  is_featured: boolean;
+  is_active: boolean;
+  category: BackendProductCategory;
+  images: BackendProductImage[];
+  created_at: string;
+}
+
+export interface BackendProductDetail extends BackendProduct {
+  long_description: string;
+  sku: string;
+  weight: string;
+  dimensions: string;
+  material: string;
+  meta_description: string;
+  tags: string;
+  allow_cod: boolean;
+  category_id: number;
+  total_sales: number;
+  updated_at: string;
 }
 
 export interface AdminUser {

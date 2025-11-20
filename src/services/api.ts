@@ -1,5 +1,5 @@
 // API service layer for handling HTTP requests
-import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa, BookingResponse, Temple } from '@/types';
+import { PujaCard, User, BlogPost, Plan, BlogCategory, Chadawa, BookingResponse, Temple, BackendProduct, BackendProductDetail, BackendProductCategory } from '@/types';
 import { parseCookies } from 'nookies';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.33kotidham.in';
@@ -577,6 +577,44 @@ class ApiService {
 
   async getTempleById(id: number): Promise<Temple> {
     return this.request<Temple>(`/api/v1/temples/${id}`);
+  }
+
+  // Product API methods
+  async getProducts(skip: number = 0, limit: number = 100, categoryId?: number, isActive?: boolean, isFeatured?: boolean, search?: string): Promise<BackendProduct[]> {
+    let url = `/api/v1/products/?skip=${skip}&limit=${limit}`;
+    
+    if (categoryId !== undefined) {
+      url += `&category_id=${categoryId}`;
+    }
+    
+    if (isActive !== undefined) {
+      url += `&is_active=${isActive}`;
+    }
+    
+    if (isFeatured !== undefined) {
+      url += `&is_featured=${isFeatured}`;
+    }
+    
+    if (search !== undefined) {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+    
+    return this.request<BackendProduct[]>(url);
+  }
+
+  async getProductById(productId: number): Promise<BackendProductDetail> {
+    return this.request<BackendProductDetail>(`/api/v1/products/${productId}`);
+  }
+
+  // Add method for fetching product categories
+  async getProductCategories(skip: number = 0, limit: number = 100, isActive?: boolean): Promise<BackendProductCategory[]> {
+    let url = `/api/v1/products/categories?skip=${skip}&limit=${limit}`;
+    
+    if (isActive !== undefined) {
+      url += `&is_active=${isActive}`;
+    }
+    
+    return this.request<BackendProductCategory[]>(url);
   }
 }
 

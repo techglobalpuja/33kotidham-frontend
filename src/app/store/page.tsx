@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 import Link from 'next/link';
+import { apiService } from '@/services/api';
+import { BackendProduct } from '@/types';
 
 interface Product {
   id: string;
@@ -29,6 +31,9 @@ const StorePage: React.FC = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [cartItems, setCartItems] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Testimonials data
   const testimonials = [
@@ -62,6 +67,139 @@ const StorePage: React.FC = () => {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  // Transform backend product to frontend Product interface
+  const transformProduct = (backendProduct: BackendProduct): Product => {
+    // Get the primary image or first image if no primary image is set
+    const primaryImage = backendProduct.images.find(img => img.is_primary) || backendProduct.images[0];
+    
+    // Construct full image URL
+    let imageUrl = '/placeholder.jpg';
+    if (primaryImage?.image_url) {
+      // If it's already a full URL, use it as is
+      if (primaryImage.image_url.startsWith('http')) {
+        imageUrl = primaryImage.image_url;
+      } else {
+        // Otherwise construct the full URL
+        imageUrl = `https://api.33kotidham.in${primaryImage.image_url.startsWith('/') ? '' : '/'}${primaryImage.image_url}`;
+      }
+    }
+    
+    return {
+      id: backendProduct.id.toString(),
+      name: backendProduct.name,
+      subHeading: backendProduct.slug || '',
+      description: backendProduct.short_description,
+      price: parseFloat(backendProduct.selling_price),
+      originalPrice: parseFloat(backendProduct.mrp) > parseFloat(backendProduct.selling_price) 
+        ? parseFloat(backendProduct.mrp) 
+        : undefined,
+      images: [imageUrl],
+      category: backendProduct.category.name.toLowerCase(),
+      isFeatured: backendProduct.is_featured,
+      rating: 4.5, // Default rating since it's not in the backend response
+      reviews: Math.floor(Math.random() * 100) + 10, // Default reviews since it's not in the backend response
+      inStock: backendProduct.stock_quantity > 0,
+      tags: []
+    };
+  };
+
+  // Fetch products and categories from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch products
+        const backendProducts = await apiService.getProducts(0, 100);
+        const transformedProducts = backendProducts.map(transformProduct);
+        setProducts(transformedProducts);
+        
+        // Fetch categories
+        const backendCategories = await apiService.getProductCategories(0, 100, true);
+        
+        // Transform categories to match the existing structure
+        const transformedCategories = [
+          { id: 'all', label: 'All Products', count: transformedProducts.length, icon: '🛍️' },
+          ...backendCategories.map(cat => ({
+            id: cat.id.toString(),
+            label: cat.name,
+            count: 0, // Will be updated below
+            icon: getCategoryIcon(cat.name)
+          }))
+        ];
+        
+        // Update category counts
+        const categoryCounts: Record<string, number> = {};
+        transformedProducts.forEach(product => {
+          // Find the category ID that matches the product's category name
+          const category = backendCategories.find(cat => 
+            cat.name.toLowerCase() === product.category.toLowerCase()
+          );
+          
+          if (category) {
+            const categoryId = category.id.toString();
+            categoryCounts[categoryId] = (categoryCounts[categoryId] || 0) + 1;
+          }
+        });
+        
+        // Update counts in transformed categories
+        const updatedCategories = transformedCategories.map(cat => 
+          cat.id === 'all' 
+            ? { ...cat, count: transformedProducts.length } 
+            : { ...cat, count: categoryCounts[cat.id] || 0 }
+        );
+        
+        setCategories(updatedCategories);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Failed to load products and categories. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Helper function to get category icons
+  const getCategoryIcon = (categoryName: string): string => {
+    const categoryIcons: Record<string, string> = {
+      'Puja': '🛕',
+      'st': '📿',
+      'aman': '🥥',
+      // Add more category mappings as needed
+    };
+    
+    // Default icons for common categories
+    const defaultIcons: Record<string, string> = {
+      'idols': '🛕',
+      'jewelry': '📿',
+      'accessories': '🥥',
+      'books': '📚',
+      'incense': '🪔',
+      'oils': '🪔',
+      'puja': '🛕',
+      'spiritual': '🕉️'
+    };
+    
+    // Check if we have a specific icon for this category
+    const normalizedCategory = categoryName.toLowerCase();
+    if (categoryIcons[normalizedCategory]) {
+      return categoryIcons[normalizedCategory];
+    }
+    
+    // Check if any default icon matches
+    for (const [key, icon] of Object.entries(defaultIcons)) {
+      if (normalizedCategory.includes(key)) {
+        return icon;
+      }
+    }
+    
+    // Default icon
+    return '🛍️';
+  };
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -99,123 +237,17 @@ const StorePage: React.FC = () => {
     }
   ];
 
-  // Product categories
-  const categories = [
-    { id: 'all', label: 'All Products', count: 25, icon: '🛍️' },
-    { id: 'idols', label: 'Sacred Idols', count: 8, icon: '🛕' },
-    { id: 'jewelry', label: 'Spiritual Jewelry', count: 6, icon: '📿' },
-    { id: 'accessories', label: 'Puja Accessories', count: 6, icon: '🥥' },
-    { id: 'books', label: 'Sacred Books', count: 5, icon: '📚' },
-    { id: 'incense', label: 'Incense & Oils', count: 3, icon: '🪔' }
-  ];
+  // Product categories - will be updated with actual data from API
+  const [categories, setCategories] = useState([
+    { id: 'all', label: 'All Products', count: 0, icon: '🛍️' },
+    { id: 'idols', label: 'Sacred Idols', count: 0, icon: '🛕' },
+    { id: 'jewelry', label: 'Spiritual Jewelry', count: 0, icon: '📿' },
+    { id: 'accessories', label: 'Puja Accessories', count: 0, icon: '🥥' },
+    { id: 'books', label: 'Sacred Books', count: 0, icon: '📚' },
+    { id: 'incense', label: 'Incense & Oils', count: 0, icon: '🪔' }
+  ]);
 
-  // Mock products data
-  const allProducts: Product[] = [
-    {
-      id: '1',
-      name: 'Sacred Ganesha Idol',
-      subHeading: 'Handcrafted Brass Murti',
-      description: 'Beautiful handcrafted Ganesha idol made from pure brass, blessed by temple priests',
-      price: 2499,
-      originalPrice: 3499,
-      images: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop'],
-      category: 'idols',
-      isFeatured: true,
-      rating: 4.8,
-      reviews: 127,
-      inStock: true,
-      tags: ['blessed', 'handcrafted', 'brass']
-    },
-    {
-      id: '2',
-      name: 'Rudraksha Mala',
-      subHeading: '108 Beads Premium Quality',
-      description: 'Authentic Rudraksha mala with 108 beads, energized for meditation and spiritual practices',
-      price: 1899,
-      originalPrice: 2499,
-      images: ['https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600&h=600&fit=crop'],
-      category: 'jewelry',
-      isFeatured: true,
-      rating: 4.9,
-      reviews: 89,
-      inStock: true,
-      tags: ['authentic', 'energized', 'meditation']
-    },
-    {
-      id: '7',
-      name: 'Sampurna Vyapar Vridhi Yantra',
-      subHeading: 'Complete Business Growth Yantra',
-      description: 'Sacred mystical instrument for business growth, prosperity, and success. Energized with mantras.',
-      price: 2499,
-      originalPrice: 3499,
-      images: ['/images/yantra-main.jpg'],
-      category: 'accessories',
-      isFeatured: true,
-      rating: 4.9,
-      reviews: 127,
-      inStock: true,
-      tags: ['business', 'prosperity', 'energized', 'yantra']
-    },
-    {
-      id: '3',
-      name: 'Bhagavad Gita',
-      subHeading: 'Sanskrit with Hindi Translation',
-      description: 'Complete Bhagavad Gita with Sanskrit shlokas and Hindi translation in premium binding',
-      price: 899,
-      originalPrice: 1299,
-      images: ['https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=600&h=600&fit=crop'],
-      category: 'books',
-      isFeatured: false,
-      rating: 4.7,
-      reviews: 156,
-      inStock: true,
-      tags: ['sanskrit', 'translation', 'premium']
-    },
-    {
-      id: '4',
-      name: 'Lakshmi Diya Set',
-      subHeading: 'Brass Oil Lamps Set of 5',
-      description: 'Traditional brass diyas for Lakshmi puja and Diwali celebrations, set of 5 pieces',
-      price: 799,
-      images: ['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop'],
-      category: 'accessories',
-      isFeatured: false,
-      rating: 4.6,
-      reviews: 73,
-      inStock: true,
-      tags: ['traditional', 'brass', 'diwali']
-    },
-    {
-      id: '5',
-      name: 'Sacred Dhoop Sticks',
-      subHeading: 'Natural Ingredients, 50 Sticks',
-      description: 'Premium dhoop sticks made from natural ingredients, perfect for daily prayers',
-      price: 299,
-      originalPrice: 399,
-      images: ['https://images.unsplash.com/photo-1604608672516-a224451d4ad3?w=600&h=600&fit=crop'],
-      category: 'incense',
-      isFeatured: false,
-      rating: 4.5,
-      reviews: 92,
-      inStock: true,
-      tags: ['natural', 'daily prayers', 'premium']
-    },
-    {
-      id: '6',
-      name: 'Silver Om Pendant',
-      subHeading: 'Pure Silver 925',
-      description: 'Elegant Om pendant crafted in pure silver 925, comes with chain',
-      price: 3499,
-      originalPrice: 4499,
-      images: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop'],
-      category: 'jewelry',
-      isFeatured: true,
-      rating: 4.9,
-      reviews: 67,
-      inStock: true,
-      tags: ['silver', 'elegant', 'chain included']
-    }
-  ];
+  // Mock products data - removed since we're fetching real data from API
 
   // FAQ data
   const faqs = [
@@ -242,8 +274,16 @@ const StorePage: React.FC = () => {
   ];
 
   const filteredProducts = selectedCategory === 'all' 
-    ? allProducts 
-    : allProducts.filter(product => product.category === selectedCategory);
+    ? products 
+    : products.filter(product => {
+        // Find the category that matches the selected category ID
+        const categoryMatch = categories.find(cat => cat.id === selectedCategory);
+        if (!categoryMatch) return false;
+        
+        // For the "all" category, we show all products (handled above)
+        // For specific categories, we match by category name
+        return product.category.toLowerCase() === categoryMatch.label.toLowerCase();
+      });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
@@ -408,156 +448,185 @@ const StorePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Compact Product Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {sortedProducts.map((product, index) => (
-              <div
-                key={product.id}
-                className={`group relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden transform hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ animationDelay: `${600 + index * 100}ms` }}
-              >
-                
-                {/* Card Link Wrapper */}
-                <Link href={`/store/product/${product.id}`} className="block">
-                {/* Compact Image Section */}
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={product.images[0]}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  
-                  {/* Compact Badges */}
-                  <div className="absolute top-3 left-3 flex gap-1 z-10">
-                    {product.isFeatured && (
-                      <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-                        ⭐
-                      </span>
-                    )}
-                    {product.originalPrice && (
-                      <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-                        SALE
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Quick Actions */}
-                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="flex flex-col gap-1">
-                      <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-600 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </button>
-                      <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-600 hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-sm">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Compact Content */}
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-1">
-                    {product.subHeading}
-                  </p>
-                  
-                  {/* Compact Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-500">({product.reviews})</span>
-                  </div>
-                  
-                  {/* Compact Price */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-xl font-bold text-gray-900">{formatPrice(product.price)}</span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className={`text-xs font-medium ${
-                      product.inStock ? 'text-green-600' : 'text-red-600'
-                    }`}>
-                      {product.inStock ? '✓ In Stock' : '❌ Out of Stock'}
-                    </div>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        addToCart(product.id);
-                        // Redirect to product page after adding to cart
-                        window.location.href = `/store/product/${product.id}`;
-                      }}
-                      disabled={!product.inStock || isInCart(product.id)}
-                      className={`flex-1 py-2 px-3 rounded-xl font-medium text-sm transition-all duration-300 ${
-                        isInCart(product.id) 
-                          ? 'bg-green-500 text-white' 
-                          : product.inStock 
-                            ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transform hover:scale-105' 
-                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      {isInCart(product.id) ? (
-                        <span className="flex items-center justify-center gap-1">
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                          </svg>
-                          <span className="text-xs">Added</span>
-                        </span>
-                      ) : (
-                        <span className="flex items-center justify-center gap-1">
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
-                            <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z"/>
-                          </svg>
-                          <span className="text-xs">Add</span>
-                        </span>
-                      )}
-                    </button>
-                    <Link 
-                      href={`/store/product/${product.id}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-          
-          {/* Empty State */}
-          {sortedProducts.length === 0 && (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-              <p className="text-gray-600">Try adjusting your filters to see more results.</p>
+          {/* Loading State */}
+          {loading && (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
             </div>
           )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Products</h3>
+              <p className="text-gray-600 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold rounded-2xl hover:from-orange-600 hover:to-rose-600 transition-all duration-300"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* Products Grid */}
+          {!loading && !error && (
+            <>
+              {/* Compact Product Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {sortedProducts.map((product, index) => (
+                  <div
+                    key={product.id}
+                    className={`group relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden transform hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    style={{ animationDelay: `${600 + index * 100}ms` }}
+                  >
+                    
+                    {/* Card Link Wrapper */}
+                    <Link href={`/store/product/${product.id}`} className="block">
+                    {/* Compact Image Section */}
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      
+                      {/* Compact Badges */}
+                      <div className="absolute top-3 left-3 flex gap-1 z-10">
+                        {product.isFeatured && (
+                          <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+                            ⭐
+                          </span>
+                        )}
+                        {product.originalPrice && (
+                          <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+                            SALE
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Quick Actions */}
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="flex flex-col gap-1">
+                          <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-600 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                          </button>
+                          <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-600 hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-sm">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Compact Content */}
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-1">
+                        {product.subHeading}
+                      </p>
+                      
+                      {/* Compact Rating */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <svg key={i} className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                          ))}
+                        </div>
+                        <span className="text-xs text-gray-500">({product.reviews})</span>
+                      </div>
+                      
+                      {/* Compact Price */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xl font-bold text-gray-900">{formatPrice(product.price)}</span>
+                            {product.originalPrice && (
+                              <span className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className={`text-xs font-medium ${
+                          product.inStock ? 'text-green-600' : 'text-red-600'
+                        }`}>
+                          {product.inStock ? '✓ In Stock' : '❌ Out of Stock'}
+                        </div>
+                      </div>
+                      
+                      {/* Action Buttons */}
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            addToCart(product.id);
+                            // Redirect to product page after adding to cart
+                            window.location.href = `/store/product/${product.id}`;
+                          }}
+                          disabled={!product.inStock || isInCart(product.id)}
+                          className={`flex-1 py-2 px-3 rounded-xl font-medium text-sm transition-all duration-300 ${
+                            isInCart(product.id) 
+                              ? 'bg-green-500 text-white' 
+                              : product.inStock 
+                                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transform hover:scale-105' 
+                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          }`}
+                        >
+                          {isInCart(product.id) ? (
+                            <span className="flex items-center justify-center gap-1">
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                              </svg>
+                              <span className="text-xs">Added</span>
+                            </span>
+                          ) : (
+                            <span className="flex items-center justify-center gap-1">
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                                <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z"/>
+                              </svg>
+                              <span className="text-xs">Add</span>
+                            </span>
+                          )}
+                        </button>
+                        <Link 
+                          href={`/store/product/${product.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Empty State */}
+              {sortedProducts.length === 0 && !loading && (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">🔍</div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+                  <p className="text-gray-600">Try adjusting your filters to see more results.</p>
+                </div>
+              )}
+            </>
+          )}
+          
+
         </div>
       </section>
 

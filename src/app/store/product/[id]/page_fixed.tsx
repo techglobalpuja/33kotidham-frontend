@@ -35,7 +35,24 @@ const getProductById = (id: string): Product | null => {
       name: 'Sacred Ganesha Idol',
       subHeading: 'Handcrafted Brass Murti',
       description: 'Beautiful handcrafted Ganesha idol made from pure brass, blessed by temple priests. This sacred idol is crafted with intricate details and is perfect for home or office worship. The idol is energized with traditional Vedic mantras to bring prosperity and remove obstacles from your life.',
-      fullDescription: 'The Sacred Ganesha Idol is a masterpiece of traditional Indian craftsmanship. Made from high-quality brass, this idol captures every detail of Lord Ganesha\'s divine form. The idol is handcrafted by skilled artisans who have been creating religious artifacts for generations.\n\nEach idol is carefully blessed by experienced priests in authentic temples following traditional rituals. The energization process involves chanting of sacred mantras and performing puja ceremonies to invoke divine blessings.\n\nKey Features:\n- Made from 100% pure brass\n- Handcrafted with intricate details\n- Energized by qualified priests\n- Perfect for home or office worship\n- Comes with a wooden stand\n- Dimensions: 6 inches (H) x 4 inches (W)\n\nBenefits:\n- Removes obstacles and brings success\n- Brings prosperity and good fortune\n- Promotes wisdom and knowledge\n- Creates a peaceful and positive environment\n- Ideal for daily prayers and meditation',
+      fullDescription: `The Sacred Ganesha Idol is a masterpiece of traditional Indian craftsmanship. Made from high-quality brass, this idol captures every detail of Lord Ganesha's divine form. The idol is handcrafted by skilled artisans who have been creating religious artifacts for generations.
+
+Each idol is carefully blessed by experienced priests in authentic temples following traditional rituals.
+
+Key Features:
+- Made from 100% pure brass
+- Handcrafted with intricate details
+- Energized by qualified priests
+- Perfect for home or office worship
+- Comes with a wooden stand
+- Dimensions: 6 inches (H) x 4 inches (W)
+
+Benefits:
+- Removes obstacles and brings success
+- Brings prosperity and good fortune
+- Promotes wisdom and knowledge
+- Creates a peaceful and positive environment
+- Ideal for daily prayers and meditation`,
       price: 2499,
       originalPrice: 3499,
       images: [
@@ -75,7 +92,24 @@ const getProductById = (id: string): Product | null => {
       name: 'Rudraksha Mala',
       subHeading: '108 Beads Premium Quality',
       description: 'Authentic Rudraksha mala with 108 beads, energized for meditation and spiritual practices. This sacred mala is made from genuine Rudraksha seeds and is blessed by experienced priests for maximum spiritual benefits.',
-      fullDescription: 'The Rudraksha Mala is a powerful spiritual tool used for meditation, prayer, and energy healing. Each bead is carefully selected and strung together with a sacred thread. The mala is energized through traditional rituals to enhance its spiritual properties.\\n\\nRudraksha beads are known for their healing properties and are believed to bring peace, prosperity, and spiritual growth to the wearer. They are especially beneficial for meditation and mindfulness practices.\\n\\nKey Features:\\n- 108 genuine Rudraksha beads\\n- Authentic seeds sourced from Nepal\\n- Energized with sacred mantras\\n- Comes with a silk pouch for storage\\n- Hand-knotted with sacred thread\\n- Includes a detailed guidebook\\n\\nBenefits:\\n- Enhances focus and concentration\\n- Reduces stress and anxiety\\n- Promotes inner peace and calm\\n- Balances the body\'s energy centers\\n- Supports spiritual growth and awakening',
+      fullDescription: `The Rudraksha Mala is a powerful spiritual tool used for meditation, prayer, and energy healing. Each bead is carefully selected and strung together with a sacred thread. The mala is energized through traditional rituals to enhance its spiritual properties.
+
+Rudraksha beads are known for their healing properties and are believed to bring peace, prosperity, and spiritual growth to the wearer. They are especially beneficial for meditation and mindfulness practices.
+
+Key Features:
+- 108 genuine Rudraksha beads
+- Authentic seeds sourced from Nepal
+- Energized with sacred mantras
+- Comes with a silk pouch for storage
+- Hand-knotted with sacred thread
+- Includes a detailed guidebook
+
+Benefits:
+- Enhances focus and concentration
+- Reduces stress and anxiety
+- Promotes inner peace and calm
+- Balances the body's energy centers
+- Supports spiritual growth and awakening`,
       price: 1899,
       originalPrice: 2499,
       images: [
@@ -115,7 +149,30 @@ const getProductById = (id: string): Product | null => {
       name: 'Bhagavad Gita',
       subHeading: 'Sanskrit with Hindi Translation',
       description: 'Complete Bhagavad Gita with Sanskrit shlokas and Hindi translation in premium binding. This edition includes commentary by renowned scholars and is perfect for spiritual study and daily reference.',
-      fullDescription: 'The Bhagavad Gita is one of the most revered spiritual texts in Hinduism. This premium edition presents the original Sanskrit verses along with a clear Hindi translation and detailed commentary. The book is beautifully bound with high-quality materials and is designed for both study and daily reference.\\n\\nThis edition includes:\\n- Original Sanskrit shlokas\\n- Hindi translation for easy understanding\\n- Commentary by renowned spiritual scholars\\n- Glossary of important terms\\n- Index for quick reference\\n- Premium quality paper and binding\\n\\nKey Features:\\n- Authentic Sanskrit text\\n- Clear Hindi translation\\n- Scholarly commentary\\n- Premium quality binding\\n- Gold leaf embossed cover\\n- Bookmark ribbon included\\n\\nBenefits:\\n- Deepens spiritual understanding\\n- Provides guidance for life\'s challenges\\n- Enhances knowledge of Vedic philosophy\\n- Perfect for daily study and reflection\\n- Makes a thoughtful gift for spiritual seekers',
+      fullDescription: `The Bhagavad Gita is one of the most revered spiritual texts in Hinduism. This premium edition presents the original Sanskrit verses along with a clear Hindi translation and detailed commentary. The book is beautifully bound with high-quality materials and is designed for both study and daily reference.
+
+This edition includes:
+- Original Sanskrit shlokas
+- Hindi translation for easy understanding
+- Commentary by renowned spiritual scholars
+- Glossary of important terms
+- Index for quick reference
+- Premium quality paper and binding
+
+Key Features:
+- Authentic Sanskrit text
+- Clear Hindi translation
+- Scholarly commentary
+- Premium quality binding
+- Gold leaf embossed cover
+- Bookmark ribbon included
+
+Benefits:
+- Deepens spiritual understanding
+- Provides guidance for life's challenges
+- Enhances knowledge of Vedic philosophy
+- Perfect for daily study and reflection
+- Makes a thoughtful gift for spiritual seekers`,
       price: 899,
       originalPrice: 1299,
       images: [
@@ -155,7 +212,24 @@ const getProductById = (id: string): Product | null => {
       name: 'Lakshmi Diya Set',
       subHeading: 'Brass Oil Lamps Set of 5',
       description: 'Traditional brass diyas for Lakshmi puja and Diwali celebrations, set of 5 pieces. These beautiful diyas are handcrafted and perfect for creating a divine atmosphere during prayers and festivals.',
-      fullDescription: 'The Lakshmi Diya Set includes five beautifully crafted brass oil lamps that are perfect for Lakshmi puja and Diwali celebrations. Each diya is handcrafted by skilled artisans using traditional techniques and is designed to create a divine atmosphere during prayers and festivals.\\n\\nThese diyas are made from high-quality brass and feature intricate designs that reflect traditional Indian artistry. The set includes five matching diyas that can be arranged in various patterns to create a stunning display.\\n\\nKey Features:\\n- Set of 5 brass diyas\\n- Handcrafted with intricate designs\\n- Traditional Indian artistry\\n- Perfect for Lakshmi puja and Diwali\\n- Comes in a decorative box\\n- Easy to clean and maintain\\n\\nBenefits:\\n- Creates a divine atmosphere during prayers\\n- Attracts prosperity and good fortune\\n- Perfect for Diwali and other festivals\\n- Enhances the beauty of your puja setup\\n- Makes a thoughtful gift for special occasions',
+      fullDescription: `The Lakshmi Diya Set includes five beautifully crafted brass oil lamps that are perfect for Lakshmi puja and Diwali celebrations. Each diya is handcrafted by skilled artisans using traditional techniques and is designed to create a divine atmosphere during prayers and festivals.
+
+These diyas are made from high-quality brass and feature intricate designs that reflect traditional Indian artistry. The set includes five matching diyas that can be arranged in various patterns to create a stunning display.
+
+Key Features:
+- Set of 5 brass diyas
+- Handcrafted with intricate designs
+- Traditional Indian artistry
+- Perfect for Lakshmi puja and Diwali
+- Comes in a decorative box
+- Easy to clean and maintain
+
+Benefits:
+- Creates a divine atmosphere during prayers
+- Attracts prosperity and good fortune
+- Perfect for Diwali and other festivals
+- Enhances the beauty of your puja setup
+- Makes a thoughtful gift for special occasions`,
       price: 799,
       images: [
         'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop',
@@ -194,7 +268,24 @@ const getProductById = (id: string): Product | null => {
       name: 'Sacred Dhoop Sticks',
       subHeading: 'Natural Ingredients, 50 Sticks',
       description: 'Premium dhoop sticks made from natural ingredients, perfect for daily prayers. These sacred dhoop sticks are made from traditional recipes and are ideal for creating a peaceful atmosphere during meditation and worship.',
-      fullDescription: 'The Sacred Dhoop Sticks are made from natural ingredients using traditional recipes that have been passed down through generations. These premium dhoop sticks are perfect for daily prayers, meditation, and creating a peaceful atmosphere in your home or workspace.\\n\\nEach stick is carefully crafted to ensure a consistent burn and pleasant fragrance. The natural ingredients are sourced from sacred places and are processed without harmful chemicals.\\n\\nKey Features:\\n- Pack of 50 premium dhoop sticks\\n- Made from 100% natural ingredients\\n- Traditional recipes and methods\\n- Pleasant and long-lasting fragrance\\n- Burns evenly and consistently\\n- Eco-friendly and sustainable\\n\\nBenefits:\\n- Creates a peaceful and sacred atmosphere\\n- Enhances focus during meditation\\n- Purifies the environment\\n- Ideal for daily prayers and rituals\\n- Natural and chemical-free',
+      fullDescription: `The Sacred Dhoop Sticks are made from natural ingredients using traditional recipes that have been passed down through generations. These premium dhoop sticks are perfect for daily prayers, meditation, and creating a peaceful atmosphere in your home or workspace.
+
+Each stick is carefully crafted to ensure a consistent burn and pleasant fragrance. The natural ingredients are sourced from sacred places and are processed without harmful chemicals.
+
+Key Features:
+- Pack of 50 premium dhoop sticks
+- Made from 100% natural ingredients
+- Traditional recipes and methods
+- Pleasant and long-lasting fragrance
+- Burns evenly and consistently
+- Eco-friendly and sustainable
+
+Benefits:
+- Creates a peaceful and sacred atmosphere
+- Enhances focus during meditation
+- Purifies the environment
+- Ideal for daily prayers and rituals
+- Natural and chemical-free`,
       price: 299,
       originalPrice: 399,
       images: [
