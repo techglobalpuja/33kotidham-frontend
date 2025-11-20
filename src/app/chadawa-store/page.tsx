@@ -9,8 +9,6 @@ import { apiService } from '@/services/api';
 import { Temple } from '@/types';
 
 const ChadawaStorePage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
   const [temples, setTemples] = useState<Temple[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -122,49 +120,12 @@ const ChadawaStorePage: React.FC = () => {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div className="flex flex-wrap gap-3">
                 <button
-                  onClick={() => setSelectedCategory('all')}
                   className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                    selectedCategory === 'all'
-                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
+                    'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
                   }`}
                 >
                   All Temples
                 </button>
-                <button
-                  onClick={() => setSelectedCategory('popular')}
-                  className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                    selectedCategory === 'popular'
-                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
-                  }`}
-                >
-                  Popular
-                </button>
-                <button
-                  onClick={() => setSelectedCategory('new')}
-                  className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                    selectedCategory === 'new'
-                      ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
-                  }`}
-                >
-                  New Arrivals
-                </button>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-bold text-gray-700">Sort by:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border-2 border-orange-200 rounded-full focus:ring-4 focus:ring-orange-200 focus:border-orange-400 text-sm font-medium bg-white/80 backdrop-blur-sm transition-all duration-300"
-                >
-                  <option value="featured">Featured</option>
-                  <option value="rating">Top Rated</option>
-                  <option value="experience">Experience</option>
-                  <option value="distance">Nearest</option>
-                </select>
               </div>
             </div>
           </div> */}

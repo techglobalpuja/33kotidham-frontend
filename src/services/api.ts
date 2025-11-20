@@ -537,10 +537,10 @@ class ApiService {
     mobile_number: string;
     whatsapp_number: string;
     gotra: string;
-    chadawas: any[];
+    chadawas: BackendChadawa[];
     chadawa_ids: number[];
-  }): Promise<any> {
-    return this.request<any>('/api/v1/bookings/razorpay-booking', {
+  }): Promise<{ razorpay_order_id: string; razorpay_order: { amount: number; currency: string }; booking: { id: number } }> {
+    return this.request<{ razorpay_order_id: string; razorpay_order: { amount: number; currency: string }; booking: { id: number } }>('/api/v1/bookings/razorpay-booking', {
       method: 'POST',
       body: JSON.stringify(bookingData),
     });
@@ -551,9 +551,9 @@ class ApiService {
     razorpay_order_id: string;
     razorpay_payment_id: string;
     razorpay_signature: string;
-  }): Promise<any> {
+  }): Promise<{ success: boolean; message: string }> {
     const { booking_id, razorpay_order_id, razorpay_payment_id, razorpay_signature } = params;
-    return this.request<any>(
+    return this.request<{ success: boolean; message: string }>(
       `/api/v1/bookings/verify-payment?booking_id=${booking_id}&razorpay_order_id=${razorpay_order_id}&razorpay_payment_id=${razorpay_payment_id}&razorpay_signature=${razorpay_signature}`,
       {
         method: 'POST',

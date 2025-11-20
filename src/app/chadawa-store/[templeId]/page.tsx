@@ -17,7 +17,7 @@ const TempleDetailPage: React.FC = () => {
   const [chadawas, setChadawas] = useState<Chadawa[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedChadawa, setSelectedChadawa] = useState<number | null>(null);
+
 
   useEffect(() => {
     const fetchTempleData = async () => {
@@ -31,7 +31,7 @@ const TempleDetailPage: React.FC = () => {
         // If the temple data doesn't include chadawas, fetch all chadawas as fallback
         if (templeData.chadawas && templeData.chadawas.length > 0) {
           // Convert the chadawas data to the proper Chadawa type
-          const formattedChadawas = templeData.chadawas.map((chadawa: any) => ({
+          const formattedChadawas = templeData.chadawas.map((chadawa) => ({
             id: chadawa.id,
             name: chadawa.name,
             description: chadawa.description,
@@ -239,9 +239,7 @@ const TempleDetailPage: React.FC = () => {
                   key={chadawa.id}
                   onClick={() => handleChadawaSelect(chadawa.id)}
                   className={`group relative bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border-2 overflow-hidden cursor-pointer transform hover:-translate-y-2 ${
-                    selectedChadawa === chadawa.id 
-                      ? 'border-orange-500 ring-4 ring-orange-200' 
-                      : 'border-white/50 hover:border-orange-300'
+                    'border-white/50 hover:border-orange-300'
                   }`}
                 >
                   <div className="relative h-52 overflow-hidden rounded-t-2xl">
@@ -280,16 +278,7 @@ const TempleDetailPage: React.FC = () => {
                     </div>
                   </div>
                   
-                  {selectedChadawa === chadawa.id && (
-                    <div className="absolute inset-0 bg-orange-500/10 rounded-2xl flex items-center justify-center">
-                      <div className="bg-orange-500 text-white px-4 py-2 rounded-full font-bold flex items-center">
-                        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Selected
-                      </div>
-                    </div>
-                  )}
+
                 </div>
               ))}
             </div>
@@ -300,7 +289,7 @@ const TempleDetailPage: React.FC = () => {
                 onClick={() => {
                   // If there's a selected chadawa, go to its checkout page
                   // Otherwise, go to the first chadawa checkout page
-                  const chadawaToCheckout = selectedChadawa || (chadawas.length > 0 ? chadawas[0].id : 1);
+                  const chadawaToCheckout = chadawas.length > 0 ? chadawas[0].id : 1;
                   window.location.href = `/chadawa-store/${templeId}/${chadawaToCheckout}/checkout`;
                 }}
                 className="px-12 py-4 rounded-2xl text-lg font-bold shadow-lg transform transition-all duration-300 bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 hover:scale-105"

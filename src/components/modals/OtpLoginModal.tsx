@@ -1,13 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { setLoginModalOpen } from '@/store/slices/uiSlice';
 import { requestOtp, verifyOtp, registerWithOtp } from '@/store/slices/authSlice';
 
 const OtpLoginModal: React.FC = () => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const { isLoginModalOpen } = useAppSelector((state) => state.ui);
   const { isLoading, error } = useAppSelector((state) => state.auth);

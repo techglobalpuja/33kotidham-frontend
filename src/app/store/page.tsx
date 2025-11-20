@@ -503,7 +503,10 @@ const StorePage: React.FC = () => {
                     <button 
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         addToCart(product.id);
+                        // Redirect to product page after adding to cart
+                        window.location.href = `/store/product/${product.id}`;
                       }}
                       disabled={!product.inStock || isInCart(product.id)}
                       className={`flex-1 py-2 px-3 rounded-xl font-medium text-sm transition-all duration-300 ${

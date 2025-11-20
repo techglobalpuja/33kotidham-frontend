@@ -9,27 +9,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
 import { loginSuccess, fetchUserInfo } from '@/store/slices/authSlice';
-import { PujaCard, Plan, Chadawa } from '@/types';
+import { PujaCard, PlanResponse } from '@/types';
 import { apiService } from '@/services/api';
 import { storeAuthToken, getAuthToken } from '@/utils/auth';
 import { useAppSelector } from '@/hooks';
 
-interface BackendPujaBenefit {
-  id: number;
-  benefit_title: string;
-  benefit_description: string;
-  puja_id: number;
-  created_at: string;
-}
-
-interface BackendPujaImage {
-  id: number;
-  image_url: string;
-}
 
 interface ExtendedPujaCard extends PujaCard {
-  benefits: BackendPujaBenefit[];
-  images: BackendPujaImage[];
+  benefits: Array<{id: number; benefit_title: string; benefit_description: string; puja_id: number; created_at: string}>;
+  images: Array<{id: number; image_url: string}>;
+  chadawas?: Chadawa[];
   temple_description?: string;
   prasad_price?: number;
   is_prasad_active?: boolean;
@@ -46,7 +35,17 @@ interface ExtendedPujaCard extends PujaCard {
   timer?: boolean;
   shareLabel?: string;
   plan_ids?: number[];
-  selectedPlans?: Plan[];
+  selectedPlans?: PlanResponse[];
+}
+
+interface TransformedChadhwa {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  icon: string;
+  selected: boolean;
 }
 
 const CustomCheckoutPage: React.FC = () => {
@@ -91,6 +90,7 @@ const CustomCheckoutPage: React.FC = () => {
   });
   const [isRequestingOtp, setIsRequestingOtp] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [selectedChadhwas, setSelectedChadhwas] = useState<TransformedChadhwa[]>([]);
 
   useEffect(() => {
     if (pujaId) {
@@ -105,7 +105,7 @@ const CustomCheckoutPage: React.FC = () => {
       return [];
     }
     
-    const puja = selectedPuja as any;
+    const puja = selectedPuja as ExtendedPujaCard;
     console.log('Selected Puja:', puja);
     console.log('Chadawas from API:', puja.chadawas);
     
@@ -114,7 +114,7 @@ const CustomCheckoutPage: React.FC = () => {
       return [];
     }
     
-    const transformed = puja.chadawas.map((chadawa: any) => ({
+    const transformed = puja.chadawas.map((chadawa) => ({
       id: chadawa.id,
       name: chadawa.name,
       description: chadawa.description,
@@ -128,11 +128,11 @@ const CustomCheckoutPage: React.FC = () => {
     return transformed;
   }, [selectedPuja]);
 
-  const [selectedChadhwas, setSelectedChadhwas] = useState<any[]>([]);
+
 
   useEffect(() => {
     if (chadhwas.length > 0) {
-      setSelectedChadhwas(chadhwas.filter((chadhwa: any) => chadhwa.selected));
+      setSelectedChadhwas(chadhwas.filter((chadhwa) => chadhwa.selected));
     }
   }, [chadhwas]);
 
@@ -331,10 +331,10 @@ const CustomCheckoutPage: React.FC = () => {
   }, []);
 
   const toggleChadhwa = (chadhwa: typeof chadhwas[0]) => {
-    setSelectedChadhwas(prev => {
-      const isSelected = prev.some(c => c.id === chadhwa.id);
+    setSelectedChadhwas((prev: TransformedChadhwa[]) => {
+      const isSelected = prev.some((c: TransformedChadhwa) => c.id === chadhwa.id);
       if (isSelected) {
-        return prev.filter(c => c.id !== chadhwa.id);
+        return prev.filter((c: TransformedChadhwa) => c.id !== chadhwa.id);
       } else {
         return [...prev, chadhwa];
       }
@@ -384,7 +384,7 @@ const CustomCheckoutPage: React.FC = () => {
         whatsapp_number: formData.whatsappNumber,
         gotra: formData.dontKnowGotra ? 'Unknown' : formData.gotra,
         chadawas: [],
-        chadawa_ids: selectedChadhwas.map(c => c.id)
+        chadawa_ids: selectedChadhwas.map((c: TransformedChadhwa) => c.id)
       };
 
       // Create Razorpay booking
@@ -409,7 +409,7 @@ const CustomCheckoutPage: React.FC = () => {
         name: '33KotiDham',
         description: selectedPuja?.title || 'Puja Booking',
         order_id: response.razorpay_order_id,
-        handler: async function (razorpayResponse: any) {
+        handler: async function (razorpayResponse: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) {
           // Payment successful from Razorpay, now verify on backend
           console.log('Payment successful from Razorpay:', razorpayResponse);
           
@@ -449,8 +449,8 @@ const CustomCheckoutPage: React.FC = () => {
         }
       };
 
-      if (typeof window !== 'undefined' && (window as any).Razorpay) {
-        const razorpay = new (window as any).Razorpay(options);
+      if (typeof window !== 'undefined' && window.Razorpay) {
+        const razorpay = new window.Razorpay(options);
         razorpay.open();
       } else {
         throw new Error('Razorpay SDK not loaded');
@@ -524,7 +524,7 @@ const CustomCheckoutPage: React.FC = () => {
   }
 
   // Calculate total (removed service fee and GST)
-  const chadhwaTotal = selectedChadhwas.reduce((sum, chadhwa: any) => sum + chadhwa.price, 0);
+  const chadhwaTotal = selectedChadhwas.reduce((sum, chadhwa: TransformedChadhwa) => sum + chadhwa.price, 0);
   const planTotal = selectedPlan?.price || 0;
   const dakshinaAmount = formData.dakshina ? parseInt(formData.dakshina) : 0;
   const totalAmount = planTotal + chadhwaTotal + dakshinaAmount;
@@ -857,7 +857,7 @@ const CustomCheckoutPage: React.FC = () => {
                       <p className="text-sm">Check browser console for debugging info</p>
                     </div>
                   ) : (
-                    chadhwas.map((chadhwa: any) => (
+                    chadhwas.map((chadhwa: TransformedChadhwa) => (
                       <div
                         key={chadhwa.id}
                         className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${selectedChadhwas.some(c => c.id === chadhwa.id)
@@ -943,7 +943,7 @@ const CustomCheckoutPage: React.FC = () => {
                       <span className="font-medium">₹{planTotal.toLocaleString()}</span>
                     </div>
 
-                    {selectedChadhwas.map((chadhwa: any) => (
+                    {selectedChadhwas.map((chadhwa: TransformedChadhwa) => (
                       <div key={chadhwa.id} className="flex justify-between">
                         <span className="text-gray-600">{chadhwa.name}</span>
                         <span className="font-medium">₹{chadhwa.price.toLocaleString()}</span>

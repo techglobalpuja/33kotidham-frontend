@@ -387,7 +387,7 @@ const TempleCheckoutPage: React.FC = () => {
                       <p className="text-gray-600 mb-4">Consider adding these pujas to enhance your spiritual experience</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {recommendedPujas.map((puja: any) => (
+                        {recommendedPujas.map((puja: PujaResponse) => (
                           <div 
                             key={puja.id}
                             className="border-2 border-gray-200 rounded-2xl p-4 hover:border-orange-300 transition-all duration-300"

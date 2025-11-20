@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
@@ -94,7 +94,25 @@ const PujaDetailPage: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navRef, setIsNavSticky]);
+
+  const nextImage = useCallback(() => {
+    if (selectedPuja) {
+      const puja = selectedPuja as ExtendedPujaCard;
+      if (puja.images && puja.images.length > 1) {
+        setSelectedImageIndex((prevIndex) => {
+          const nextIndex = prevIndex + 1;
+          if (nextIndex >= puja.images.length) {
+            return 1;
+          }
+          if (nextIndex === 0) {
+            return 1;
+          }
+          return nextIndex;
+        });
+      }
+    }
+  }, [selectedPuja]);
 
   // Auto-slide effect
   useEffect(() => {
@@ -117,7 +135,7 @@ const PujaDetailPage: React.FC = () => {
         clearInterval(autoSlideRef.current);
       }
     };
-  }, [selectedPuja]);
+  }, [selectedPuja, nextImage]);
 
   // Fetch plans when puja data is loaded
   useEffect(() => {
@@ -173,31 +191,6 @@ const PujaDetailPage: React.FC = () => {
     // Fallback to placeholder
     console.log('Returning placeholder for:', imagePath);
     return '/placeholder.jpg';
-  };
-
-  // const nextImage = () => {
-  //   if (selectedPuja) {
-  //     const puja = selectedPuja as ExtendedPujaCard;
-  //     if (puja.images && puja.images.length > 1) {
-  //       setSelectedImageIndex((prevIndex) => (prevIndex + 1) % puja.images.length);
-  //     }
-  //   }
-  const nextImage = () => {
-    if (selectedPuja) {
-      const puja = selectedPuja as ExtendedPujaCard;
-      if (puja.images && puja.images.length > 1) {
-        setSelectedImageIndex((prevIndex) => {
-          const nextIndex = prevIndex + 1;
-          if (nextIndex >= puja.images.length) {
-            return 1;
-          }
-          if (nextIndex === 0) {
-            return 1;
-          }
-          return nextIndex;
-        });
-      }
-    }
   };
 
   const prevImage = () => {

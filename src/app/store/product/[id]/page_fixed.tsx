@@ -6,9 +6,30 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 
-// Mock product data - in a real app this would come from an API
-const getProductById = (id: string) => {
-  const products: any = {
+// Define product type
+interface Product {
+  id: string;
+  name: string;
+  subHeading: string;
+  description: string;
+  fullDescription: string;
+  price: number;
+  originalPrice?: number;
+  images: string[];
+  category: string;
+  isFeatured: boolean;
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  tags: string[];
+  benefits: string[];
+  howToUse: string[];
+  installation: string[];
+}
+
+// Mock product data - in use
+const getProductById = (id: string): Product | null => {
+  const products: Record<string, Product> = {
     '1': {
       id: '1',
       name: 'Sacred Ganesha Idol',
@@ -294,8 +315,6 @@ const getProductById = (id: string) => {
 
 const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('standard');
-  const [quantity, setQuantity] = useState(1);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('description');
   const [cartItems, setCartItems] = useState<string[]>([]);
@@ -303,7 +322,15 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   const product = getProductById(params.id);
 
   // Related products (same category)
-  const relatedProducts = [
+  interface RelatedProduct {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    rating: number;
+  }
+
+  const relatedProducts: RelatedProduct[] = [
     {
       id: '1',
       name: 'Sacred Ganesha Idol',
@@ -335,7 +362,12 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   ];
 
   // FAQ
-  const faqs = [
+  interface FAQ {
+    question: string;
+    answer: string;
+  }
+
+  const faqs: FAQ[] = [
     {
       question: 'How long does it take to see results?',
       answer: 'Many users report positive changes within 7-21 days of proper installation and worship. However, results may vary based on individual circumstances and consistency of practice.'
@@ -359,7 +391,7 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
       <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Product Not Found</h1>
-          <p className="text-gray-600 mb-8">The product you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-600 mb-8">The product you&#39;re looking for doesn&#39;t exist or has been removed.</p>
           <Link 
             href="/store" 
             className="px-6 py-3 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold rounded-2xl hover:from-orange-600 hover:to-rose-600 transition-all duration-300"
@@ -757,9 +789,9 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {relatedProducts
-                .filter((item: any) => item.id !== product.id) // Don't show the current product
+                .filter((item: RelatedProduct) => item.id !== product.id) // Don't show the current product
                 .slice(0, 3) // Show only 3 related products
-                .map((item: any) => (
+                .map((item: RelatedProduct) => (
                 <div 
                   key={item.id}
                   className="group relative bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 overflow-hidden cursor-pointer transform hover:-translate-y-2"

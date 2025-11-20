@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import '../../styles/horoscope-animations.css';
-import Footer from '@/components/layout/Footer';
 
 // Comprehensive horoscope data with correct date ranges
 const horoscopeData = [
@@ -143,44 +142,7 @@ const horoscopeData = [
   }
 ];
 
-const astrologers = [
-  {
-    id: '1',
-    name: 'Pandit Raj Sharma',
-    image: '/images/astrologer-1.jpg',
-    experience: '25+ Years',
-    specialization: 'Vedic Astrology',
-    rating: '4.9',
-    consultations: '10,000+'
-  },
-  {
-    id: '2',
-    name: 'Dr. Kavya Nair',
-    image: '/images/astrologer-2.jpg',
-    experience: '18+ Years',
-    specialization: 'Numerology',
-    rating: '4.8',
-    consultations: '8,500+'
-  },
-  {
-    id: '3',
-    name: 'Acharya Vikram',
-    image: '/images/astrologer-3.jpg',
-    experience: '30+ Years',
-    specialization: 'Palmistry',
-    rating: '4.9',
-    consultations: '15,000+'
-  },
-  {
-    id: '4',
-    name: 'Pandit Anuj Dubey',
-    image: '/images/astrologer-4.jpg',
-    experience: '22+ Years',
-    specialization: 'KP Astrology',
-    rating: '4.7',
-    consultations: '12,000+'
-  }
-];
+
 
 const HoroscopePage: React.FC = () => {
   const router = useRouter();
@@ -188,7 +150,6 @@ const HoroscopePage: React.FC = () => {
   const [selectedElement, setSelectedElement] = useState<string>('All');
   const [isVisible, setIsVisible] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const [activeAstrologer, setActiveAstrologer] = useState<string | null>(null);
 
   // Animation trigger on component mount
   useEffect(() => {
@@ -436,8 +397,7 @@ const HoroscopePage: React.FC = () => {
           </div>
           
           <div className="max-w-4xl mx-auto space-y-6">
-            {[
-              {
+            {[{
                 question: "What Is The Difference Between Sun Sign And Moon Sign?",
                 answer: "Your Sun sign represents your core personality, ego, and life purpose - it's determined by your birth date. Your Moon sign reflects your emotional nature, instincts, and subconscious patterns - it's based on the moon's position at your birth time. Both are equally important for a complete astrological understanding.",
                 icon: "☀️"
@@ -536,7 +496,6 @@ const HoroscopePage: React.FC = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };

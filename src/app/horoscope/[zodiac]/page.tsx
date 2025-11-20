@@ -4,15 +4,11 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import {
   getDailyHoroscope,
   getWeeklyHoroscope,
   getMonthlyHoroscope,
-  formatZodiacSignForApi,
-  type DailyHoroscopeResponse,
-  type WeeklyHoroscopeResponse,
-  type MonthlyHoroscopeResponse
+  formatZodiacSignForApi
 } from '@/services/horoscopeApi';
 
 // Comprehensive zodiac data
@@ -203,7 +199,7 @@ const ZodiacDetailPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly' | 'monthly'>('daily');
-  const [apiHoroscopeData, setApiHoroscopeData] = useState<any>(null);
+  const [apiHoroscopeData, setApiHoroscopeData] = useState<{ date?: string; week?: string; month?: string; horoscope_data: string; standout_days?: string; challenging_days?: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -495,7 +491,6 @@ const ZodiacDetailPage: React.FC = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };

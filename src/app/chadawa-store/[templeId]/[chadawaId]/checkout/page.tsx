@@ -397,8 +397,36 @@ const CheckoutPage: React.FC = () => {
         }
       };
 
-      if (typeof window !== 'undefined' && (window as unknown as {Razorpay: any}).Razorpay) {
-        const razorpay = new (window as unknown as {Razorpay: any}).Razorpay(options);
+      // Define a more specific type for Razorpay
+      interface RazorpayOptions {
+        key: string;
+        amount: number;
+        currency: string;
+        name: string;
+        description: string;
+        image?: string;
+        order_id: string;
+        handler: (response: RazorpayResponse) => void;
+        modal?: {
+          ondismiss?: () => void;
+        };
+        theme?: {
+          color?: string;
+        };
+      }
+
+      interface RazorpayResponse {
+        razorpay_order_id: string;
+        razorpay_payment_id: string;
+        razorpay_signature: string;
+      }
+
+      interface Window {
+        Razorpay: new (options: RazorpayOptions) => { open: () => void };
+      }
+
+      if (typeof window !== 'undefined' && (window as unknown as Window).Razorpay) {
+        const razorpay = new (window as unknown as Window).Razorpay(options);
         razorpay.open();
       } else {
         throw new Error('Razorpay SDK not loaded');
@@ -428,8 +456,8 @@ const CheckoutPage: React.FC = () => {
           const fullPath = `${baseUrl}${trimmedPath.startsWith('/') ? '' : '/'}${trimmedPath}`;
           return fullPath;
         }
-      } catch (error) {
-        console.warn('Error constructing full image URL:', error);
+      } catch (_error) {
+        console.warn('Error constructing full image URL:', _error);
       }
     }
     

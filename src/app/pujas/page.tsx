@@ -1,24 +1,27 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujas } from '@/store/slices/pujaSlice';
-import UnifiedPujaCard, { BackendPujaBenefit } from '@/components/cards/UnifiedPujaCard';
+import UnifiedPujaCard from '@/components/cards/UnifiedPujaCard';
 
 const AllPujasPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { pujas, isLoading, error } = useSelector((state: RootState) => state.puja);
   
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
+
   const [isVisible, setIsVisible] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  
+  // Sort pujas by created_at date (newest first)
+  const sortedPujas = [...pujas].sort((a, b) => 
+    new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
+  );
+
 
   // Testimonials data
   const testimonials = [
@@ -66,26 +69,7 @@ const AllPujasPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  const filteredPujas = selectedCategory === 'all' 
-    ? pujas 
-    : pujas;
 
-  const sortedPujas = [...filteredPujas].sort((a, b) => {
-    switch (sortBy) {
-      case 'featured':
-        return b.isNew ? 1 : -1; // Assuming isNew indicates featured
-      case 'date':
-        // PujaCard has date, so we'll sort by date
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-      case 'price':
-        // PujaCard doesn't have price, so we'll sort by description length as fallback
-        return a.description.length - b.description.length;
-      case 'name':
-        return a.title.localeCompare(b.title);
-      default:
-        return 0;
-    }
-  });
 
   // Show loading state
   if (isLoading) {
@@ -203,7 +187,7 @@ const AllPujasPage: React.FC = () => {
 
           {/* Enhanced Pujas Grid - Updated to use home variant */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {sortedPujas.map((puja, index) => (
+            {sortedPujas.map((puja) => (
               <UnifiedPujaCard
                 key={puja.id}
                 id={puja.id}
@@ -216,7 +200,6 @@ const AllPujasPage: React.FC = () => {
                 isNew={puja.isNew}
                 variant="home" // Changed to home variant for consistency
                 benefits={puja.benefits} // Pass benefits to the card component
-                created_at={puja.created_at} // Pass created_at for launch date
               />
             ))}
           </div>
@@ -455,28 +438,6 @@ const sacredBenefits = [
     title: "Harmonious Relationships",
     description: "Strengthen bonds with loved ones and attract positive relationships",
     color: "from-pink-400 to-rose-500"
-  }
-];
-
-// Sacred timings data
-const sacredTimings = [
-  {
-    time: "ब्रह्म मुहूर्त",
-    period: "4:00 AM - 6:00 AM",
-    description: "The most auspicious time for spiritual practices and divine connection",
-    icon: "🌅"
-  },
-  {
-    time: "प्रातःकाल",
-    period: "6:00 AM - 9:00 AM",
-    description: "Morning prayers and pujas for prosperity and positive energy",
-    icon: "☀️"
-  },
-  {
-    time: "सायंकाल",
-    period: "6:00 PM - 8:00 PM",
-    description: "Evening devotion for peace and spiritual fulfillment",
-    icon: "🌅"
   }
 ];
 

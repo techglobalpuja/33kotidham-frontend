@@ -1,17 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import Header from '@/components/layout/Header';
 import { apiService } from '@/services/api';
 import { BookingResponse } from '@/types';
 
 const CustomCheckoutSuccessPage: React.FC = () => {
-  const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pujaId = params.id as string;
   
   const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +18,6 @@ const CustomCheckoutSuccessPage: React.FC = () => {
   // Get booking details from URL parameters
   const bookingId = searchParams.get('bookingId');
   const paymentId = searchParams.get('paymentId');
-  const orderId = searchParams.get('orderId');
   
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -379,7 +376,7 @@ const formatTime = (timeString: string | null) => {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Payment Verified Successfully • Order ID: {orderId || 'N/A'}
+                Payment Verified Successfully • Order ID: {bookingId || 'N/A'}
               </p>
               {paymentId && (
                 <p className="text-xs text-gray-500 mt-2">Payment ID: {paymentId}</p>

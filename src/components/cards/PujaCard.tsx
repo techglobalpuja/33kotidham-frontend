@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import UnifiedPujaCard from '@/components/cards/UnifiedPujaCard';
 
 interface PujaCardProps {
@@ -24,9 +24,8 @@ const PujaCard: React.FC<PujaCardProps> = ({
   description, 
   date, 
   time, // Destructure time prop
-  isNew = false,
-  timer,
-  shareLabel 
+  isNew = false
+  // Removed unused timer and shareLabel props
 }) => {
   // For backward compatibility, we'll use the home variant of the unified card
   // Note: The timer and shareLabel props are not implemented in the unified card

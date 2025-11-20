@@ -12,7 +12,7 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection';
 // import ArticlesSection from '@/components/sections/ArticlesSection';
 import FeaturedBlogsSection from '@/components/sections/FeaturedBlogsSection';
 // import DownloadAppSection from '@/components/sections/DownloadAppSection';
-import { HoroscopeCard, ProcessStep, Article } from '@/types';
+import { HoroscopeCard, ProcessStep } from '@/types';
 import { getHoroscopeCards } from '@/utils/horoscope';
 // import { FaTemple, FaCalendarAlt } from 'react-icons/fa';
 
@@ -63,17 +63,17 @@ export default function HomePage() {
   const testimonials: TestimonialProps[] = [
     {
       avatar: "/images/img_ellipse_5.png",
-      name: "Vikesh Sharma",
-      role: "Delhi, India",
+      name: "Rajesh Kumar",
+      role: "Mumbai, India",
       rating: 5, // Changed from string to number
-      testimonial: "I joined the Lakshmi Puja through 33KotiDham and could truly feel the divine presence at home. The live experience was seamless and filled with peace."
+      testimonial: "Participating in the Maha Shivratri puja transformed my business. Within a month, I secured a major contract that changed everything for my company."
     },
     {
       avatar: "/images/img_ellipse_5_86x86.png",
-      name: "P.K. Chauhan",
-      role: "M.P, India",
-      rating: 4, // Changed from string to number
-      testimonial: "My life changed after I participated in Baglamukhi havan organized by 33KotiDham. I also got Baglamukhi yantra which we keep in mandir area in our house."
+      name: "Priya Sharma",
+      role: "Bangalore, India",
+      rating: 5, // Changed from string to number
+      testimonial: "The Navratri puja brought peace and prosperity to our home. My husband got a promotion and our daughter got into her dream school. Truly blessed!"
     },
     {
       avatar: "/images/img_ellipse_5_1.png",
@@ -81,45 +81,6 @@ export default function HomePage() {
       role: "Delhi, India",
       rating: 5, // Changed from string to number
       testimonial: "The Saraswati Puja helped my daughter excel in her studies. She topped her class and got admission to her dream college. Grateful to the divine!"
-    }
-  ];
-
-  const articles: Article[] = [
-    {
-      id: '1',
-      image: "/images/img_blog1_jpg.png",
-      date: "July 29, 2020",
-      author: "By - Author",
-      comments: "0 comments",
-      title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
-      excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
-    },
-    {
-      id: '2',
-      image: "/images/img_blog1_jpg.png",
-      date: "July 29, 2020",
-      author: "By - Author",
-      comments: "0 comments",
-      title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
-      excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
-    },
-    {
-      id: '3',
-      image: "/images/img_blog2_jpg.png",
-      date: "July 29, 2020",
-      author: "By - Author",
-      comments: "0 comments",
-      title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
-      excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
-    },
-    {
-      id: '4',
-      image: "/images/img_blog3_jpg.png",
-      date: "July 29, 2020",
-      author: "By - Author",
-      comments: "0 comments",
-      title: "Consectetur adipiscing elit sedeius mod tempor incididunt ut labore.",
-      excerpt: "Consectetur adipiscing elit, sed desdo eiusmod tempor incididuesdeentiut labore etesde doloesire esdessdes magna aliquapspendisse and the gravida."
     }
   ];
 

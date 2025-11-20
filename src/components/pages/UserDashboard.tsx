@@ -23,21 +23,6 @@ interface UserPuja {
   certificateUrl?: string;
 }
 
-interface UserOrder {
-  id: string;
-  orderNumber: string;
-  date: string;
-  items: Array<{
-    name: string;
-    quantity: number;
-    price: number;
-    image: string;
-  }>;
-  total: number;
-  status: 'delivered' | 'shipped' | 'processing' | 'cancelled';
-  trackingNumber?: string;
-}
-
 interface UserProfile {
   personalInfo: {
     name: string;
@@ -121,20 +106,7 @@ const UserDashboard: React.FC = () => {
     }
   ];
 
-  const userOrders: UserOrder[] = [
-    {
-      id: '1',
-      orderNumber: 'GP2024001',
-      date: '2024-01-10',
-      items: [
-        { name: 'Rudraksha Mala', quantity: 1, price: 500, image: '/images/rudraksha.jpg' },
-        { name: 'Spiritual Books Set', quantity: 2, price: 300, image: '/images/books.jpg' }
-      ],
-      total: 800,
-      status: 'delivered',
-      trackingNumber: 'GP123456789'
-    }
-  ];
+
 
   // Initialize user profile with actual user data
   const [userProfile, setUserProfile] = useState<UserProfile>({
@@ -239,12 +211,13 @@ const UserDashboard: React.FC = () => {
   // Helper function to format date
   const formatDate = (dateString: string) => {
     try {
-      return new Date(dateString).toLocaleDateString('en-IN', {
+      const dateObj = new Date(dateString);
+      return dateObj.toLocaleDateString('en-IN', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
       });
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       return dateString;
     }
   };
@@ -257,7 +230,7 @@ const UserDashboard: React.FC = () => {
         minute: '2-digit',
         hour12: true
       });
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       return timeString;
     }
   };

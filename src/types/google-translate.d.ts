@@ -8,4 +8,5 @@ interface Window {
       ) => void;
     };
   };
+  Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
 }

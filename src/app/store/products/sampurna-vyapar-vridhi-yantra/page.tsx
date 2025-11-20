@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 
@@ -186,9 +187,9 @@ const SampurnaVyaparVridhiYantraPage: React.FC = () => {
       <section className="pt-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <nav className="flex items-center text-sm text-gray-500 mb-8">
-            <a href="/" className="hover:text-orange-600">Home</a>
+            <Link href="/" className="hover:text-orange-600">Home</Link>
             <span className="mx-2">/</span>
-            <a href="/store" className="hover:text-orange-600">Store</a>
+            <Link href="/store" className="hover:text-orange-600">Store</Link>
             <span className="mx-2">/</span>
             <span className="text-orange-600 font-medium">Sampurna Vyapar Vridhi Yantra</span>
           </nav>
@@ -394,7 +395,7 @@ const SampurnaVyaparVridhiYantraPage: React.FC = () => {
                   <h2 className="text-2xl font-bold text-gray-800 mb-6">Product Description</h2>
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     The Sampurna Vyapar Vridhi Yantra is a sacred mystical instrument used for business growth, prosperity, and success. 
-                    "Vyapar" means business and "Vriddhi" means growth/increase. This yantra is designed to increase sales, turnover, and profits in business or profession.
+                    &#34;Vyapar&#34; means business and &#34;Vriddhi&#34; means growth/increase. This yantra is designed to increase sales, turnover, and profits in business or profession.
                   </p>
                   
                   <div className="mb-8">

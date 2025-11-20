@@ -1,5 +1,60 @@
 // Common types used across the application
 
+// Backend response interfaces
+interface BackendPujaBenefit {
+  id: number;
+  benefit_title: string;
+  benefit_description: string;
+  puja_id: number;
+  created_at: string;
+}
+
+interface BackendPujaImage {
+  id: number;
+  image_url: string;
+}
+
+interface BackendChadawa {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  price: string;
+  requires_note: boolean;
+}
+
+interface BackendPuja {
+  id: number;
+  image_url: string;
+}
+
+interface BackendPuja {
+  id: number;
+  name: string;
+  sub_heading: string;
+  description: string;
+  date: string | null;
+  time: string | null;
+  temple_image_url: string | null;
+  temple_address: string | null;
+  temple_description: string | null;
+  prasad_price: number;
+  is_prasad_active: boolean;
+  dakshina_prices_inr: string | null;
+  dakshina_prices_usd: string | null;
+  is_dakshina_active: boolean;
+  manokamna_prices_inr: string | null;
+  manokamna_prices_usd: string | null;
+  is_manokamna_active: boolean;
+  category: string;
+  created_at: string;
+  updated_at: string;
+  benefits: BackendPujaBenefit[];
+  images: BackendPujaImage[];
+  plan_ids: number[];
+  chadawas?: BackendChadawa[];
+}
+
 export interface PujaCard {
   id: string;
   image: string;
@@ -399,8 +454,8 @@ export interface PujaResponse {
   id: number;
   created_at: string;
   updated_at: string;
-  benefits: any[];
-  images: any[];
+  benefits: BackendPujaBenefit[];
+  images: BackendPujaImage[];
   plan_ids: number[];
   chadawas: Chadawa[];
 }
@@ -436,7 +491,7 @@ export interface Temple {
   slug: string;
   created_at: string;
   updated_at: string;
-  recommended_pujas: any[];
+  recommended_pujas: BackendPuja[];
   chadawas: Chadawa[];
 }
 
