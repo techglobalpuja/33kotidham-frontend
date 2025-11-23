@@ -1,0 +1,18 @@
+# robots.txt for 33kotidham
+# This file tells search engine crawlers which pages or files they can or can't request from your site.
+
+# Allow all crawlers to access the site
+User-agent: *
+Allow: /
+
+# Block access to API routes for security
+Disallow: /api/
+
+# Block access to admin/dashboard areas
+Disallow: /dashboard/
+
+# Block access to login pages
+Disallow: /login/
+
+# Sitemap location
+Sitemap: https://www.33kotidham.com/sitemap.xml
