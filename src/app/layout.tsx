@@ -1,10 +1,18 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
+import { Roboto } from 'next/font/google';
 import ReduxProvider from '@/providers/ReduxProvider';
 import AuthInitializer from '@/components/AuthInitializer';
 import '@/styles/globals.css';
 import '@/styles/translate.css';
+
+const roboto = Roboto({
+  weight: ['100', '300', '400', '500', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -30,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Script src="/assets/scripts/lang-config.js" strategy="beforeInteractive" />
         <Script src="/assets/scripts/translation.js" strategy="beforeInteractive" />
         <Script
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
         <Script
@@ -79,7 +87,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           }}
         />
       </head>
-      <body className="antialiased">
+      <body className={`antialiased ${roboto.variable}`} suppressHydrationWarning>
         <div id="google_translate_element" className="hidden absolute -top-96 -left-96" />
         <ReduxProvider>
           <AuthInitializer />

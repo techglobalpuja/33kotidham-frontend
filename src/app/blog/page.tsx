@@ -113,7 +113,7 @@ const BlogPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
-        <div className="text-2xl font-['Philosopher'] text-orange-600">Loading blogs...</div>
+        <div className="text-2xl  text-orange-600">Loading blogs...</div>
       </div>
     );
   }
@@ -121,7 +121,7 @@ const BlogPage: React.FC = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
-        <div className="text-2xl font-['Philosopher'] text-red-600">Error: {error}</div>
+        <div className="text-2xl  text-red-600">Error: {error}</div>
       </div>
     );
   }
@@ -149,13 +149,13 @@ const BlogPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 Spiritual Blog
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700">
               Discover ancient wisdom, spiritual insights, and practical guidance for your spiritual journey.
               <br className="hidden sm:block" />
               Explore articles on astrology, spirituality, and divine practices.
@@ -170,7 +170,7 @@ const BlogPage: React.FC = () => {
           {/* Left Sidebar - Categories Filter */}
           <div className="lg:col-span-1">
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-6 border border-white/50 sticky top-24 transform transition-all duration-300 hover:shadow-lg">
-              <h3 className="text-xl font-bold font-['Philosopher'] text-gray-800 mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold  text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
                 </svg>
@@ -218,7 +218,7 @@ const BlogPage: React.FC = () => {
           <div className="lg:col-span-3" id="blog-posts-section">
             {currentPosts.length === 0 ? (
               <div className="text-center py-12">
-                <h3 className="text-2xl font-['Philosopher'] text-gray-700">No blogs found</h3>
+                <h3 className="text-2xl  text-gray-700">No blogs found</h3>
                 <p className="text-gray-500 mt-2">Check back later for new spiritual insights</p>
               </div>
             ) : (
@@ -262,11 +262,11 @@ const BlogPage: React.FC = () => {
                           <span>{post.publish_time ? formatDate(post.publish_time) : 'Unknown date'}</span>
                         </div>
                         
-                        <h3 className="text-base font-bold text-gray-800 font-['Philosopher'] mb-2 group-hover:text-orange-700 transition-colors duration-300 line-clamp-2">
+                        <h3 className="text-base font-bold text-gray-800  mb-2 group-hover:text-orange-700 transition-colors duration-300 line-clamp-2">
                           {post.title}
                         </h3>
                         
-                        <p className="text-gray-600 font-['Lato'] text-xs leading-relaxed mb-3 line-clamp-2">
+                        <p className="text-gray-600  text-xs leading-relaxed mb-3 line-clamp-2">
                           {post.subtitle || post.meta_description || 'No description available'}
                         </p>
                         

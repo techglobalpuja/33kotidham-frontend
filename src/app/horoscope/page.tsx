@@ -190,14 +190,14 @@ const HoroscopePage: React.FC = () => {
                 ✨ Discover Your Path
               </span>
             </div>
-            <h2 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] text-gray-800 font-['Philosopher'] mb-8">
+            <h2 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] text-gray-800  mb-8">
               <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Check Your Zodiac
               </span>
               
             </h2>
             <div className="w-32 h-1.5 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 mx-auto mb-8 rounded-full"></div>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-5xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-5xl mx-auto">
               Embark on a celestial journey of self-discovery. Select your zodiac sign to unlock personalized cosmic insights, 
               daily guidance, and profound astrological wisdom crafted specifically for your stellar path.
             </p>
@@ -304,15 +304,15 @@ const HoroscopePage: React.FC = () => {
                     </div>
 
                     {/* Enhanced Zodiac Info */}
-                    <h3 className="text-[26px] sm:text-[28px] font-bold text-gray-800 font-['Philosopher'] mb-3 group-hover:text-purple-700 transition-colors duration-300 transform group-hover:scale-105">
+                    <h3 className="text-[26px] sm:text-[28px] font-bold text-gray-800  mb-3 group-hover:text-purple-700 transition-colors duration-300 transform group-hover:scale-105">
                       {zodiac.name}
                     </h3>
                     
-                    {/* <p className="text-[15px] text-gray-500 font-['Lato'] mb-2 font-semibold">
+                    {/* <p className="text-[15px] text-gray-500  mb-2 font-semibold">
                       {zodiac.dateRange}
                     </p> */}
                     
-                    <p className="text-[14px] text-gray-600 font-['Lato'] mb-6 leading-relaxed px-2">
+                    <p className="text-[14px] text-gray-600  mb-6 leading-relaxed px-2">
                       {zodiac.description}
                     </p>
 
@@ -381,7 +381,7 @@ const HoroscopePage: React.FC = () => {
                 ❓ Common Questions
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 Frequently Asked
               </span>
@@ -391,7 +391,7 @@ const HoroscopePage: React.FC = () => {
               </span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-6 rounded-full"></div>
-            <p className="text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[26px] sm:leading-[28px] md:leading-[30px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[26px] sm:leading-[28px] md:leading-[30px] text-gray-600  max-w-3xl mx-auto">
               Get answers to the most common questions about astrology and horoscope readings
             </p>
           </div>
@@ -448,7 +448,7 @@ const HoroscopePage: React.FC = () => {
                     {/* Content */}
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-4">
-                        <h3 className="text-[18px] sm:text-[20px] font-bold text-gray-800 font-['Philosopher'] group-hover:text-purple-700 transition-colors duration-300 pr-4">
+                        <h3 className="text-[18px] sm:text-[20px] font-bold text-gray-800  group-hover:text-purple-700 transition-colors duration-300 pr-4">
                           {faq.question}
                         </h3>
                         
@@ -469,7 +469,7 @@ const HoroscopePage: React.FC = () => {
                         expandedFAQ === index ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
                       }`}>
                         <div className="p-6 bg-gradient-to-r from-purple-50/50 to-blue-50/50 rounded-2xl border border-purple-100/50">
-                          <p className="text-[15px] sm:text-[16px] text-gray-700 font-['Lato'] leading-[26px] sm:leading-[28px]">
+                          <p className="text-[15px] sm:text-[16px] text-gray-700  leading-[26px] sm:leading-[28px]">
                             {faq.answer}
                           </p>
                         </div>
@@ -486,7 +486,7 @@ const HoroscopePage: React.FC = () => {
             <div className="inline-flex items-center gap-4 bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-purple-100">
               <div className="text-4xl">💬</div>
               <div className="text-left">
-                <h4 className="text-lg font-bold text-gray-800 mb-1 font-['Philosopher']">Still have questions?</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-1 ">Still have questions?</h4>
                 <p className="text-gray-600 text-sm">Our expert astrologers are here to help</p>
               </div>
               <button className="ml-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">

@@ -234,7 +234,7 @@ const OtpLoginModal: React.FC = () => {
           <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center mb-4">
             <span className="text-white text-2xl font-bold">33</span>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 font-['Philosopher']">
+          <h2 className="text-2xl font-bold text-gray-800 ">
             {!isLogin ? 'Join Us' : 'Welcome Back'}
           </h2>
           <p className="text-gray-600 mt-1 text-sm">
@@ -246,7 +246,7 @@ const OtpLoginModal: React.FC = () => {
         {!isLogin && !isOtpSent && (
           <form onSubmit={handleRegistrationSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-['Lato']">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2 ">Full Name</label>
               <input
                 type="text"
                 value={name}
@@ -258,7 +258,7 @@ const OtpLoginModal: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-['Lato']">Mobile Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2 ">Mobile Number</label>
               <div className="flex">
                 <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-orange-200 bg-orange-50 text-gray-700 font-medium">
                   +91
@@ -305,7 +305,7 @@ const OtpLoginModal: React.FC = () => {
               /* Mobile Number Form */
               <form onSubmit={handleRequestOtp} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 font-['Lato']">Mobile Number</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 ">Mobile Number</label>
                   <div className="flex">
                     <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-orange-200 bg-orange-50 text-gray-700 font-medium">
                       +91
@@ -344,7 +344,7 @@ const OtpLoginModal: React.FC = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
-                  <p className="text-gray-700 font-['Lato']">
+                  <p className="text-gray-700 ">
                     OTP sent to <span className="font-bold text-orange-600">+91 {mobile}</span>
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
@@ -353,7 +353,7 @@ const OtpLoginModal: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 font-['Lato']">Enter OTP</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 ">Enter OTP</label>
                   <input
                     type="text"
                     value={otp}

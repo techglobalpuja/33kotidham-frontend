@@ -4,17 +4,35 @@ import React from 'react';
 import GlobalFooter from '@/components/layout/GlobalFooter';
 import HeroSection from '@/components/sections/HeroSection';
 import TrustSection from '@/components/sections/TrustSection';
-import PujaSection from '@/components/sections/PujaSection';
-import HoroscopeSection from '@/components/sections/HoroscopeSection';
-import ProcessSection from '@/components/sections/ProcessSection';
-import VideoSection from '@/components/sections/VideoSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-// import ArticlesSection from '@/components/sections/ArticlesSection';
-import FeaturedBlogsSection from '@/components/sections/FeaturedBlogsSection';
-// import DownloadAppSection from '@/components/sections/DownloadAppSection';
+import dynamic from 'next/dynamic';
 import { HoroscopeCard, ProcessStep } from '@/types';
 import { getHoroscopeCards } from '@/utils/horoscope';
-// import { FaTemple, FaCalendarAlt } from 'react-icons/fa';
+
+import SectionLoader from '@/components/ui/SectionLoader';
+
+const PujaSection = dynamic(() => import('@/components/sections/PujaSection'), {
+  loading: () => <SectionLoader />,
+});
+const HoroscopeSection = dynamic(() => import('@/components/sections/HoroscopeSection'), {
+  loading: () => <SectionLoader />,
+  ssr: false,
+});
+const ProcessSection = dynamic(() => import('@/components/sections/ProcessSection'), {
+  loading: () => <SectionLoader />,
+});
+const VideoSection = dynamic(() => import('@/components/sections/VideoSection'), {
+  loading: () => <SectionLoader />,
+  ssr: false,
+});
+const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection'), {
+  loading: () => <SectionLoader />,
+  ssr: false,
+});
+// import ArticlesSection from '@/components/sections/ArticlesSection';
+const FeaturedBlogsSection = dynamic(() => import('@/components/sections/FeaturedBlogsSection'), {
+  loading: () => <SectionLoader />,
+});
+// import DownloadAppSection from '@/components/sections/DownloadAppSection';
 
 // Define the Testimonial type to match TestimonialsSection expectations
 interface TestimonialProps {

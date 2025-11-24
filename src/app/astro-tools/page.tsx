@@ -56,7 +56,7 @@ const AstroToolsPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-indigo-700 via-purple-600 to-blue-800 bg-clip-text text-transparent">
                 Astro Tools
               </span>
@@ -66,7 +66,7 @@ const AstroToolsPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Powerful astrology tools to analyze your birth chart and understand cosmic influences.
               <br className="hidden sm:block" />
               Discover doshas, track celestial events, and get personalized insights.
@@ -92,11 +92,11 @@ const AstroToolsPage: React.FC = () => {
                     {tool.icon}
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-indigo-700 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-gray-800  mb-4 group-hover:text-indigo-700 transition-colors duration-300">
                     {tool.title}
                   </h3>
                   
-                  <p className="text-gray-600 font-['Lato'] leading-relaxed mb-6">
+                  <p className="text-gray-600  leading-relaxed mb-6">
                     {tool.description}
                   </p>
                   

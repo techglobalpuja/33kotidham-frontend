@@ -66,7 +66,7 @@ const CareerPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 Career
               </span>
@@ -76,7 +76,7 @@ const CareerPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Join our mission to spread spiritual wisdom and divine guidance across the world.
               <br className="hidden sm:block" />
               Be part of a team that makes a positive impact on people&apos;s spiritual journey.
@@ -88,7 +88,7 @@ const CareerPage: React.FC = () => {
       {/* Job Openings */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-12 text-center">
+          <h2 className="text-3xl font-bold text-gray-800  mb-12 text-center">
             Current Job Openings
           </h2>
           
@@ -99,7 +99,7 @@ const CareerPage: React.FC = () => {
                 className="group bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 border border-white/50 p-8 transform hover:scale-105"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] group-hover:text-orange-700 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-800  group-hover:text-orange-700 transition-colors duration-300">
                     {job.title}
                   </h3>
                   <span className="bg-gradient-to-r from-orange-500 to-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -119,7 +119,7 @@ const CareerPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed mb-6">
+                <p className="text-gray-600  text-sm leading-relaxed mb-6">
                   {job.description}
                 </p>
                 
@@ -135,7 +135,7 @@ const CareerPage: React.FC = () => {
       {/* Company Culture */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-12 text-center">
+          <h2 className="text-3xl font-bold text-gray-800  mb-12 text-center">
             Why Work With Us?
           </h2>
           
@@ -179,10 +179,10 @@ const CareerPage: React.FC = () => {
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500">
                   {benefit.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-3">
+                <h3 className="text-xl font-bold text-gray-800  mb-3">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed">
+                <p className="text-gray-600  text-sm leading-relaxed">
                   {benefit.description}
                 </p>
               </div>

@@ -111,6 +111,10 @@ module.exports = {
       backgroundSize: {
         '300%': '300%',
       },
+      fontFamily: {
+        sans: ['var(--font-roboto)', 'sans-serif'],
+        roboto: ['var(--font-roboto)', 'sans-serif'],
+      },
     }
   },
   plugins: []

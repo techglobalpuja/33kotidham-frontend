@@ -52,14 +52,14 @@ const ContactPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 Contact Us
               </span>
               
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Have questions about our services? Need guidance for your spiritual journey?
               <br className="hidden sm:block" />
               We&apos;re here to help you with all your astrological and spiritual needs.
@@ -75,7 +75,7 @@ const ContactPage: React.FC = () => {
             
             {/* Contact Form */}
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-              <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-8 text-center">
+              <h2 className="text-3xl font-bold text-gray-800  mb-8 text-center">
                 Send us a Message
               </h2>
               
@@ -179,7 +179,7 @@ const ContactPage: React.FC = () => {
               
               {/* Contact Details */}
               <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-                <h3 className="text-2xl font-bold text-gray-800 font-['Philosopher'] mb-6">
+                <h3 className="text-2xl font-bold text-gray-800  mb-6">
                   Get in Touch
                 </h3>
                 
@@ -189,7 +189,7 @@ const ContactPage: React.FC = () => {
                       📍
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-800 font-['Philosopher']">Address</h4>
+                      <h4 className="font-bold text-gray-800 ">Address</h4>
                       <p className="text-gray-600">Vadodra, Gujrat, India</p>
                     </div>
                   </div>
@@ -199,7 +199,7 @@ const ContactPage: React.FC = () => {
                       📞
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-800 font-['Philosopher']">Phone</h4>
+                      <h4 className="font-bold text-gray-800 ">Phone</h4>
                       <p className="text-gray-600">+91 9876543210</p>
                     </div>
                   </div>
@@ -209,7 +209,7 @@ const ContactPage: React.FC = () => {
                       📧
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-800 font-['Philosopher']">Email</h4>
+                      <h4 className="font-bold text-gray-800 ">Email</h4>
                       <p className="text-gray-600">support@33kotidham.com</p>
                     </div>
                   </div>
@@ -219,7 +219,7 @@ const ContactPage: React.FC = () => {
                       🕒
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-800 font-['Philosopher']">Working Hours</h4>
+                      <h4 className="font-bold text-gray-800 ">Working Hours</h4>
                       <p className="text-gray-600">Mon - Sun: 10:00 AM - 07:00 PM</p>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ const ContactPage: React.FC = () => {
               
               {/* Office Hours */}
               <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-                <h3 className="text-2xl font-bold text-gray-800 font-['Philosopher'] mb-6">
+                <h3 className="text-2xl font-bold text-gray-800  mb-6">
                   Consultation Hours
                 </h3>
                 

@@ -28,10 +28,10 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials 
     <div className="w-full max-w-[1440px] mx-auto px-8 sm:px-16 md:px-24 relative z-0">
       <div className="flex justify-center items-center w-full">
         <div className="flex flex-col justify-start items-start w-full">
-          <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111] font-['Philosopher'] w-auto">
+          <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111]  w-auto">
             Testimonials from Devotees
           </h2>
-          <p className="text-[15px] mt-3 sm:text-[18px] md:text-[18px] font-normal leading-[21px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d] font-['Lato'] w-auto">
+          <p className="text-[15px] mt-3 sm:text-[18px] md:text-[18px] font-normal leading-[21px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d]  w-auto">
             Happy devotees sharing their experience of 33KotiDham with you.
           </p>
           <div className="flex flex-col lg:flex-row gap-[22px] sm:gap-[26px] md:gap-[30px] w-full mt-[45px] sm:mt-[53px] md:mt-[60px]">

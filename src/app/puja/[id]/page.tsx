@@ -503,7 +503,7 @@ return (
         {/* Puja Packages Section */}
         <div ref={packagesRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Puja Packages
             </h2>
             <p className="text-gray-600">Choose the offering that suits your spiritual needs</p>
@@ -630,7 +630,7 @@ return (
         {/* About Puja Section */}
         <div ref={aboutRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               About This Puja
             </h2>
           </div>
@@ -645,7 +645,7 @@ return (
         {/* Puja Benefits Section */}
         <div ref={benefitsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Puja Benefits
             </h2>
             <p className="text-gray-600">Experience divine blessings and transformation</p>
@@ -696,7 +696,7 @@ return (
         <div ref={processRef} className="bg-gradient-to-br from-orange-50 to-amber-50 py-16 scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
                 Puja Process
               </h2>
               <p className="text-gray-600 text-lg">Follow these simple steps to participate in this sacred ritual</p>
@@ -734,7 +734,7 @@ return (
         {/* Temple Details Section */}
         <div ref={templeRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Temple Details
             </h2>
             <p className="text-gray-600">Sacred site of divine blessings</p>
@@ -814,7 +814,7 @@ return (
         {/* Reviews Section */}
         <div ref={reviewsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               What Devotees Say
             </h2>
             <p className="text-gray-600">Real experiences from our blessed devotees</p>
@@ -862,7 +862,7 @@ return (
         {/* FAQ Section */}
         <div ref={faqRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Frequently Asked Questions
             </h2>
             <p className="text-gray-600">Find answers to common questions</p>
@@ -892,7 +892,7 @@ return (
           <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 rounded-3xl p-12 text-center shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzBoLTEybDYtMTB6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Ready to Begin Your Spiritual Journey?
               </h2>
               <p className="text-orange-50 text-lg mb-8 max-w-2xl mx-auto">

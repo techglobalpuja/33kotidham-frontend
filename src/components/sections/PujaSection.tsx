@@ -23,20 +23,21 @@ const PujaSection: React.FC = () => {
     return (
       <section
         id="puja-section"
-        className="w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
-        style={{
-          backgroundImage: "url('/images/img__4.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
+        className="relative w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
       >
+        <Image
+          src="/images/img__4.png"
+          alt="Background"
+          fill
+          className="object-cover object-center -z-10"
+          priority
+        />
         <div className="w-full max-w-[1440px] mx-auto">
           <div className="flex justify-center items-center w-full">
             <div className="flex flex-col justify-start items-center w-full lg:w-5/6 mb-[14px] sm:mb-[16px] md:mb-[18px]">
               <div className="flex flex-col justify-start items-center w-full mr-[62px] sm:mr-[72px] md:mr-[82px] ml-[62px] sm:ml-[72px] md:ml-[82px]">
                 <div className="flex justify-center items-start w-full px-[6px] sm:px-[7px] md:px-[8px]">
-                  <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111] font-['Philosopher'] mb-[5px] sm:mb-[6px] md:mb-[6px]">
+                  <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-[5px] sm:mb-[6px] md:mb-[6px]">
                     Participate in Pujas
                   </h2>
                 </div>
@@ -51,7 +52,7 @@ const PujaSection: React.FC = () => {
                     />
                   </div>
                   <div className="flex justify-center items-end w-full px-[8px] sm:px-[9px] md:px-[10px] py-[8px] sm:py-[9px] md:py-[10px] mt-[-5px] sm:mt-[-5.5px] md:mt-[-6px]">
-                    <p className="text-[12px] sm:text-[16px] md:text-[18px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-[#797979] font-['Lato'] w-full sm:w-4/5 md:w-[54%] mt-[8px] sm:mt-[9px] md:mt-[10px]">
+                    <p className="text-[12px] sm:text-[16px] md:text-[18px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-[#797979]  w-full sm:w-4/5 md:w-[54%] mt-[8px] sm:mt-[9px] md:mt-[10px]">
                       Join sacred rituals live from holy temples and participate in pujas designed to bring balance, prosperity, and divine grace into your life.
                     </p>
                   </div>
@@ -74,14 +75,15 @@ const PujaSection: React.FC = () => {
     return (
       <section
         id="puja-section"
-        className="w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
-        style={{
-          backgroundImage: "url('/images/img__4.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
+        className="relative w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
       >
+        <Image
+          src="/images/img__4.png"
+          alt="Background"
+          fill
+          className="object-cover object-center -z-10"
+          priority
+        />
         <div className="w-full max-w-[1440px] mx-auto">
           <div className="flex justify-center items-center w-full">
             <div className="flex flex-col justify-start items-center w-full lg:w-5/6 mb-[14px] sm:mb-[16px] md:mb-[18px]">
@@ -104,20 +106,21 @@ const PujaSection: React.FC = () => {
   return (
     <section
       id="puja-section" // Add ID for scrolling target
-      className="w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
-      style={{
-        backgroundImage: "url('/images/img__4.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className="relative w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
     >
+      <Image
+        src="/images/img__4.png"
+        alt="Background"
+        fill
+        className="object-cover object-center -z-10"
+        priority
+      />
       <div className="w-full max-w-[1440px] mx-auto">
         <div className="flex justify-center items-center w-full">
           <div className="flex flex-col justify-start items-center w-full lg:w-5/6 mb-[14px] sm:mb-[16px] md:mb-[18px]">
             <div className="flex flex-col justify-start items-center w-full mr-[62px] sm:mr-[72px] md:mr-[82px] ml-[62px] sm:ml-[72px] md:ml-[82px]">
               <div className="flex justify-center items-start w-full px-[6px] sm:px-[7px] md:px-[8px]">
-                <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111] font-['Philosopher'] mb-[5px] sm:mb-[6px] md:mb-[6px]">
+                <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-[5px] sm:mb-[6px] md:mb-[6px]">
                   Participate in Pujas
                 </h2>
               </div>
@@ -132,7 +135,7 @@ const PujaSection: React.FC = () => {
                   />
                 </div>
                 <div className="flex justify-center items-end w-full px-[8px] sm:px-[9px] md:px-[10px] py-[8px] sm:py-[9px] md:py-[10px] mt-[-5px] sm:mt-[-5.5px] md:mt-[-6px]">
-                  <p className="text-[12px] sm:text-[14px] md:text-[16px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-[#797979] font-['Lato'] w-full sm:w-4/5 md:w-[54%] mt-[8px] sm:mt-[9px] md:mt-[10px]">
+                  <p className="text-[12px] sm:text-[14px] md:text-[16px] font-normal leading-[20px] sm:leading-[23px] md:leading-[26px] text-center text-[#797979]  w-full sm:w-4/5 md:w-[54%] mt-[8px] sm:mt-[9px] md:mt-[10px]">
                     Join sacred rituals live from holy temples and participate in pujas designed to bring balance, prosperity, and divine grace into your life.
                   </p>
                 </div>
@@ -146,13 +149,10 @@ const PujaSection: React.FC = () => {
                   image={puja.image}
                   title={puja.title}
                   temple={puja.temple}
-                  description={puja.description}
+                  sub_heading={puja.sub_heading || puja.description}
                   date={puja.date}
                   time={puja.time}
                   isNew={puja.isNew}
-                  variant="home"
-                  benefits={puja.benefits} // Pass benefits to the card component
-                  created_at={puja.created_at} // Pass created_at for launch date
                 />
               ))}
             </div>
@@ -161,7 +161,7 @@ const PujaSection: React.FC = () => {
                 <Button
                   variant="primary"
                   size="md"
-                  className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px] font-['Lato'] hover:shadow-lg transition-shadow duration-200"
+                  className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px]  hover:shadow-lg transition-shadow duration-200"
                 >
                   See all pujas
                 </Button>

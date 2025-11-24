@@ -65,7 +65,7 @@ const FeaturedBlogsSection: React.FC = () => {
       <section className="w-full py-16 px-8 bg-white">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 font-['Philosopher'] mb-4">
+            <h2 className="text-4xl font-bold text-gray-900  mb-4">
               Featured Blogs
             </h2>
             <div className="flex items-center justify-center mb-4">
@@ -80,7 +80,7 @@ const FeaturedBlogsSection: React.FC = () => {
             {/* <div className="flex items-center justify-center mb-4">
               <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
             </div> */}
-            <p className="text-gray-600 font-['Lato'] max-w-2xl leading-relaxed">
+            <p className="text-gray-600  max-w-2xl leading-relaxed">
               Loading featured spiritual insights...
             </p>
           </div>
@@ -107,7 +107,7 @@ const FeaturedBlogsSection: React.FC = () => {
       <section className="w-full py-16 px-8 bg-white">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 font-['Philosopher'] mb-4">
+            <h2 className="text-4xl font-bold text-gray-900  mb-4">
               Featured Blogs
             </h2>
             <div className="flex items-center justify-center mb-4">
@@ -122,7 +122,7 @@ const FeaturedBlogsSection: React.FC = () => {
             {/* <div className="flex items-center justify-center mb-4">
               <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
             </div> */}
-            <p className="text-red-500 font-['Lato'] max-w-2xl leading-relaxed">
+            <p className="text-red-500  max-w-2xl leading-relaxed">
               {error}
             </p>
           </div>
@@ -139,7 +139,7 @@ const FeaturedBlogsSection: React.FC = () => {
     <section className="w-full py-16 px-8 bg-white">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 font-['Philosopher'] mb-4">
+          <h2 className="text-4xl font-bold text-gray-900  mb-4">
             Featured Blogs
           </h2>
           <div className="flex items-center justify-center mb-4">
@@ -154,7 +154,7 @@ const FeaturedBlogsSection: React.FC = () => {
           {/* <div className="flex items-center justify-center mb-4">
             <div className="w-60 h-1 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
           </div> */}
-          <p className="text-gray-600 font-['Lato'] max-w-2xl leading-relaxed">
+          <p className="text-gray-600  max-w-2xl leading-relaxed">
             Discover our most popular spiritual insights and wisdom articles.
           </p>
         </div>
@@ -204,19 +204,19 @@ const FeaturedBlogsSection: React.FC = () => {
                 </div>
                 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-gray-900 font-['Philosopher'] mb-3 leading-tight line-clamp-2">
+                <h3 className="text-lg font-bold text-gray-900  mb-3 leading-tight line-clamp-2">
                   {blog.title}
                 </h3>
                 
                 {/* Excerpt */}
-                <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed line-clamp-3 mb-4">
+                <p className="text-gray-600  text-sm leading-relaxed line-clamp-3 mb-4">
                   {blog.subtitle || blog.meta_description || 'No description available'}
                 </p>
                 
                 {/* Read More Button */}
                 <button
                   onClick={() => window.location.href = `/blog/${blog.id}`}
-                  className="text-orange-600 font-['Lato'] font-bold text-sm flex items-center hover:text-orange-700 transition-colors"
+                  className="text-orange-600  font-bold text-sm flex items-center hover:text-orange-700 transition-colors"
                 >
                   Read More
                   <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -233,7 +233,7 @@ const FeaturedBlogsSection: React.FC = () => {
             variant="primary"
             size="md"
             onClick={() => window.location.href = '/blog'}
-            className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-3 rounded-full font-['Lato'] hover:shadow-lg transition-shadow"
+            className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-3 rounded-full  hover:shadow-lg transition-shadow"
           >
             View All Blogs
           </Button>

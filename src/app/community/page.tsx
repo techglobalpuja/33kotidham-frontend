@@ -130,7 +130,7 @@ const CommunityPage: React.FC = () => {
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px]  mb-8">
                     <span className="bg-gradient-to-r from-amber-700 via-amber-600 to-orange-600 bg-clip-text text-transparent">
                       समुदाय
                     </span>
@@ -140,7 +140,7 @@ const CommunityPage: React.FC = () => {
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px]  max-w-4xl mb-10 text-gray-700 mx-auto">
                     Join our vibrant community of spiritual seekers and connect with like-minded souls on the path to enlightenment.
                     <br className="hidden sm:block" />
                     Share experiences, gain insights, and grow together in wisdom and harmony.
@@ -183,12 +183,12 @@ const CommunityPage: React.FC = () => {
                 🌟 Community Features
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
                 Connect, Share, and Grow
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Our community platform offers diverse ways to engage with fellow spiritual seekers and deepen your journey
             </p>
           </div>
@@ -223,11 +223,11 @@ const CommunityPage: React.FC = () => {
                   </div>
 
                   {/* Feature Info */}
-                  <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
+                  <h3 className="text-[24px] font-bold text-gray-800  mb-4 group-hover:text-orange-700 transition-colors duration-300">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-[15px] text-gray-600 font-['Lato'] leading-relaxed">
+                  <p className="text-[15px] text-gray-600  leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -249,12 +249,12 @@ const CommunityPage: React.FC = () => {
                 🌸 Community Benefits
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
                 Why Join Our Community?
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Experience the transformative power of spiritual community and collective growth
             </p>
           </div>
@@ -269,10 +269,10 @@ const CommunityPage: React.FC = () => {
                 <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">
                   {benefit.icon}
                 </div>
-                <h3 className="text-[22px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+                <h3 className="text-[22px] font-bold text-gray-800  mb-4">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] leading-relaxed">
+                <p className="text-gray-600  leading-relaxed">
                   {benefit.description}
                 </p>
               </div>
@@ -286,10 +286,10 @@ const CommunityPage: React.FC = () => {
         <div className="w-full max-w-[1440px] mx-auto">
           <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-3xl p-8 border border-amber-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800  mb-4">
                 Begin Your Community Journey Today
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600  mb-8 max-w-2xl mx-auto">
                 Connect with our global community of spiritual seekers and embark on a transformative journey of shared wisdom and growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

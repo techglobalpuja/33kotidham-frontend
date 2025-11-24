@@ -172,7 +172,7 @@ const MeetupsPage: React.FC = () => {
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px]  mb-8">
                     <span className="bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
                       समुदाय अभिमुखीकरण
                     </span>
@@ -182,7 +182,7 @@ const MeetupsPage: React.FC = () => {
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px]  max-w-4xl mb-10 text-gray-700 mx-auto">
                     Join our in-person and virtual spiritual gatherings to connect with like-minded souls.
                     <br className="hidden sm:block" />
                     Experience the power of collective spiritual practice and community bonding.
@@ -225,12 +225,12 @@ const MeetupsPage: React.FC = () => {
                 📅 Upcoming Gatherings
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-amber-600 via-yellow-600 to-orange-600 bg-clip-text text-transparent">
                 Join Our Spiritual Gatherings
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Participate in our scheduled meetups to deepen your spiritual practice and connect with our community
             </p>
           </div>
@@ -256,32 +256,32 @@ const MeetupsPage: React.FC = () => {
                   </div>
                   
                   {/* Meetup Info */}
-                  <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-amber-700 transition-colors duration-300">
+                  <h3 className="text-[24px] font-bold text-gray-800  mb-4 group-hover:text-amber-700 transition-colors duration-300">
                     {meetup.title}
                   </h3>
                   
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-3 text-gray-600">
                       <span>📅</span>
-                      <span className="font-['Lato']">{meetup.date}</span>
+                      <span className="">{meetup.date}</span>
                     </div>
                     <div className="flex items-center gap-3 text-gray-600">
                       <span>⏰</span>
-                      <span className="font-['Lato']">{meetup.time}</span>
+                      <span className="">{meetup.time}</span>
                     </div>
                     <div className="flex items-center gap-3 text-gray-600">
                       <span>📍</span>
-                      <span className="font-['Lato']">{meetup.location}</span>
+                      <span className="">{meetup.location}</span>
                     </div>
                   </div>
                   
-                  <p className="text-[15px] text-gray-600 font-['Lato'] leading-relaxed mb-6">
+                  <p className="text-[15px] text-gray-600  leading-relaxed mb-6">
                     {meetup.description}
                   </p>
                   
                   {/* Attendees */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-gray-500 font-['Lato']">
+                    <div className="flex items-center gap-2 text-gray-500 ">
                       <span>👥</span>
                       <span>{meetup.attendees} attending</span>
                     </div>
@@ -308,12 +308,12 @@ const MeetupsPage: React.FC = () => {
                 🌟 Meetup Benefits
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600 bg-clip-text text-transparent">
                 Why Attend Our Meetups?
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Experience the unique advantages of participating in our spiritual gatherings
             </p>
           </div>
@@ -328,10 +328,10 @@ const MeetupsPage: React.FC = () => {
                 <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">
                   {benefit.icon}
                 </div>
-                <h3 className="text-[22px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+                <h3 className="text-[22px] font-bold text-gray-800  mb-4">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] leading-relaxed">
+                <p className="text-gray-600  leading-relaxed">
                   {benefit.description}
                 </p>
               </div>
@@ -349,12 +349,12 @@ const MeetupsPage: React.FC = () => {
                 💬 Community Voices
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-yellow-600 to-amber-600 bg-clip-text text-transparent">
                 What Our Community Says
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Hear from participants who have experienced our spiritual meetups
             </p>
           </div>
@@ -369,14 +369,14 @@ const MeetupsPage: React.FC = () => {
                 <div className="text-5xl mb-6 text-amber-500">
                   {`"`}{`"`}
                 </div>
-                <p className="text-gray-600 font-['Lato'] leading-relaxed mb-6 italic">
+                <p className="text-gray-600  leading-relaxed mb-6 italic">
                   {`"`}{testimonial.text}{`"`}
                 </p>
                 <div>
-                  <h4 className="text-[18px] font-bold text-gray-800 font-['Philosopher']">
+                  <h4 className="text-[18px] font-bold text-gray-800 ">
                     {testimonial.name}
                   </h4>
-                  <p className="text-amber-600 font-['Lato'] text-sm">
+                  <p className="text-amber-600  text-sm">
                     {testimonial.role}
                   </p>
                 </div>
@@ -391,10 +391,10 @@ const MeetupsPage: React.FC = () => {
         <div className="w-full max-w-[1440px] mx-auto">
           <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-amber-500/10 to-yellow-500/10 rounded-3xl p-8 border border-amber-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800  mb-4">
                 Ready to Join Our Spiritual Gatherings?
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600  mb-8 max-w-2xl mx-auto">
                 Connect with our community and participate in transformative spiritual experiences.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

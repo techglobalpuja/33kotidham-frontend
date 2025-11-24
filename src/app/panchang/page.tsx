@@ -34,7 +34,7 @@ const PanchangPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 पंचांग
               </span>
@@ -44,7 +44,7 @@ const PanchangPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Discover today&apos;s auspicious timings, tithis, nakshatras, and divine guidance from ancient Vedic wisdom.
               <br className="hidden sm:block" />
               Plan your important activities according to cosmic energies.
@@ -60,7 +60,7 @@ const PanchangPage: React.FC = () => {
             
             {/* Today's Panchang */}
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-              <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-6 text-center">
+              <h2 className="text-3xl font-bold text-gray-800  mb-6 text-center">
                 Today&apos;s Panchang
               </h2>
               
@@ -94,33 +94,33 @@ const PanchangPage: React.FC = () => {
             
             {/* Auspicious Timings */}
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-              <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-6 text-center">
+              <h2 className="text-3xl font-bold text-gray-800  mb-6 text-center">
                 शुभ मुहूर्त
               </h2>
               
               <div className="space-y-6">
                 <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl">
-                  <h3 className="font-bold text-gray-700 mb-2 font-['Philosopher']">अभिजित मुहूर्त</h3>
+                  <h3 className="font-bold text-gray-700 mb-2 ">अभिजित मुहूर्त</h3>
                   <p className="text-green-600 font-medium">12:00 PM - 12:48 PM</p>
                 </div>
                 
                 <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl">
-                  <h3 className="font-bold text-gray-700 mb-2 font-['Philosopher']">अमृत काल</h3>
+                  <h3 className="font-bold text-gray-700 mb-2 ">अमृत काल</h3>
                   <p className="text-blue-600 font-medium">6:30 AM - 8:15 AM</p>
                 </div>
                 
                 <div className="p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl">
-                  <h3 className="font-bold text-gray-700 mb-2 font-['Philosopher']">ब्रह्म मुहूर्त</h3>
+                  <h3 className="font-bold text-gray-700 mb-2 ">ब्रह्म मुहूर्त</h3>
                   <p className="text-purple-600 font-medium">4:30 AM - 6:00 AM</p>
                 </div>
                 
                 <div className="p-4 bg-gradient-to-r from-red-50 to-rose-50 rounded-2xl">
-                  <h3 className="font-bold text-gray-700 mb-2 font-['Philosopher']">राहु काल</h3>
+                  <h3 className="font-bold text-gray-700 mb-2 ">राहु काल</h3>
                   <p className="text-red-600 font-medium">3:30 PM - 5:00 PM</p>
                 </div>
                 
                 <div className="p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl">
-                  <h3 className="font-bold text-gray-700 mb-2 font-['Philosopher']">गुलिक काल</h3>
+                  <h3 className="font-bold text-gray-700 mb-2 ">गुलिक काल</h3>
                   <p className="text-orange-600 font-medium">1:30 PM - 3:00 PM</p>
                 </div>
               </div>

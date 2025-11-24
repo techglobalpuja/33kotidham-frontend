@@ -67,5 +67,8 @@ const nextConfig = {
     });
     return config;
   },
+  experimental: {
+    optimizePackageImports: ['@mui/material', '@mui/icons-material', 'recharts', 'lucide-react'],
+  },
 };
 export default nextConfig;

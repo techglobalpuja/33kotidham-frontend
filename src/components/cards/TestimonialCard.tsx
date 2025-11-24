@@ -36,7 +36,7 @@ const TestimonialCard: React.FC<TestimonialProps> = ({
         className="w-[60px] h-[60px] rounded-full object-cover"
       />
       <div className="flex flex-col justify-start items-start">
-        <h3 className="text-lg font-bold text-gray-900 font-['Philosopher']">
+        <h3 className="text-lg font-bold text-gray-900 ">
           {name}
         </h3>
         <p className="text-sm text-gray-600 font-['Work_Sans']">

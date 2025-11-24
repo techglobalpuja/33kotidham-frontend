@@ -54,7 +54,7 @@ const ContactUsPage: React.FC = () => {
               <div className="flex flex-col justify-start items-center w-full mr-[62px] sm:mr-[72px] md:mr-[82px] ml-[62px] sm:ml-[72px] md:ml-[82px]">
                 <div className="flex justify-center items-start w-full px-[6px] sm:px-[7px] md:px-[8px]">
                   <div className="flex flex-col justify-start items-center w-full mt-[6px] sm:mt-[7px] md:mt-[8px]">
-                    <h1 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111] font-['Philosopher'] w-auto">
+                    <h1 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  w-auto">
                       Contact Us
                     </h1>
                     <Image
@@ -64,7 +64,7 @@ const ContactUsPage: React.FC = () => {
                       height={14}
                       className="w-[180px] h-[11px] sm:w-[210px] sm:h-[12px] md:w-[240px] md:h-[14px] mt-[16px] sm:mt-[19px] md:mt-[21px]"
                     />
-                    <p className="text-[15px] sm:text-[18px] md:text-[20px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-center text-[#6d6d6d] font-['Lato'] w-auto mt-[16px] sm:mt-[19px] md:mt-[21px]">
+                    <p className="text-[15px] sm:text-[18px] md:text-[20px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-center text-[#6d6d6d]  w-auto mt-[16px] sm:mt-[19px] md:mt-[21px]">
                       Connect with 33KotiDham for spiritual guidance and support
                     </p>
                   </div>
@@ -82,23 +82,23 @@ const ContactUsPage: React.FC = () => {
             
             {/* Introduction */}
             <div className="terms-section">
-              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111] font-['Philosopher'] mb-4">
+              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111]  mb-4">
                 Get in Touch
               </h2>
-              <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
+              <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] ">
                 At 33KotiDham, we are here to assist you with your spiritual journey. Whether you have questions about our puja services, astrological consultations, or spiritual products, our team is ready to help. Reach out to us through the form below or contact us directly.
               </p>
             </div>
 
             {/* Contact Form */}
             <div className="terms-section">
-              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111] font-['Philosopher'] mb-4">
+              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111]  mb-4">
                 Contact Form
               </h2>
               <form onSubmit={handleSubmit} className="bg-[#fff3ee] p-6 rounded-lg border border-[#f37335]/20">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col">
-                    <label htmlFor="name" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                    <label htmlFor="name" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                       Full Name
                     </label>
                     <input
@@ -108,12 +108,12 @@ const ContactUsPage: React.FC = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px] font-['Lato'] focus:outline-none focus:ring-2 focus:ring-[#f37335]"
+                      className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px]  focus:outline-none focus:ring-2 focus:ring-[#f37335]"
                       placeholder="Enter your full name"
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label htmlFor="email" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                    <label htmlFor="email" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                       Email Address
                     </label>
                     <input
@@ -123,13 +123,13 @@ const ContactUsPage: React.FC = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px] font-['Lato'] focus:outline-none focus:ring-2 focus:ring-[#f37335]"
+                      className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px]  focus:outline-none focus:ring-2 focus:ring-[#f37335]"
                       placeholder="Enter your email address"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col mt-4">
-                  <label htmlFor="phone" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                  <label htmlFor="phone" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                     Phone Number
                   </label>
                   <input
@@ -138,12 +138,12 @@ const ContactUsPage: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px] font-['Lato'] focus:outline-none focus:ring-2 focus:ring-[#f37335]"
+                    className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px]  focus:outline-none focus:ring-2 focus:ring-[#f37335]"
                     placeholder="Enter your phone number (optional)"
                   />
                 </div>
                 <div className="flex flex-col mt-4">
-                  <label htmlFor="message" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                  <label htmlFor="message" className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                     Message
                   </label>
                   <textarea
@@ -153,7 +153,7 @@ const ContactUsPage: React.FC = () => {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px] font-['Lato'] focus:outline-none focus:ring-2 focus:ring-[#f37335]"
+                    className="border border-[#f37335]/30 rounded-md p-2 text-[14px] sm:text-[16px] md:text-[18px]  focus:outline-none focus:ring-2 focus:ring-[#f37335]"
                     placeholder="Enter your message or query"
                   />
                 </div>
@@ -162,7 +162,7 @@ const ContactUsPage: React.FC = () => {
                     type="submit"
                     variant="primary"
                     size="md"
-                    className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px] font-['Lato']"
+                    className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px] "
                   >
                     Submit
                   </Button>
@@ -172,20 +172,20 @@ const ContactUsPage: React.FC = () => {
 
             {/* Contact Information */}
             <div className="terms-section">
-              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111] font-['Philosopher'] mb-4">
+              <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-[28px] sm:leading-[32px] md:leading-[38px] text-[#111111]  mb-4">
                 Contact Information
               </h2>
               <div className="bg-[#fff3ee] p-6 rounded-lg border border-[#f37335]/20">
-                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                   <strong>Company:</strong> Aardhya Pooja Private Limited
                 </p>
-                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                   <strong>Email:</strong> <a href="mailto:info@33kotidham.com" className="text-[#f37335] hover:underline">info@33kotidham.com</a>
                 </p>
-                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato'] mb-2">
+                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333]  mb-2">
                   <strong>WhatsApp:</strong> Message “Support” with your query or Order ID
                 </p>
-                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] font-['Lato']">
+                <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-[22px] sm:leading-[24px] md:leading-[28px] text-[#333333] ">
                   Our team is available to assist you with any inquiries related to our services, including puja bookings, astrological consultations, or product orders. We aim to respond within 24-48 hours.
                 </p>
               </div>
@@ -196,7 +196,7 @@ const ContactUsPage: React.FC = () => {
               <Button
                 variant="primary"
                 size="md"
-                className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px] font-['Lato']"
+                className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center capitalize text-white bg-[linear-gradient(0deg,#f4aa36_0%,_#f37335_100%)] rounded-[22px] px-[25px] sm:px-[30px] md:px-[34px] py-[9px] sm:py-[11px] md:py-[12px] "
                 onClick={handleBackToHome}
               >
                 Back to Home

@@ -50,7 +50,7 @@ const AskQuestionPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-orange-700 via-rose-600 to-orange-800 bg-clip-text text-transparent">
                 Ask A Question
               </span>
@@ -60,7 +60,7 @@ const AskQuestionPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Get personalized guidance from our expert astrologers and spiritual consultants.
               <br className="hidden sm:block" />
               Ask any question about your life, career, relationships, or spiritual journey.
@@ -72,7 +72,7 @@ const AskQuestionPage: React.FC = () => {
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-            <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-800  mb-8 text-center">
               Submit Your Question
             </h2>
             

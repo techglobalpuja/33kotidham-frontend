@@ -172,7 +172,7 @@ const ForumsPage: React.FC = () => {
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px]  mb-8">
                     <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       समुदाय मंच
                     </span>
@@ -182,7 +182,7 @@ const ForumsPage: React.FC = () => {
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px]  max-w-4xl mb-10 text-gray-700 mx-auto">
                     Engage in meaningful discussions with our global community of spiritual seekers and experts.
                     <br className="hidden sm:block" />
                     Share knowledge, ask questions, and grow together on your spiritual journey.
@@ -225,12 +225,12 @@ const ForumsPage: React.FC = () => {
                 📚 Forum Categories
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
                 Explore Spiritual Disciplines
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Dive deep into specific areas of spiritual knowledge with our categorized discussion forums
             </p>
           </div>
@@ -265,16 +265,16 @@ const ForumsPage: React.FC = () => {
                   </div>
 
                   {/* Category Info */}
-                  <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
+                  <h3 className="text-[24px] font-bold text-gray-800  mb-4 group-hover:text-orange-700 transition-colors duration-300">
                     {category.title}
                   </h3>
                   
-                  <p className="text-[15px] text-gray-600 font-['Lato'] leading-relaxed mb-6">
+                  <p className="text-[15px] text-gray-600  leading-relaxed mb-6">
                     {category.description}
                   </p>
                   
                   {/* Stats */}
-                  <div className="flex justify-between text-sm text-gray-500 font-['Lato']">
+                  <div className="flex justify-between text-sm text-gray-500 ">
                     <span>{category.topics} topics</span>
                     <span>{category.posts} posts</span>
                   </div>
@@ -297,12 +297,12 @@ const ForumsPage: React.FC = () => {
                 🔥 Recent Discussions
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
                 Trending Conversations
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Join the most active discussions in our spiritual community
             </p>
           </div>
@@ -317,10 +317,10 @@ const ForumsPage: React.FC = () => {
                   style={{ animationDelay: `${1000 + index * 150}ms` }}
                 >
                   <div className="flex-1 mb-4 sm:mb-0">
-                    <h3 className="text-[18px] font-bold text-gray-800 font-['Philosopher'] mb-2 group-hover:text-orange-700 transition-colors duration-300">
+                    <h3 className="text-[18px] font-bold text-gray-800  mb-2 group-hover:text-orange-700 transition-colors duration-300">
                       {discussion.title}
                     </h3>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 font-['Lato']">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 ">
                       <span>By {discussion.author}</span>
                       <span className="hidden sm:block">•</span>
                       <span>in {discussion.category}</span>
@@ -328,7 +328,7 @@ const ForumsPage: React.FC = () => {
                       <span>{discussion.time}</span>
                     </div>
                   </div>
-                  <div className="flex gap-6 text-sm text-gray-500 font-['Lato']">
+                  <div className="flex gap-6 text-sm text-gray-500 ">
                     <div className="flex items-center gap-2">
                       <span>💬</span>
                       <span>{discussion.replies} replies</span>
@@ -361,10 +361,10 @@ const ForumsPage: React.FC = () => {
         <div className="w-full max-w-[1440px] mx-auto">
           <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-3xl p-8 border border-orange-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800  mb-4">
                 Ready to Join the Conversation?
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600  mb-8 max-w-2xl mx-auto">
                 Connect with our community of spiritual seekers and share your insights in our vibrant forums.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

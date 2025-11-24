@@ -50,7 +50,7 @@ const ManglikDoshPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-red-700 via-orange-600 to-red-800 bg-clip-text text-transparent">
                 Manglik Dosh
               </span>
@@ -60,7 +60,7 @@ const ManglikDoshPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Check if you have Manglik Dosh and understand its effects on marriage and relationships.
               <br className="hidden sm:block" />
               Get detailed analysis and effective remedies for harmonious married life.
@@ -72,7 +72,7 @@ const ManglikDoshPage: React.FC = () => {
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/50">
-            <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-800  mb-8 text-center">
               Manglik Dosh Calculator
             </h2>
             
@@ -169,7 +169,7 @@ const ManglikDoshPage: React.FC = () => {
 
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-red-50/30 to-orange-50/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-12 text-center">
+          <h2 className="text-3xl font-bold text-gray-800  mb-12 text-center">
             Understanding Manglik Dosh
           </h2>
           
@@ -213,10 +213,10 @@ const ManglikDoshPage: React.FC = () => {
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500">
                   {info.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-3">
+                <h3 className="text-xl font-bold text-gray-800  mb-3">
                   {info.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed">
+                <p className="text-gray-600  text-sm leading-relaxed">
                   {info.description}
                 </p>
               </div>
@@ -227,7 +227,7 @@ const ManglikDoshPage: React.FC = () => {
 
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-12 text-center">
+          <h2 className="text-3xl font-bold text-gray-800  mb-12 text-center">
             Common Remedies for Manglik Dosh
           </h2>
           
@@ -258,14 +258,14 @@ const ManglikDoshPage: React.FC = () => {
                 key={index}
                 className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/50"
               >
-                <h3 className={`text-2xl font-bold mb-6 text-center bg-gradient-to-r ${remedy.color} bg-clip-text text-transparent font-['Philosopher']`}>
+                <h3 className={`text-2xl font-bold mb-6 text-center bg-gradient-to-r ${remedy.color} bg-clip-text text-transparent `}>
                   {remedy.title}
                 </h3>
                 <ul className="space-y-3">
                   {remedy.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="flex items-center text-gray-700">
                       <span className="text-red-500 mr-3">•</span>
-                      <span className="font-['Lato']">{item}</span>
+                      <span className="">{item}</span>
                     </li>
                   ))}
                 </ul>

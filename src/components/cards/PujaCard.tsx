@@ -37,11 +37,10 @@ const PujaCard: React.FC<PujaCardProps> = ({
       image={image}
       title={title}
       temple={temple}
-      description={description}
+      sub_heading={description}
       date={date}
       time={time} // Pass time prop
       isNew={isNew}
-      variant="home"
     />
   );
 };

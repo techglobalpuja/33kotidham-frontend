@@ -210,14 +210,14 @@ const YearlyHoroscopePage: React.FC = () => {
                   <div className="mb-8 relative flex justify-center">
                     <div className="p-8 rounded-full bg-white/20 backdrop-blur-lg border-2 border-rose-300/40 relative overflow-hidden group shadow-lg">
                       <div className="absolute inset-0 bg-gradient-to-br from-rose-200/20 to-pink-200/20 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
-                      <div className="text-6xl text-rose-600 relative z-10 animate-float font-bold" style={{fontFamily: 'serif'}}>ॐ</div>
+                      <div className="text-6xl text-rose-600 relative z-10 animate-float font-bold">ॐ</div>
                       {/* Subtle glow effect */}
                       <div className="absolute inset-0 bg-rose-300/10 rounded-full blur-xl group-hover:bg-rose-300/20 transition-all duration-500"></div>
                     </div>
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] mb-8">
                     <span className="bg-gradient-to-r from-rose-700 via-pink-600 to-purple-600 bg-clip-text text-transparent">
                       वार्षिक राशिफल
                     </span>
@@ -227,7 +227,7 @@ const YearlyHoroscopePage: React.FC = () => {
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] max-w-4xl mb-10 text-gray-700 mx-auto">
                     Discover your yearly cosmic guidance rooted in ancient Vedic traditions. 
                     <br className="hidden sm:block" />
                     Unlock personalized insights for the year ahead and your zodiac sign.
@@ -270,12 +270,12 @@ const YearlyHoroscopePage: React.FC = () => {
                 ✨ Select Your Zodiac Sign
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 mb-6">
               <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
                 This Year&apos;s Cosmic Insights
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 max-w-3xl mx-auto">
               Choose your zodiac sign to receive personalized yearly predictions and cosmic guidance
             </p>
           </div>
@@ -342,15 +342,15 @@ const YearlyHoroscopePage: React.FC = () => {
                     </div>
 
                     {/* Zodiac Info */}
-                    <h3 className="text-[22px] sm:text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-2 group-hover:text-rose-700 transition-colors duration-300 transform group-hover:scale-105">
+                    <h3 className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-2 group-hover:text-rose-700 transition-colors duration-300 transform group-hover:scale-105">
                       {zodiac.name}
                     </h3>
                     
-                    <p className="text-[14px] text-gray-500 font-['Lato'] mb-1 font-semibold">
+                    <p className="text-[14px] text-gray-500 mb-1 font-semibold">
                       {zodiac.dateRange}
                     </p>
                     
-                    <p className="text-[13px] text-gray-600 font-['Lato'] leading-relaxed px-2">
+                    <p className="text-[13px] text-gray-600 leading-relaxed px-2">
                       {zodiac.description}
                     </p>
 
@@ -384,12 +384,12 @@ const YearlyHoroscopePage: React.FC = () => {
                 🌟 Yearly Predictions
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 mb-6">
               <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
                 Twelve Months of Cosmic Guidance
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 max-w-3xl mx-auto">
               Unlock the celestial wisdom that guides your year ahead
             </p>
           </div>
@@ -401,11 +401,11 @@ const YearlyHoroscopePage: React.FC = () => {
                 <div className="w-14 h-14 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center text-white text-2xl">
                   💖
                 </div>
-                <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher']">
+                <h3 className="text-[24px] font-bold text-gray-800">
                   Love & Relationships
                 </h3>
               </div>
-              <p className="text-gray-600 font-['Lato'] leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 This year brings transformative opportunities for deeper emotional connections. Single signs may encounter meaningful encounters, especially during the spring months. Those in relationships should focus on quality time together. Communication is key to resolving any misunderstandings. Express appreciation for your partner&apos;s support throughout the year.
               </p>
             </div>
@@ -416,11 +416,11 @@ const YearlyHoroscopePage: React.FC = () => {
                 <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-2xl">
                   💼
                 </div>
-                <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher']">
+                <h3 className="text-[24px] font-bold text-gray-800">
                   Career & Finance
                 </h3>
               </div>
-              <p className="text-gray-600 font-['Lato'] leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 Professional matters gain significant momentum this year. A proposal or project may reach a crucial decision point during the summer months. Financial planning should be prioritized, especially towards the end of the year. Unexpected opportunities may arise for those in creative or communication fields. Networking events could prove particularly beneficial.
               </p>
             </div>
@@ -431,11 +431,11 @@ const YearlyHoroscopePage: React.FC = () => {
                 <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center text-white text-2xl">
                   🧘
                 </div>
-                <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher']">
+                <h3 className="text-[24px] font-bold text-gray-800">
                   Health & Wellness
                 </h3>
               </div>
-              <p className="text-gray-600 font-['Lato'] leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 Prioritize holistic wellness this year. Physical activity will boost your energy levels significantly. Pay attention to your diet and hydration, especially during the middle months. Meditation or yoga can help center your thoughts during busy periods. Listen to your body&apos;s signals and rest when needed. Mental well-being requires extra attention this year.
               </p>
             </div>
@@ -444,10 +444,10 @@ const YearlyHoroscopePage: React.FC = () => {
           {/* Call to Action */}
           <div className={`text-center mt-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-rose-500/10 to-purple-500/10 rounded-3xl p-8 border border-rose-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 mb-4">
                 Ready for Your Personalized Yearly Horoscope?
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
                 Get detailed predictions tailored specifically to your zodiac sign and birth chart for deeper insights into your year ahead.
               </p>
               <button className="group relative px-8 py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">

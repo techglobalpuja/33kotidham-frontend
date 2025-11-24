@@ -144,7 +144,7 @@ const OurServicesPage: React.FC = () => {
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px]  mb-8">
                     <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       हमारी सेवाएँ
                     </span>
@@ -154,7 +154,7 @@ const OurServicesPage: React.FC = () => {
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px]  max-w-4xl mb-10 text-gray-700 mx-auto">
                     Discover our comprehensive range of spiritual services rooted in ancient Vedic traditions. 
                     <br className="hidden sm:block" />
                     Experience personalized guidance for every aspect of your life journey.
@@ -197,12 +197,12 @@ const OurServicesPage: React.FC = () => {
                 ✨ Comprehensive Spiritual Services
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
                 Ancient Wisdom, Modern Solutions
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Our expert astrologers and spiritual guides offer personalized services to help you navigate life{`'`}s challenges
             </p>
           </div>
@@ -237,11 +237,11 @@ const OurServicesPage: React.FC = () => {
                   </div>
 
                   {/* Service Info */}
-                  <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
+                  <h3 className="text-[24px] font-bold text-gray-800  mb-4 group-hover:text-orange-700 transition-colors duration-300">
                     {service.title}
                   </h3>
                   
-                  <p className="text-[15px] text-gray-600 font-['Lato'] leading-relaxed">
+                  <p className="text-[15px] text-gray-600  leading-relaxed">
                     {service.description}
                   </p>
                 </div>
@@ -263,12 +263,12 @@ const OurServicesPage: React.FC = () => {
                 🌟 Why Choose Our Services
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
                 Sacred Guidance, Proven Results
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Experience the difference of authentic spiritual services with our unique benefits
             </p>
           </div>
@@ -283,10 +283,10 @@ const OurServicesPage: React.FC = () => {
                 <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">
                   {benefit.icon}
                 </div>
-                <h3 className="text-[22px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+                <h3 className="text-[22px] font-bold text-gray-800  mb-4">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] leading-relaxed">
+                <p className="text-gray-600  leading-relaxed">
                   {benefit.description}
                 </p>
               </div>
@@ -296,10 +296,10 @@ const OurServicesPage: React.FC = () => {
           {/* Call to Action */}
           <div className={`text-center mt-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-3xl p-8 border border-orange-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800  mb-4">
                 Ready to Begin Your Spiritual Journey?
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600  mb-8 max-w-2xl mx-auto">
                 Connect with our expert astrologers and spiritual guides for personalized guidance tailored to your unique path.
               </p>
               <button className="group relative px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">

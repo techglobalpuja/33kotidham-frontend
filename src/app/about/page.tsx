@@ -135,14 +135,14 @@ const AboutUsPage: React.FC = () => {
                   </div>
                   
                   {/* Sacred Heading with Sanskrit Elements */}
-                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px] font-['Philosopher'] mb-8">
+                  <h1 className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] font-bold leading-[56px] sm:leading-[64px] md:leading-[72px] lg:leading-[80px]  mb-8">
                     
                     <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
                       About Us
                     </span>
                   </h1>
                   
-                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] font-['Lato'] max-w-4xl mb-10 text-gray-700 mx-auto">
+                  <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px]  max-w-4xl mb-10 text-gray-700 mx-auto">
                     Discover your sacred journey of spiritual enlightenment and commitment to guiding souls toward cosmic harmony.
                     <br className="hidden sm:block" />
                     Rooted in ancient wisdom, dedicated to modern healing.
@@ -185,12 +185,12 @@ const AboutUsPage: React.FC = () => {
                 🌟 Our Sacred Journey
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
                 Ancient Wisdom, Modern Mission
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               For over two decades, we have been dedicated to sharing the profound wisdom of Vedic traditions with seekers worldwide.
             </p>
           </div>
@@ -210,18 +210,18 @@ const AboutUsPage: React.FC = () => {
               </div>
             </div>
             <div className="w-full lg:w-1/2">
-              <h3 className="text-[32px] sm:text-[36px] md:text-[40px] font-bold text-gray-800 font-['Philosopher'] mb-6">
+              <h3 className="text-[32px] sm:text-[36px] md:text-[40px] font-bold text-gray-800  mb-6">
                 Guiding Souls Since 2003
               </h3>
-              <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600 font-['Lato'] mb-6 leading-relaxed">
+              <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600  mb-6 leading-relaxed">
                 Founded by a lineage of spiritual practitioners, 33KotiDham began as a small ashram in the foothills of the Himalayas. Our founder, Acharya Devanand, dedicated his life to mastering the ancient arts of Vedic astrology, palmistry, and numerology.
               </p>
-              <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600 font-['Lato'] mb-6 leading-relaxed">
+              <p className="text-[16px] sm:text-[18px] md:text-[20px] text-gray-600  mb-6 leading-relaxed">
                 Today, we have evolved into a global spiritual guidance center, serving thousands of seekers across continents. Our mission remains unchanged: to illuminate paths with cosmic wisdom and empower individuals to realize their highest potential.
               </p>
               <div className="flex items-center gap-4 mt-8">
                 <div className="text-4xl">🕉️</div>
-                <p className="text-[18px] text-gray-700 font-['Philosopher'] font-bold">
+                <p className="text-[18px] text-gray-700  font-bold">
                   {`"`}Knowledge is the light that dispels darkness{`"`}
                 </p>
               </div>
@@ -239,12 +239,12 @@ const AboutUsPage: React.FC = () => {
                 🌸 Core Values
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent">
                 Pillars of Our Practice
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               These fundamental principles guide every interaction and service we provide
             </p>
           </div>
@@ -259,10 +259,10 @@ const AboutUsPage: React.FC = () => {
                 <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">
                   {value.icon}
                 </div>
-                <h3 className="text-[22px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+                <h3 className="text-[22px] font-bold text-gray-800  mb-4">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] leading-relaxed">
+                <p className="text-gray-600  leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -281,12 +281,12 @@ const AboutUsPage: React.FC = () => {
                 👥 Sacred Practitioners
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-6">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-6">
               <span className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
                 Meet Our Spiritual Guides
               </span>
             </h2>
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600 font-['Lato'] max-w-3xl mx-auto">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] font-normal leading-[28px] sm:leading-[30px] md:leading-[32px] text-gray-600  max-w-3xl mx-auto">
               Our team of certified experts brings decades of combined experience in spiritual arts
             </p>
           </div>
@@ -321,15 +321,15 @@ const AboutUsPage: React.FC = () => {
                   </div>
 
                   {/* Member Info */}
-                  <h3 className="text-[24px] font-bold text-gray-800 font-['Philosopher'] mb-2 group-hover:text-purple-700 transition-colors duration-300">
+                  <h3 className="text-[24px] font-bold text-gray-800  mb-2 group-hover:text-purple-700 transition-colors duration-300">
                     {member.name}
                   </h3>
                   
-                  <p className="text-[16px] font-bold text-amber-600 font-['Lato'] mb-4">
+                  <p className="text-[16px] font-bold text-amber-600  mb-4">
                     {member.role}
                   </p>
                   
-                  <p className="text-[15px] text-gray-600 font-['Lato'] leading-relaxed">
+                  <p className="text-[15px] text-gray-600  leading-relaxed">
                     {member.description}
                   </p>
                 </div>
@@ -347,10 +347,10 @@ const AboutUsPage: React.FC = () => {
         <div className="w-full max-w-[1440px] mx-auto">
           <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-3xl p-8 border border-amber-200/50 backdrop-blur-sm">
-              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800 font-['Philosopher'] mb-4">
+              <h3 className="text-[28px] sm:text-[32px] font-bold text-gray-800  mb-4">
                 Begin Your Spiritual Journey Today
               </h3>
-              <p className="text-gray-600 font-['Lato'] mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600  mb-8 max-w-2xl mx-auto">
                 Connect with our expert astrologers and spiritual guides for personalized guidance tailored to your unique path.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

@@ -39,12 +39,12 @@ const HoroscopeCard: React.FC<HoroscopeCardProps> = ({ id, icon, name, onClick }
         </div>
         <div className="flex flex-col justify-start items-center w-full">
           <div className="flex justify-center items-center w-auto px-[32px] sm:px-[37px] md:px-[42px]">
-            <h3 className="text-[16px] sm:text-[18px] md:text-[20px] font-bold leading-[18px] sm:leading-[21px] md:leading-[23px] text-center text-[#111111] font-['Philosopher'] group-hover:text-white transition-colors duration-300">
+            <h3 className="text-[16px] sm:text-[18px] md:text-[20px] font-bold leading-[18px] sm:leading-[21px] md:leading-[23px] text-center text-[#111111]  group-hover:text-white transition-colors duration-300">
               {name}
             </h3>
           </div>
           {/* <div className="flex justify-center items-center w-full">
-            <p className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center text-[#797979] font-['Lato'] group-hover:text-white/90 transition-colors duration-300">
+            <p className="text-[12px] sm:text-[13px] md:text-[14px] font-normal leading-[14px] sm:leading-[15px] md:leading-[17px] text-center text-[#797979]  group-hover:text-white/90 transition-colors duration-300">
               {dateRange}
             </p>
           </div> */}

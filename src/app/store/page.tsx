@@ -359,14 +359,14 @@ const StorePage: React.FC = () => {
             </div>
             
             {/* Main Heading */}
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] lg:text-[84px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] lg:leading-[92px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] lg:text-[84px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] lg:leading-[92px]  mb-8">
               
               <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
                 Sacred Store
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Discover authentic spiritual products blessed by experienced priests from sacred temples across India. 
               <br className="hidden sm:block" />
               Each item is carefully curated and energized to bring divine blessings into your life.
@@ -639,7 +639,7 @@ const StorePage: React.FC = () => {
                 ✨ Sacred Collection
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-8">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-8">
               <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
                 Why Choose Our
               </span>
@@ -663,10 +663,10 @@ const StorePage: React.FC = () => {
                 
                 <div className="relative z-10 text-center">
                   <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">{benefit.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-4 group-hover:text-orange-700 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-800  mb-4 group-hover:text-orange-700 transition-colors duration-300">
                     {benefit.title}
                   </h3>
-                  <p className="text-gray-600 font-['Lato'] leading-relaxed text-sm">
+                  <p className="text-gray-600  leading-relaxed text-sm">
                     {benefit.description}
                   </p>
                 </div>
@@ -688,7 +688,7 @@ const StorePage: React.FC = () => {
                 💕 Customer Stories
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-8">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-8">
               <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
                 What Our Devotees
               </span>
@@ -727,7 +727,7 @@ const StorePage: React.FC = () => {
                       </div>
                       
                       {/* Quote */}
-                      <blockquote className="text-xl md:text-2xl text-gray-700 font-['Lato'] italic leading-relaxed mb-8 max-w-3xl mx-auto">
+                      <blockquote className="text-xl md:text-2xl text-gray-700  italic leading-relaxed mb-8 max-w-3xl mx-auto">
                         {`"`}{testimonial.text}{`"`}
                       </blockquote>
                       
@@ -736,7 +736,7 @@ const StorePage: React.FC = () => {
                         <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-rose-500 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
                           {testimonial.name.charAt(0)}
                         </div>
-                        <h4 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-2">{testimonial.name}</h4>
+                        <h4 className="text-xl font-bold text-gray-800  mb-2">{testimonial.name}</h4>
                         <p className="text-orange-600 font-medium mb-2">{testimonial.location}</p>
                         <p className="text-sm text-gray-600">Purchased: {testimonial.product}</p>
                       </div>
@@ -773,7 +773,7 @@ const StorePage: React.FC = () => {
                 ❓ Frequently Asked
               </span>
             </div>
-            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800 font-['Philosopher'] mb-8">
+            <h2 className="text-[42px] sm:text-[48px] md:text-[56px] font-bold leading-[48px] sm:leading-[54px] md:leading-[64px] text-gray-800  mb-8">
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Common Questions
               </span>
@@ -796,7 +796,7 @@ const StorePage: React.FC = () => {
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
                   className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300"
                 >
-                  <h3 className="text-lg font-bold text-gray-800 font-['Philosopher'] pr-8">
+                  <h3 className="text-lg font-bold text-gray-800  pr-8">
                     {faq.question}
                   </h3>
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white transition-transform duration-300 ${
@@ -812,7 +812,7 @@ const StorePage: React.FC = () => {
                   expandedFAQ === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}>
                   <div className="px-8 pb-6">
-                    <p className="text-gray-600 font-['Lato'] leading-relaxed">
+                    <p className="text-gray-600  leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>

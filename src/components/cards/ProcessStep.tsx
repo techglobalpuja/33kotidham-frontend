@@ -25,9 +25,9 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
       isHighlighted 
         ? 'bg-white' :'bg-[linear-gradient(90deg,#f4aa36_0%,_#f37335_100%)]'
     }`}>
-      <span className="text-[24px] sm:text-[36px] md:text-[48px] font-bold leading-[28px] sm:leading-[41px] md:leading-[54px] text-center text-black font-['Philosopher']">
+      <span className="text-[24px] sm:text-[36px] md:text-[48px] font-bold leading-[28px] sm:leading-[41px] md:leading-[54px] text-center text-black ">
         <span>{stepNumber.charAt(0)}</span>
-        <span className="text-[24px] sm:text-[36px] md:text-[48px] font-bold leading-[32px] sm:leading-[54px] md:leading-[72px] text-center text-black font-['Philosopher']">
+        <span className="text-[24px] sm:text-[36px] md:text-[48px] font-bold leading-[32px] sm:leading-[54px] md:leading-[72px] text-center text-black ">
           {stepNumber.slice(1)}
         </span>
       </span>
@@ -36,7 +36,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
       </span>
     </div>
     <div className="flex flex-col gap-2 sm:gap-3 md:gap-[14px] justify-start items-start w-full">
-      <h3 className={`text-[18px] sm:text-[24px] md:text-[34px] font-bold leading-[22px] sm:leading-[28px] md:leading-[39px] text-left font-['Philosopher'] ${
+      <h3 className={`text-[18px] sm:text-[24px] md:text-[34px] font-bold leading-[22px] sm:leading-[28px] md:leading-[39px] text-left  ${
         isHighlighted ? 'text-[#111111]' : 'text-[#111111]'
       }`}>
         {title}

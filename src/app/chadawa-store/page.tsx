@@ -67,7 +67,7 @@ const ChadawaStorePage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
-        <div className="text-2xl font-['Philosopher'] text-orange-600">Loading temples...</div>
+        <div className="text-2xl  text-orange-600">Loading temples...</div>
       </div>
     );
   }
@@ -75,7 +75,7 @@ const ChadawaStorePage: React.FC = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50 flex items-center justify-center">
-        <div className="text-2xl font-['Philosopher'] text-red-600">Error: {error}</div>
+        <div className="text-2xl  text-red-600">Error: {error}</div>
       </div>
     );
   }
@@ -100,13 +100,13 @@ const ChadawaStorePage: React.FC = () => {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 font-['Philosopher'] mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800  mb-6">
             <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
               Perform Your Chadhawa
             </span>
           </h1>
            
-          <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+          <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
             Choose from our associated temples where you can offer your sacred chadawas. 
             Each temple has experienced priests who will perform the offering ceremony with devotion.
           </p>
@@ -156,7 +156,7 @@ const ChadawaStorePage: React.FC = () => {
                 
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-xl font-bold text-gray-800  group-hover:text-orange-600 transition-colors duration-300">
                       {temple.name}
                     </h3>
                     {/* <div className="flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-full">

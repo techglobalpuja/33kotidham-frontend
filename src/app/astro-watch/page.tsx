@@ -97,7 +97,7 @@ const AstroWatchPage: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] font-['Philosopher'] mb-8">
+            <h1 className="text-[52px] sm:text-[64px] md:text-[72px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px]  mb-8">
               <span className="bg-gradient-to-r from-indigo-700 via-purple-600 to-blue-800 bg-clip-text text-transparent">
                 Astro Watch
               </span>
@@ -107,7 +107,7 @@ const AstroWatchPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Stay updated with important celestial events and their spiritual significance.
               <br className="hidden sm:block" />
               Track planetary movements, lunar phases, and cosmic alignments that influence your life.
@@ -155,11 +155,11 @@ const AstroWatchPage: React.FC = () => {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-3 group-hover:text-indigo-700 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-800  mb-3 group-hover:text-indigo-700 transition-colors duration-300">
                     {event.title}
                   </h3>
                   
-                  <p className="text-gray-600 font-['Lato'] mb-4 text-sm leading-relaxed">
+                  <p className="text-gray-600  mb-4 text-sm leading-relaxed">
                     {event.description}
                   </p>
                   
@@ -179,7 +179,7 @@ const AstroWatchPage: React.FC = () => {
           {filteredEvents.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-['Philosopher']">No events found</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 ">No events found</h3>
               <p className="text-gray-600">Try selecting a different category to see more events.</p>
             </div>
           )}
@@ -188,7 +188,7 @@ const AstroWatchPage: React.FC = () => {
 
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-indigo-50/30 to-purple-50/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 font-['Philosopher'] mb-12 text-center">
+          <h2 className="text-3xl font-bold text-gray-800  mb-12 text-center">
             Understanding Cosmic Events
           </h2>
           
@@ -222,10 +222,10 @@ const AstroWatchPage: React.FC = () => {
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500">
                   {info.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 font-['Philosopher'] mb-3">
+                <h3 className="text-xl font-bold text-gray-800  mb-3">
                   {info.title}
                 </h3>
-                <p className="text-gray-600 font-['Lato'] text-sm leading-relaxed">
+                <p className="text-gray-600  text-sm leading-relaxed">
                   {info.description}
                 </p>
               </div>

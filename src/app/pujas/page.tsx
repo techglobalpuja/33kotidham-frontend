@@ -144,14 +144,12 @@ const AllPujasPage: React.FC = () => {
             
             {/* Main Heading */}
             <h1 className="text-[52px] sm:text-[64px] md:text-[72px] lg:text-[84px] font-bold leading-[60px] sm:leading-[72px] md:leading-[80px] lg:leading-[92px] font-['Philosopher'] mb-8">
-              
               <span className="bg-gradient-to-r from-rose-600 via-orange-700 to-yellow-600 bg-clip-text text-transparent">
                 Sacred Pujas
               </span>
             </h1>
             
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
-              
               Connect with divine energies and invite blessings into your life through our comprehensive puja services.
             </p>
             
@@ -182,10 +180,7 @@ const AllPujasPage: React.FC = () => {
       <section className="pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           
-          {/* Enhanced Filter Tabs */}
-          
-
-          {/* Enhanced Pujas Grid - Updated to use home variant */}
+          {/* Enhanced Pujas Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {sortedPujas.map((puja) => (
               <UnifiedPujaCard
@@ -194,12 +189,10 @@ const AllPujasPage: React.FC = () => {
                 image={puja.image}
                 title={puja.title}
                 temple={puja.temple}
-                description={puja.description}
+                sub_heading={puja.sub_heading || ''}
                 date={puja.date}
                 time={puja.time}
                 isNew={puja.isNew}
-                variant="home" // Changed to home variant for consistency
-                benefits={puja.benefits} // Pass benefits to the card component
               />
             ))}
           </div>

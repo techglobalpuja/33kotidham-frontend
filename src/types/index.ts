@@ -248,35 +248,35 @@ export interface PujaFormData {
   date: string;
   time: string;
   pujaImages: string[];
-  
+
   // Temple Section
   templeImage: string;
   templeAddress: string;
   templeDescription: string;
-  
+
   // Puja Benefits (4 benefits with titles and descriptions)
   benefits: {
     title: string;
     description: string;
   }[];
-  
+
   // Plan Details
   selectedPlanIds: string[]; // Changed to array for multi-select
-  
+
   // Prasad
   prasadPrice: number;
   prasadStatus: boolean;
-  
+
   // Dakshina
   dakshinaPrices: string; // Changed to string for comma-separated values
   dakshinaPricesUSD: string; // Changed to string for comma-separated values
   dakshinaStatus: boolean;
-  
+
   // Manokamna Parchi
   manokamanaPrices: string; // Changed to string for comma-separated values
   manokamanaPricesUSD: string; // Changed to string for comma-separated values
   manokamanaStatus: boolean;
-  
+
   // General
   category: string;
   isActive: boolean;

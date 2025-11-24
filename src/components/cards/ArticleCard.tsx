@@ -56,12 +56,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       </div>
       
       {/* Title */}
-      <h3 className="text-xl font-bold text-gray-900 font-['Philosopher'] mb-3 leading-tight">
+      <h3 className="text-xl font-bold text-gray-900  mb-3 leading-tight">
         {title}
       </h3>
       
       {/* Excerpt */}
-      <p className="text-gray-600 font-['Lato'] leading-relaxed">
+      <p className="text-gray-600  leading-relaxed">
         {excerpt}
       </p>
     </div>

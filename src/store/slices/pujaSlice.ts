@@ -32,8 +32,9 @@ interface ExtendedPujaCard extends PujaCard {
   temple_image_url?: string;
   plan_ids?: number[];
   selectedPlans?: Plan[];
-  created_at?: string; 
-  time?: string; 
+  created_at?: string;
+  time?: string;
+  sub_heading?: string;
 }
 
 interface PujaState {
@@ -78,7 +79,7 @@ export const fetchPujaById = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await apiService.getPujaById(id);
-      console.log("response----",response);
+      console.log("response----", response);
       return response;
     } catch (error: unknown) {
       // Type guard to check if error has a message property
@@ -141,7 +142,7 @@ const pujaSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchPujaById.fulfilled, (state, action: PayloadAction<ExtendedPujaCard>) => {
-        console.log("action.payload",action.payload);
+        console.log("action.payload", action.payload);
         console.log("temple_image_url in payload:", action.payload.temple_image_url);
         state.isLoading = false;
         state.selectedPuja = action.payload;

@@ -374,7 +374,7 @@ const UserDashboard: React.FC = () => {
                 <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold mb-3">
                   {displayUser?.name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 font-['Philosopher']">{displayUser?.name || displayUser?.email || 'User'}</h3>
+                <h3 className="text-lg font-bold text-gray-900 ">{displayUser?.name || displayUser?.email || 'User'}</h3>
                 <p className="text-sm text-gray-500">Devoted Member</p>
                 {isLoading && (
                   <p className="text-xs text-orange-500 mt-1">Loading user info...</p>
@@ -392,7 +392,7 @@ const UserDashboard: React.FC = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id as 'profile' | 'pujas' | 'orders' | 'videos')}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-['Lato'] transition-colors ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left  transition-colors ${
                       activeTab === item.id
                         ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white'
                         : 'text-gray-700 hover:bg-orange-50'
@@ -415,7 +415,7 @@ const UserDashboard: React.FC = () => {
             {activeTab === 'profile' && (
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher']">My Profile</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 ">My Profile</h2>
                   <Button
                     variant="primary"
                     size="sm"
@@ -430,7 +430,7 @@ const UserDashboard: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Personal Information */}
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 font-['Philosopher'] mb-4">Personal Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900  mb-4">Personal Information</h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -490,7 +490,7 @@ const UserDashboard: React.FC = () => {
             {/* Pujas Tab */}
             {activeTab === 'pujas' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">My Pujas</h2>
+                <h2 className="text-2xl font-bold text-gray-900  mb-6">My Pujas</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {userPujas.map((puja) => (
                     <div key={puja.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -504,7 +504,7 @@ const UserDashboard: React.FC = () => {
                         /> */}
                         <div className="w-20 h-20 rounded-lg bg-gray-200"></div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 font-['Philosopher']">{puja.title}</h3>
+                          <h3 className="font-semibold text-gray-900 ">{puja.title}</h3>
                           <p className="text-sm text-gray-600">{puja.temple}</p>
                           <p className="text-sm text-gray-500">
                             {new Date(puja.date).toLocaleDateString()} at {puja.time}
@@ -538,7 +538,7 @@ const UserDashboard: React.FC = () => {
             {/* Orders Tab */}
             {activeTab === 'orders' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">My Booked Pujas</h2>
+                <h2 className="text-2xl font-bold text-gray-900  mb-6">My Booked Pujas</h2>
                 
                 {bookingsLoading ? (
                   <div className="flex justify-center items-center py-12">
@@ -613,7 +613,7 @@ const UserDashboard: React.FC = () => {
                             )}
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 font-['Philosopher']">
+                            <h3 className="font-semibold text-gray-900 ">
                               {booking.puja?.name || 'Puja Booking'}
                             </h3>
                             <p className="text-sm text-gray-600">
@@ -653,7 +653,7 @@ const UserDashboard: React.FC = () => {
             {/* Videos Tab */}
             {activeTab === 'videos' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">Puja Videos</h2>
+                <h2 className="text-2xl font-bold text-gray-900  mb-6">Puja Videos</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {userPujas.filter(puja => puja.videoUrl).map((puja) => (
                     <div key={puja.id} className="border border-gray-200 rounded-lg p-4">
@@ -685,7 +685,7 @@ const UserDashboard: React.FC = () => {
             {/* 
             {activeTab === 'certificates' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900 font-['Philosopher'] mb-6">Puja Certificates</h2>
+                <h2 className="text-2xl font-bold text-gray-900  mb-6">Puja Certificates</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {userPujas.filter(puja => puja.certificateUrl).map((puja) => (
                     <div key={puja.id} className="border border-gray-200 rounded-lg p-4 text-center">
