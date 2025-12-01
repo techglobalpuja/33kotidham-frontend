@@ -604,3 +604,52 @@ export interface UserPuja {
   videoUrl?: string;
   certificateUrl?: string;
 }
+
+// Store Order Types
+export interface OrderItem {
+  id: number;
+  order_id: number;
+  product_id: number;
+  product_name: string;
+  quantity: number;
+  unit_price: string;
+  total_price: string;
+  created_at: string;
+}
+
+export interface OrderResponse {
+  id: number;
+  user_id: number;
+  order_number: string;
+  shipping_name: string;
+  shipping_mobile: string;
+  shipping_address: string;
+  shipping_city: string;
+  shipping_state: string;
+  shipping_pincode: string;
+  subtotal: string;
+  discount_amount: string;
+  shipping_charges: string;
+  tax_amount: string;
+  total_amount: string;
+  status: string;
+  payment_status: string;
+  payment_method: string;
+  tracking_number: string | null;
+  notes: string;
+  promo_code: string | null;
+  created_at: string;
+  updated_at: string;
+  shipped_at: string | null;
+  delivered_at: string | null;
+  order_items: OrderItem[];
+}
+
+export interface RazorpayOrderResponse {
+  razorpay_order_id: string;
+  amount: number;
+  currency: string;
+  order_id: number;
+  order_number: string;
+  key_id: string;
+}

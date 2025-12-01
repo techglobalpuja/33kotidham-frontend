@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
@@ -49,7 +49,8 @@ interface RelatedProduct {
   rating: number;
 }
 
-const ProductDetailPage = ({ params }: { params: { id: string } }) => {
+const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = use(params);
   const [selectedImage, setSelectedImage] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('description');
@@ -114,7 +115,7 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
         setError(null);
         
         // Fetch the product by ID
-        const productId = parseInt(params.id);
+        const productId = parseInt(id);
         if (isNaN(productId)) {
           throw new Error('Invalid product ID');
         }
@@ -160,7 +161,7 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
     };
 
     fetchProduct();
-  }, [params.id]);
+  }, [id]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -176,7 +177,18 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   };
 
   const buyNow = () => {
-    alert('Proceeding to checkout!');
+    if (product) {
+      // Store product data in localStorage for checkout
+      localStorage.setItem('checkoutProduct', JSON.stringify({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        quantity: 1
+      }));
+      // Navigate to checkout
+      window.location.href = '/store/checkout';
+    }
   };
 
   const isInCart = (productId: string) => {

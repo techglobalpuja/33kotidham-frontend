@@ -103,7 +103,7 @@ interface RequestOtpResponse {
 class ApiService {
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
-    
+
     // Get auth token from localStorage or cookies if available
     let authHeader = null;
     if (typeof window !== 'undefined') {
@@ -122,7 +122,7 @@ class ApiService {
         authHeader = `${tokenType} ${token}`;
       }
     }
-    
+
     // If no token found in localStorage, try to get from cookies (client-side)
     if (!authHeader && typeof window !== 'undefined') {
       const cookies = parseCookies();
@@ -132,7 +132,7 @@ class ApiService {
         authHeader = `${tokenType} ${token}`;
       }
     }
-    
+
     const config: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
@@ -146,24 +146,24 @@ class ApiService {
     if (authHeader) {
       console.log('Using authorization header');
     }
-    
+
     try {
       const response = await fetch(url, config);
-      
+
       // Even for successful responses, check if it contains requires_registration
       const responseText = await response.text();
       console.log('API Response Text:', responseText);
-      
+
       // If response is empty, return empty object
       if (!responseText) {
         return {} as T;
       }
-      
+
       try {
         // Try to parse as JSON first
         const responseData = JSON.parse(responseText);
         console.log('API Response Data:', responseData);
-        
+
         // Check for the exact response structure you specified:
         // { "message": "User not found. Please register first.", "requires_registration": true, "mobile": "7858855555" }
         if (responseData.requires_registration === true) {
@@ -171,7 +171,7 @@ class ApiService {
           // This allows the frontend to handle the registration flow properly
           return responseData as T;
         }
-        
+
         if (!response.ok) {
           // Handle other error responses
           let errorMessage = `API Error: ${response.status} ${response.statusText}`;
@@ -185,7 +185,7 @@ class ApiService {
           }
           throw new Error(errorMessage);
         }
-        
+
         return responseData;
       } catch (parseError) {
         // If parsing fails but response is OK, return the raw text or empty object
@@ -199,12 +199,12 @@ class ApiService {
             return {} as T;
           }
         }
-        
+
         // For non-OK responses that aren't JSON, throw a generic error
         if (!response.ok) {
           throw new Error(`API Error: ${response.status} ${response.statusText}`);
         }
-        
+
         // For other cases, re-throw the parsing error
         throw parseError;
       }
@@ -220,7 +220,7 @@ class ApiService {
   // Auth API methods
   async login(email: string, password: string, clientId: string = '', clientSecret: string = ''): Promise<User> {
     const loginUrl = `${API_BASE_URL.replace(/\/api$/, '')}/auth/token`;
-    
+
     // Create form data for OAuth2 token request
     const formData = new URLSearchParams();
     formData.append('username', email);
@@ -229,10 +229,10 @@ class ApiService {
     formData.append('scope', '');
     formData.append('client_id', clientId); // Add client ID if provided
     formData.append('client_secret', clientSecret); // Add client secret if provided
-    
+
     console.log('Login URL:', loginUrl);
     console.log('Form data:', formData.toString());
-    
+
     try {
       const response = await fetch(loginUrl, {
         method: 'POST',
@@ -257,7 +257,7 @@ class ApiService {
 
       const tokenData = await response.json();
       console.log('Token response:', JSON.stringify(tokenData, null, 2));
-      
+
       // Return a minimal user object with the token
       return {
         id: 0, // Placeholder ID
@@ -328,14 +328,14 @@ class ApiService {
       const parsedUrl = new URL(url);
       // Check if it's a valid HTTP/HTTPS URL with a proper hostname
       const isValidProtocol = parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
-      const hasValidHostname = parsedUrl.hostname && parsedUrl.hostname.length > 0 && 
-                               !parsedUrl.hostname.includes(' ') && parsedUrl.hostname !== '.';
-      
+      const hasValidHostname = parsedUrl.hostname && parsedUrl.hostname.length > 0 &&
+        !parsedUrl.hostname.includes(' ') && parsedUrl.hostname !== '.';
+
       // For localhost URLs, we'll be more permissive but still validate basic structure
       if (parsedUrl.hostname === 'localhost' || parsedUrl.hostname === '127.0.0.1') {
         return isValidProtocol && !!hasValidHostname && !!parsedUrl.port && parsedUrl.port.length > 0;
       }
-      
+
       return isValidProtocol && !!hasValidHostname;
     } catch {
       return false;
@@ -350,7 +350,7 @@ class ApiService {
       console.log('API Service - Returning full URL as is:', imagePath);
       return imagePath;
     }
-    
+
     // If it's a relative path, construct the full URL using the production API domain
     if (imagePath && !imagePath.startsWith('http')) {
       try {
@@ -367,7 +367,7 @@ class ApiService {
         console.warn('Error constructing full image URL:', error);
       }
     }
-    
+
     // Fallback to placeholder
     console.log('API Service - Returning placeholder for:', imagePath);
     return '/placeholder.jpg';
@@ -403,7 +403,7 @@ class ApiService {
     console.log('Backend puja data:', backendPuja);
     // Get the first valid image URL if available, otherwise use temple_image_url
     let imageUrl = '';
-    
+
     // Try to get image from the images array first (this is the primary source as per project specifications)
     if (backendPuja.images && backendPuja.images.length > 0) {
       // Look for the first valid image URL
@@ -415,7 +415,7 @@ class ApiService {
         }
       }
     }
-    
+
     // If no valid image from images array, try temple_image_url
     if (!imageUrl && backendPuja.temple_image_url) {
       imageUrl = this.constructImageUrl(backendPuja.temple_image_url);
@@ -453,7 +453,7 @@ class ApiService {
       isNew: false, // We can set this based on created_at if needed
       created_at: backendPuja.created_at, // Add created_at field
     };
-    
+
     console.log('Transformed puja result:', result);
     return result;
   }
@@ -582,23 +582,23 @@ class ApiService {
   // Product API methods
   async getProducts(skip: number = 0, limit: number = 100, categoryId?: number, isActive?: boolean, isFeatured?: boolean, search?: string): Promise<BackendProduct[]> {
     let url = `/api/v1/products/?skip=${skip}&limit=${limit}`;
-    
+
     if (categoryId !== undefined) {
       url += `&category_id=${categoryId}`;
     }
-    
+
     if (isActive !== undefined) {
       url += `&is_active=${isActive}`;
     }
-    
+
     if (isFeatured !== undefined) {
       url += `&is_featured=${isFeatured}`;
     }
-    
+
     if (search !== undefined) {
       url += `&search=${encodeURIComponent(search)}`;
     }
-    
+
     return this.request<BackendProduct[]>(url);
   }
 
@@ -609,12 +609,52 @@ class ApiService {
   // Add method for fetching product categories
   async getProductCategories(skip: number = 0, limit: number = 100, isActive?: boolean): Promise<BackendProductCategory[]> {
     let url = `/api/v1/products/categories?skip=${skip}&limit=${limit}`;
-    
+
     if (isActive !== undefined) {
       url += `&is_active=${isActive}`;
     }
-    
+
     return this.request<BackendProductCategory[]>(url);
+  }
+
+  // Store Order API methods
+  async createOrder(orderData: {
+    shipping_name: string;
+    shipping_mobile: string;
+    shipping_address: string;
+    shipping_city: string;
+    shipping_state: string;
+    shipping_pincode: string;
+    notes: string;
+    items: Array<{ product_id: number; quantity: number }>;
+    promo_code?: string;
+    payment_method: 'online' | 'cod';
+  }): Promise<import('@/types').OrderResponse> {
+    return this.request<import('@/types').OrderResponse>('/api/v1/orders', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  }
+
+  async createRazorpayOrderPayment(orderId: number): Promise<import('@/types').RazorpayOrderResponse> {
+    return this.request<import('@/types').RazorpayOrderResponse>(`/api/v1/order-payments/create-razorpay-order?order_id=${orderId}`, {
+      method: 'POST',
+      body: '',
+    });
+  }
+
+  async verifyOrderPayment(params: {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }): Promise<{ success: boolean; message: string }> {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = params;
+    return this.request<{ success: boolean; message: string }>(
+      `/api/v1/order-payments/verify-payment?razorpay_order_id=${razorpay_order_id}&razorpay_payment_id=${razorpay_payment_id}&razorpay_signature=${razorpay_signature}`,
+      {
+        method: 'POST',
+      }
+    );
   }
 }
 

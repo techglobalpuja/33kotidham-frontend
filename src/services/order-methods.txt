@@ -1,0 +1,39 @@
+﻿  // Store Order API methods
+  async createOrder(orderData: {
+    shipping_name: string;
+    shipping_mobile: string;
+    shipping_address: string;
+    shipping_city: string;
+    shipping_state: string;
+    shipping_pincode: string;
+    notes: string;
+    items: Array<{ product_id: number; quantity: number }>;
+    promo_code?: string;
+    payment_method: 'online' | 'cod';
+  }): Promise<import('@/types').OrderResponse> {
+    return this.request<import('@/types').OrderResponse>('/api/v1/orders', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  }
+
+  async createRazorpayOrderPayment(orderId: number): Promise<import('@/types').RazorpayOrderResponse> {
+    return this.request<import('@/types').RazorpayOrderResponse>(/api/v1/order-payments/create-razorpay-order?order_id=, {
+      method: 'POST',
+      body: '',
+    });
+  }
+
+  async verifyOrderPayment(params: {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }): Promise<{ success: boolean; message: string }> {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = params;
+    return this.request<{ success: boolean; message: string }>(
+      /api/v1/order-payments/verify-payment?razorpay_order_id=&razorpay_payment_id=&razorpay_signature=,
+      {
+        method: 'POST',
+      }
+    );
+  }
