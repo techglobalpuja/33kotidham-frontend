@@ -10,10 +10,10 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { loginSuccess, fetchUserInfo } from '@/store/slices/authSlice';
 
 // Define Razorpay type
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
 }
 
 interface CheckoutProduct {
@@ -37,7 +37,8 @@ interface ShippingDetails {
 const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
+  const isAuthenticated = user?.isAuthenticated || false;
   
   const [product, setProduct] = useState<CheckoutProduct | null>(null);
   const [loading, setLoading] = useState(true);
@@ -305,7 +306,7 @@ const CheckoutPage = () => {
       }
 
       const options = {
-        key: key_id || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Use key from response if available
+        key: key_id || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '', // Use key from response if available
         amount: amount,
         currency: currency,
         name: '33 Kotidham',
@@ -316,7 +317,7 @@ const CheckoutPage = () => {
           email: shippingDetails.email,
           contact: shippingDetails.mobile
         },
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayResponse) {
           try {
             // 4. Verify Payment
             // API expects only razorpay fields
@@ -348,9 +349,9 @@ const CheckoutPage = () => {
       const rzp = new window.Razorpay(options);
       rzp.open();
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Order placement failed:', error);
-      const errorMessage = error?.message || 'Failed to place order. Please try again.';
+      const errorMessage = (error as Error)?.message || 'Failed to place order. Please try again.';
       alert(`Error: ${errorMessage}`);
       setProcessing(false);
     }

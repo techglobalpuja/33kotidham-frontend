@@ -19,7 +19,7 @@ const CheckoutFailurePage = () => {
         
         <h1 className="text-4xl font-bold text-gray-900 mb-4 font-['Philosopher']">Payment Failed</h1>
         <p className="text-lg text-gray-600 mb-8 max-w-lg">
-          We couldn't process your payment. Please try again or contact support if the issue persists.
+          We couldn&apos;t process your payment. Please try again or contact support if the issue persists.
         </p>
         
         <div className="flex gap-4">
