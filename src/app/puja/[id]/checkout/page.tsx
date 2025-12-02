@@ -603,7 +603,7 @@ const CustomCheckoutPage: React.FC = () => {
                     <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700 mb-1">
                       Mobile Number *
                     </label>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       <input
                         type="tel"
                         id="mobileNumber"
