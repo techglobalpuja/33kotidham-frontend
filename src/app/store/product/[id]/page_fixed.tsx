@@ -408,7 +408,6 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('description');
-  const [cartItems, setCartItems] = useState<string[]>([]);
 
   const product = getProductById(params.id);
 
@@ -502,18 +501,11 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
     }).format(price);
   };
 
-  const addToCart = (productId: string) => {
-    setCartItems(prev => [...prev, productId]);
-    alert('Product added to cart!');
-  };
 
   const buyNow = () => {
     alert('Proceeding to checkout!');
   };
 
-  const isInCart = (productId: string) => {
-    return cartItems.includes(productId);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-yellow-50/30 to-rose-50/50">

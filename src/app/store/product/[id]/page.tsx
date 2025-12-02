@@ -54,7 +54,6 @@ const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('description');
-  const [cartItems, setCartItems] = useState<string[]>([]);
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -171,10 +170,6 @@ const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }).format(price);
   };
 
-  const addToCart = (productId: string) => {
-    setCartItems(prev => [...prev, productId]);
-    alert('Product added to cart!');
-  };
 
   const buyNow = () => {
     if (product) {
@@ -191,9 +186,6 @@ const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   };
 
-  const isInCart = (productId: string) => {
-    return cartItems.includes(productId);
-  };
 
   if (loading) {
     return (

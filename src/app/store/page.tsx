@@ -31,7 +31,6 @@ const StorePage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const [cartItems, setCartItems] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -313,13 +312,7 @@ const StorePage: React.FC = () => {
     }).format(price);
   };
 
-  const addToCart = (productId: string) => {
-    setCartItems(prev => [...prev, productId]);
-  };
 
-  const isInCart = (productId: string) => {
-    return cartItems.includes(productId);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
@@ -603,7 +596,7 @@ const StorePage: React.FC = () => {
                           )}
                         </button> */}
                         <button 
-                          onClick={(e) => router.push(`/store/product/${product.id}`)}
+                          onClick={() => router.push(`/store/product/${product.id}`)}
                           className="flex items-center justify-center w-full h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
                         >
                           Buy Now
