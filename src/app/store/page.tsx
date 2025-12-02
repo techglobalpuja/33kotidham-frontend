@@ -7,6 +7,7 @@ import GlobalFooter from '@/components/layout/GlobalFooter';
 import Link from 'next/link';
 import { apiService } from '@/services/api';
 import { BackendProduct } from '@/types';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -34,6 +35,8 @@ const StorePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   // Testimonials data
   const testimonials = [
@@ -565,7 +568,7 @@ const StorePage: React.FC = () => {
                       
                       {/* Action Buttons */}
                       <div className="flex gap-2">
-                        <button 
+                        {/* <button 
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -598,16 +601,13 @@ const StorePage: React.FC = () => {
                               <span className="text-xs">Add</span>
                             </span>
                           )}
-                        </button>
-                        <Link 
-                          href={`/store/product/${product.id}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
+                        </button> */}
+                        <button 
+                          onClick={(e) => router.push(`/store/product/${product.id}`)}
+                          className="flex items-center justify-center w-full h-10 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105"
                         >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </Link>
+                          Buy Now
+                        </button>
                       </div>
                     </div>
                     </Link>

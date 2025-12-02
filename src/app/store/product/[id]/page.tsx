@@ -332,7 +332,7 @@ const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <button 
+                  {/* <button 
                     onClick={() => addToCart(product.id)}
                     disabled={!product.inStock || isInCart(product.id)}
                     className={`flex-1 px-6 py-4 rounded-xl font-medium text-sm transition-all duration-300 ${
@@ -359,7 +359,7 @@ const ProductDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
                         Add to Cart
                       </span>
                     )}
-                  </button>
+                  </button> */}
                   <button 
                     onClick={buyNow}
                     className="flex-1 px-6 py-4 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
