@@ -261,3 +261,6 @@ iframe.goog-te-menu-frame {
 #google_translate_element {
   display: none !important;
 }
+.max-w-7xl{
+  max-width: 85rem;
+}

@@ -1,4 +1,4 @@
-  'use client';
+'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
@@ -17,9 +17,12 @@ const Header: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const desktopProfileRef = useRef<HTMLDivElement>(null);
+  const mobileProfileRef = useRef<HTMLDivElement>(null);
   // const [isScrolled, setIsScrolled] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('Home');
   const [showMoreDropdown, setShowMoreDropdown] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Handle scroll effect for glassmorphism
@@ -55,13 +58,23 @@ const Header: React.FC = () => {
       ) {
         setShowMoreDropdown(false);
       }
+
+      if (
+        showProfileDropdown &&
+        desktopProfileRef.current &&
+        !desktopProfileRef.current.contains(event.target as Node) &&
+        mobileProfileRef.current &&
+        !mobileProfileRef.current.contains(event.target as Node)
+      ) {
+        setShowProfileDropdown(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMobileMenuOpen, showMoreDropdown, dispatch]);
+  }, [isMobileMenuOpen, showMoreDropdown, showProfileDropdown, dispatch]);
 
   // Update active menu item based on pathname
   useEffect(() => {
@@ -131,9 +144,31 @@ const Header: React.FC = () => {
     setShowMoreDropdown(!showMoreDropdown);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push('/');
+  const handleProfileClick = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  const handleLogout = async () => {
+    console.log('Logout initiated');
+    try {
+      dispatch(logout());
+      console.log('Logout dispatched successfully');
+      // Small delay to ensure state updates
+      await new Promise(resolve => setTimeout(resolve, 100));
+      router.push('/');
+      setShowProfileDropdown(false);
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still redirect to home even if logout fails
+      router.push('/');
+      setShowProfileDropdown(false);
+    }
+  };
+
+  const handleProfileNavigation = () => {
+    console.log('Navigating to profile');
+    router.push('/dashboard');
+    setShowProfileDropdown(false);
   };
 
   return (
@@ -227,40 +262,110 @@ const Header: React.FC = () => {
           {/* User Profile or Login Button */}
           {user?.isAuthenticated ? (
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => router.push('/dashboard')}
-                className="hidden sm:flex items-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold uppercase text-sm shadow hover:scale-105 transition-all"
-              >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
-                  {(user?.name || 'User')?.charAt(0)?.toUpperCase() || 'U'}
-                </div>
-                <span className="text-sm font-['Work_Sans'] capitalize">{user?.name || 'User'}</span>
-              </button>
-              <button
-                onClick={handleLogout}
-                className="hidden sm:flex items-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white font-bold uppercase text-sm shadow hover:scale-105 transition-all"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Logout
-              </button>
-              <button
-                onClick={() => router.push('/dashboard')}
-                className="sm:hidden flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow hover:scale-105 transition-all"
-              >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
-                  {(user?.name || 'User')?.charAt(0)?.toUpperCase() || 'U'}
-                </div>
-              </button>
-              <button
-                onClick={handleLogout}
-                className="sm:hidden flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white shadow hover:scale-105 transition-all"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-              </button>
+              {/* Profile Dropdown for Desktop */}
+              <div className="hidden sm:block relative" ref={desktopProfileRef}>
+                <button
+                  onClick={handleProfileClick}
+                  className="flex items-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold uppercase text-sm shadow hover:scale-105 transition-all"
+                >
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
+                    {(user?.name || 'User')?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <span className="text-sm font-['Work_Sans'] capitalize">{user?.name || 'User'}</span>
+                  <svg
+                    className={`w-3 h-3 ml-1 transition-transform duration-300 ${showProfileDropdown ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Profile Dropdown Menu */}
+                {showProfileDropdown && (
+                  <div className="absolute top-16 right-0 w-48 rounded-xl shadow-2xl border overflow-hidden z-[101] transition-all duration-300 bg-white/95 border-orange-200">
+                    <div className="py-1">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Profile button clicked');
+                          handleProfileNavigation();
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-orange-50 transition-all duration-200 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span className="font-medium">Profile</span>
+                      </button>
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Logout button clicked');
+                          await handleLogout();
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-orange-50 transition-all duration-200 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span className="font-medium">Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Profile Icon for Mobile */}
+              <div className="sm:hidden relative" ref={mobileProfileRef}>
+                <button
+                  onClick={handleProfileClick}
+                  className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow hover:scale-105 transition-all"
+                >
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
+                    {(user?.name || 'User')?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                </button>
+
+                {/* Profile Dropdown Menu for Mobile */}
+                {showProfileDropdown && (
+                  <div className="absolute top-14 right-0 w-48 rounded-xl shadow-2xl border overflow-hidden z-[101] transition-all duration-300 bg-white/95 border-orange-200">
+                    <div className="py-1">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Profile button clicked');
+                          handleProfileNavigation();
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-orange-50 transition-all duration-200 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span className="font-medium">Profile</span>
+                      </button>
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Logout button clicked');
+                          await handleLogout();
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-orange-50 transition-all duration-200 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span className="font-medium">Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <button
@@ -349,36 +454,8 @@ const Header: React.FC = () => {
             ))}
           </div>
 
-          {/* Mobile Language Switcher */}
-          {/* <div className="w-4/5 mt-4">
-            <LanguageSwitcher />
-          </div> */}
-
           {/* Mobile Login/Profile Button */}
-          {user?.isAuthenticated ? (
-            <div className="w-4/5 mt-4 space-y-3">
-              <button
-                onClick={() => router.push('/dashboard')}
-                className="w-full px-4 py-2 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold uppercase text-base shadow hover:scale-105 transition-all"
-              >
-                <div className="flex items-center justify-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
-                    {(user?.name || 'User')?.charAt(0)?.toUpperCase() || 'U'}
-                  </div>
-                  <span className="capitalize">{user?.name || 'User'}</span>
-                </div>
-              </button>
-              <button
-                onClick={handleLogout}
-                className="w-full px-4 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white font-bold uppercase text-base shadow hover:scale-105 transition-all flex items-center justify-center gap-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Logout
-              </button>
-            </div>
-          ) : (
+          {!user?.isAuthenticated && (
             <button
               className="w-4/5 mt-4 px-4 py-2 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold uppercase text-base shadow hover:scale-105 transition-all"
               onClick={() => {
