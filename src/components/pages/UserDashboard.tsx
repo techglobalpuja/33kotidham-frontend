@@ -8,6 +8,7 @@ import { logout, fetchUserInfo, updateUserInfo } from '@/store/slices/authSlice'
 import { apiService } from '@/services/api';
 import { BookingResponse } from '@/types';
 import Button from '@/components/ui/Button';
+import Header from '@/components/layout/Header';
 
 // User Dashboard Interface Types
 interface UserPuja {
@@ -43,11 +44,47 @@ interface UserProfile {
   };
 }
 
+// Helper component to handle booking images with proper error handling
+const BookingImage: React.FC<{ imageUrl: string | null; altText: string; fallbackIcon: string }> = ({ imageUrl, altText, fallbackIcon }) => {
+  const [imageError, setImageError] = useState(false);
+  
+  // Reset error state when imageUrl changes
+  useEffect(() => {
+    setImageError(false);
+  }, [imageUrl]);
+  
+  // If no image URL or image failed to load, show fallback
+  if (!imageUrl || imageError) {
+    return (
+      <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center flex-shrink-0">
+        <span className="text-orange-500 text-2xl">{fallbackIcon}</span>
+      </div>
+    );
+  }
+  
+  // Try to load the image
+  return (
+    <div className="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+      <Image
+        src={imageUrl}
+        alt={altText}
+        width={80}
+        height={80}
+        className="w-full h-full object-cover"
+        unoptimized={true}
+        onError={() => setImageError(true)}
+      />
+    </div>
+  );
+};
+
 const UserDashboard: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user, isLoading } = useAppSelector((state) => state.auth);
-  const [activeTab, setActiveTab] = useState<'profile' | 'pujas' | 'orders' | 'videos'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'bookings' | 'videos'>('profile');
+  const [bookingTypeFilter, setBookingTypeFilter] = useState<'all' | 'puja' | 'chadawa'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('all');
   const [isEditing, setIsEditing] = useState(false);
 
   // Fetch user info when component mounts
@@ -160,9 +197,9 @@ const UserDashboard: React.FC = () => {
   const [bookingsLoading, setBookingsLoading] = useState(false);
   const [bookingsError, setBookingsError] = useState<string | null>(null);
 
-  // Fetch user bookings when the orders tab is active
+  // Fetch user bookings when the bookings tab is active
   useEffect(() => {
-    if (activeTab === 'orders' && user?.id) {
+    if (activeTab === 'bookings' && user?.id) {
       const fetchBookings = async () => {
         try {
           setBookingsLoading(true);
@@ -291,80 +328,11 @@ const UserDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
-      {/* Header */}
-      <div className="bg-white shadow-md">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-6">
-              {/* Logo - Click to go home */}
-              <button 
-                onClick={() => router.push('/')}
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-              >
-                <Image
-                  src="/images/logo.webp"
-                  alt="33KotiDham"
-                  width={120}
-                  height={32}
-                  className="h-8 w-auto"
-                  priority
-                />
-              </button>
-              
-              {/* Navigation Links */}
-              <nav className="hidden md:flex items-center gap-4">
-                <button
-                  onClick={() => router.push('/')}
-                  className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => router.push('/pujas')}
-                  className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
-                >
-                  Puja Services
-                </button>
-                <button
-                  onClick={() => router.push('/horoscope')}
-                  className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
-                >
-                  Horoscope
-                </button>
-                <button
-                  onClick={() => router.push('/blog')}
-                  className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
-                >
-                  Blog
-                </button>
-              </nav>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center text-white font-bold">
-                  {displayUser?.name?.charAt(0)?.toUpperCase() || 'U'}
-                </div>
-                <div className="hidden sm:block">
-                  <p className="text-sm font-medium text-gray-900">{displayUser?.name || displayUser?.email || 'User'}</p>
-                  <p className="text-xs text-gray-500">{displayUser?.email || ''}</p>
-                </div>
-              </div>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleLogout}
-                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white"
-              >
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Global Header */}
+      <Header />
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
           {/* Sidebar Navigation */}
@@ -384,14 +352,13 @@ const UserDashboard: React.FC = () => {
               <nav className="space-y-2">
                 {[
                   { id: 'profile', label: 'My Profile', icon: '👤' },
-                  { id: 'pujas', label: 'My Pujas', icon: '🙏' },
-                  { id: 'orders', label: 'My Orders', icon: '📦' },
+                  { id: 'bookings', label: 'My Bookings', icon: '📦' },
                   { id: 'videos', label: 'Puja Videos', icon: '🎥' },
                   // { id: 'certificates', label: 'Certificates', icon: '📜' },
                 ].map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id as 'profile' | 'pujas' | 'orders' | 'videos')}
+                    onClick={() => setActiveTab(item.id as 'profile' | 'bookings' | 'videos')}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left  transition-colors ${
                       activeTab === item.id
                         ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white'
@@ -487,58 +454,83 @@ const UserDashboard: React.FC = () => {
               </div>
             )}
 
-            {/* Pujas Tab */}
-            {activeTab === 'pujas' && (
+            {/* My Bookings Tab - Unified view for all bookings */}
+            {activeTab === 'bookings' && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900  mb-6">My Pujas</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {userPujas.map((puja) => (
-                    <div key={puja.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex gap-4">
-                        {/* <Image
-                          src={puja.image}
-                          alt={puja.title}
-                          width={80}
-                          height={80}
-                          className="w-20 h-20 rounded-lg object-cover"
-                        /> */}
-                        <div className="w-20 h-20 rounded-lg bg-gray-200"></div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 ">{puja.title}</h3>
-                          <p className="text-sm text-gray-600">{puja.temple}</p>
-                          <p className="text-sm text-gray-500">
-                            {new Date(puja.date).toLocaleDateString()} at {puja.time}
-                          </p>
-                          <p className="text-lg font-bold text-orange-600">₹{puja.amount.toLocaleString()}</p>
-                          <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${getStatusColor(puja.status)}`}>
-                            {puja.status.charAt(0).toUpperCase() + puja.status.slice(1)}
-                          </span>
-                        </div>
-                      </div>
-                      {(puja.videoUrl || puja.certificateUrl) && (
-                        <div className="flex gap-2 mt-4">
-                          {puja.videoUrl && (
-                            <Button variant="primary" size="sm" className="text-xs">
-                              View Video
-                            </Button>
-                          )}
-                          {puja.certificateUrl && (
-                            <Button variant="primary" size="sm" className="text-xs bg-green-600 hover:bg-green-700">
-                              Download Certificate
-                            </Button>
-                          )}
-                        </div>
-                      )}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                  <h2 className="text-2xl font-bold text-gray-900">My Bookings</h2>
+                  
+                  {/* Filters */}
+                  <div className="flex flex-wrap gap-3">
+                    {/* Booking Type Filter */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setBookingTypeFilter('all')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          bookingTypeFilter === 'all'
+                            ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        All
+                      </button>
+                      <button
+                        onClick={() => setBookingTypeFilter('puja')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          bookingTypeFilter === 'puja'
+                            ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        🙏 Puja
+                      </button>
+                      <button
+                        onClick={() => setBookingTypeFilter('chadawa')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          bookingTypeFilter === 'chadawa'
+                            ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        🪔 Chadawa
+                      </button>
                     </div>
-                  ))}
+                    
+                    {/* Status Filter */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setStatusFilter('all')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          statusFilter === 'all'
+                            ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        All Status
+                      </button>
+                      <button
+                        onClick={() => setStatusFilter('pending')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          statusFilter === 'pending'
+                            ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        Pending
+                      </button>
+                      <button
+                        onClick={() => setStatusFilter('completed')}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          statusFilter === 'completed'
+                            ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        Completed
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* Orders Tab */}
-            {activeTab === 'orders' && (
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-gray-900  mb-6">My Booked Pujas</h2>
                 
                 {bookingsLoading ? (
                   <div className="flex justify-center items-center py-12">
@@ -553,7 +545,6 @@ const UserDashboard: React.FC = () => {
                       size="sm"
                       className="mt-3 bg-gradient-to-r from-orange-400 to-orange-500"
                       onClick={() => {
-                        // Retry fetching bookings
                         const fetchBookings = async () => {
                           try {
                             setBookingsLoading(true);
@@ -573,80 +564,126 @@ const UserDashboard: React.FC = () => {
                       Retry
                     </Button>
                   </div>
-                ) : userBookings.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="text-5xl mb-4">🙏</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No Bookings Yet</h3>
-                    <p className="text-gray-600 mb-4">You haven&apos;t booked any pujas yet.</p>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      className="bg-gradient-to-r from-orange-400 to-orange-500"
-                      onClick={() => router.push('/pujas')}
-                    >
-                      Book a Puja
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {userBookings.map((booking) => (
-                      <div key={booking.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden">
-                            {booking.puja?.temple_image_url ? (
-                              <Image
-                                src={constructImageUrl(booking.puja.temple_image_url)}
-                                alt={booking.puja.name || 'Puja'}
-                                width={80}
-                                height={80}
-                                className="w-full h-full object-cover"
-                                unoptimized={true}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = '/images/placeholder.jpg';
-                                }}
+                ) : (() => {
+                  // Filter bookings based on selected filters
+                  const filteredBookings = userBookings.filter((booking) => {
+                    // Type filter
+                    const isPujaBooking = booking.puja_id !== null;
+                    const isChadawaBooking = booking.booking_chadawas && booking.booking_chadawas.length > 0;
+                    
+                    if (bookingTypeFilter === 'puja' && !isPujaBooking) return false;
+                    if (bookingTypeFilter === 'chadawa' && !isChadawaBooking) return false;
+                    
+                    // Status filter
+                    const status = booking.status?.toLowerCase();
+                    if (statusFilter === 'pending' && status !== 'pending') return false;
+                    if (statusFilter === 'completed' && !['confirmed', 'completed', 'delivered'].includes(status || '')) return false;
+                    
+                    return true;
+                  });
+                  
+                  return filteredBookings.length === 0 ? (
+                    <div className="text-center py-12">
+                      <div className="text-5xl mb-4">🙏</div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Bookings Found</h3>
+                      <p className="text-gray-600 mb-4">
+                        {userBookings.length === 0 
+                          ? "You haven't made any bookings yet."
+                          : "No bookings match your current filters."}
+                      </p>
+                      {userBookings.length === 0 && (
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          className="bg-gradient-to-r from-orange-400 to-orange-500"
+                          onClick={() => router.push('/pujas')}
+                        >
+                          Book a Puja
+                        </Button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {filteredBookings.map((booking) => {
+                        const isPujaBooking = booking.puja_id !== null;
+                        const isChadawaBooking = booking.booking_chadawas && booking.booking_chadawas.length > 0;
+                        
+                        return (
+                          <div key={booking.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div className="flex gap-4">
+                              {/* Image Section */}
+                              <BookingImage
+                                imageUrl={
+                                  isPujaBooking && booking.puja?.temple_image_url
+                                    ? constructImageUrl(booking.puja.temple_image_url)
+                                    : isChadawaBooking && booking.booking_chadawas[0]?.chadawa?.image_url
+                                    ? constructImageUrl(booking.booking_chadawas[0].chadawa.image_url)
+                                    : null
+                                }
+                                altText={isPujaBooking ? (booking.puja?.name || 'Puja') : (booking.booking_chadawas[0]?.chadawa?.name || 'Chadawa')}
+                                fallbackIcon={isPujaBooking ? '🛕' : '🪔'}
                               />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                                <span className="text-orange-500 text-2xl">🛕</span>
+                              
+                              {/* Booking Details */}
+                              <div className="flex-1 min-w-0">
+                                {/* Type Badge */}
+                                <span className="inline-block px-2 py-1 rounded-full text-xs font-medium mb-2 bg-purple-100 text-purple-600">
+                                  {isPujaBooking ? '🙏 Puja Booking' : '🪔 Chadawa Booking'}
+                                </span>
+                                
+                                <h3 className="font-semibold text-gray-900 truncate">
+                                  {isPujaBooking 
+                                    ? (booking.puja?.name || 'Puja Booking')
+                                    : (booking.booking_chadawas.map(bc => bc.chadawa?.name).join(', ') || 'Chadawa Booking')}
+                                </h3>
+                                
+                                {isPujaBooking && (
+                                  <>
+                                    <p className="text-sm text-gray-600 truncate">
+                                      {booking.puja?.temple_address || 'Temple Address'}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                      {booking.booking_date ? formatDate(booking.booking_date) : 'Date not set'} 
+                                      {booking.puja?.time && ` at ${formatTime(booking.puja.time)}`}
+                                    </p>
+                                  </>
+                                )}
+                                
+                                {isChadawaBooking && (
+                                  <p className="text-sm text-gray-500">
+                                    {booking.booking_date ? formatDate(booking.booking_date) : 'Date not set'}
+                                  </p>
+                                )}
+                                
+                                <p className="text-lg font-bold text-orange-600">
+                                  ₹{(isPujaBooking ? getPujaAmount(booking) : booking.booking_chadawas.reduce((sum, bc) => sum + parseFloat(bc.chadawa?.price || '0'), 0)).toLocaleString()}
+                                </p>
+                                
+                                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${getStatusColor(booking.status)}`}>
+                                  {booking.status?.charAt(0).toUpperCase() + booking.status?.slice(1) || 'Unknown'}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            {/* Action Buttons */}
+                            {booking.puja_link && (
+                              <div className="flex gap-2 mt-4">
+                                <Button 
+                                  variant="primary" 
+                                  size="sm" 
+                                  className="text-xs"
+                                  onClick={() => window.open(booking.puja_link || '', '_blank')}
+                                >
+                                  View Puja Link
+                                </Button>
                               </div>
                             )}
                           </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 ">
-                              {booking.puja?.name || 'Puja Booking'}
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                              {booking.puja?.temple_address || 'Temple Address'}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {booking.booking_date ? formatDate(booking.booking_date) : 'Date not set'} 
-                              {booking.puja?.time && ` at ${formatTime(booking.puja.time)}`}
-                            </p>
-                            <p className="text-lg font-bold text-orange-600">
-                              ₹{getPujaAmount(booking).toLocaleString()}
-                            </p>
-                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${getStatusColor(booking.status)}`}>
-                              {booking.status?.charAt(0).toUpperCase() + booking.status?.slice(1) || 'Unknown'}
-                            </span>
-                          </div>
-                        </div>
-                        {booking.puja_link && (
-                          <div className="flex gap-2 mt-4">
-                            <Button 
-                              variant="primary" 
-                              size="sm" 
-                              className="text-xs"
-                              onClick={() => window.open(booking.puja_link || '', '_blank')}
-                            >
-                              View Puja Link
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

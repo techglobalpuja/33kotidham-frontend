@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPujaById } from '@/store/slices/pujaSlice';
 import { loginSuccess, fetchUserInfo } from '@/store/slices/authSlice';
-import { PujaCard, PlanResponse } from '@/types';
+import { PujaCard, PlanResponse, Chadawa } from '@/types';
 import { apiService } from '@/services/api';
 import { storeAuthToken, getAuthToken } from '@/utils/auth';
 import { useAppSelector } from '@/hooks';
@@ -329,6 +329,23 @@ const CustomCheckoutPage: React.FC = () => {
       }));
     }
   }, []);
+
+  // Prefill mobile number if user is already logged in
+  useEffect(() => {
+    if (user?.isAuthenticated && user?.mobile) {
+      setFormData(prev => ({
+        ...prev,
+        mobileNumber: user.mobile || '',
+        whatsappNumber: prev.syncWhatsApp ? (user.mobile || '') : prev.whatsappNumber
+      }));
+      // Update auth state to show as authenticated
+      setAuthState(prev => ({
+        ...prev,
+        isAuthenticated: true
+      }));
+    }
+  }, [user]);
+
 
   const toggleChadhwa = (chadhwa: typeof chadhwas[0]) => {
     setSelectedChadhwas((prev: TransformedChadhwa[]) => {

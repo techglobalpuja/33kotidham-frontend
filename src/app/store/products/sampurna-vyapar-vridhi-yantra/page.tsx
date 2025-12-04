@@ -90,7 +90,7 @@ const SampurnaVyaparVridhiYantraPage: React.FC = () => {
       verified: true
     },
     {
-      name: 'Priya Sharma',
+      name: 'Raj Sharma',
       rating: 5,
       date: '2023-09-22',
       comment: 'Beautiful addition to my workspace. Noticed a positive shift in energy immediately.',
