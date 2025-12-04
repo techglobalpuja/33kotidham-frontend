@@ -794,7 +794,7 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
                     
                     <div className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
                       <div className="flex justify-between mb-2">
-                        <h4 className="font-bold text-gray-800">Priya Sharma</h4>
+                        <h4 className="font-bold text-gray-800">Premanand Chauhan</h4>
                         <span className="text-sm text-gray-500">2023-09-22</span>
                       </div>
                       <div className="flex items-center mb-3">

@@ -88,7 +88,7 @@ export default function HomePage() {
     },
     {
       avatar: "/images/img_ellipse_5_86x86.png",
-      name: "Priya Sharma",
+      name: "Premanand Chauhan",
       role: "Bangalore, India",
       rating: 5, // Changed from string to number
       testimonial: "The Navratri puja brought peace and prosperity to our home. My husband got a promotion and our daughter got into her dream school. Truly blessed!"

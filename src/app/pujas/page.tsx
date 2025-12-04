@@ -34,7 +34,7 @@ const AllPujasPage: React.FC = () => {
       image: "/images/testimonial-1.jpg"
     },
     {
-      name: "Priya Sharma",
+      name: "Premanand Chauhan",
       location: "Delhi, India",
       rating: 5,
       text: "After participating in the Lakshmi Puja, my family experienced unexpected financial blessings. The priests are genuine and the rituals are authentic.",
@@ -149,7 +149,7 @@ const AllPujasPage: React.FC = () => {
               </span>
             </h1>
             
-            <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px] font-['Lato'] max-w-5xl mx-auto text-gray-700 mb-12">
+            <p className="text-[20px] sm:text-[20px] md:text-[22px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
               Connect with divine energies and invite blessings into your life through our comprehensive puja services.
             </p>
             

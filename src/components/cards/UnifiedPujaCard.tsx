@@ -119,7 +119,7 @@ const UnifiedPujaCard: React.FC<UnifiedPujaCardProps> = ({
       <Link href={`/puja/${id}`} className="w-full">
         <div className="flex flex-col gap-[3px] sm:gap-[4px] md:gap-[10px] justify-start items-start w-full px-[10px] sm:px-[12px] md:px-[14px] py-[8px] sm:py-[9px] md:py-[10px] cursor-pointer hover:bg-gray-50 transition-colors duration-200">
           <div className="flex justify-start items-center w-full">
-            <h3 className="text-[18px] sm:text-[21px] md:text-[24px] font-bold leading-[20px] sm:leading-[24px] md:leading-[27px] text-left text-[#111111]  mt-[2px] sm:mt-[3px] md:mt-[4px] hover:text-orange-600 transition-colors duration-200">
+            <h3 className="text-[18px] sm:text-[20px] md:text-[20px] font-bold leading-[20px] sm:leading-[24px] md:leading-[27px] text-left text-[#111111]  mt-[2px] sm:mt-[3px] md:mt-[4px] hover:text-orange-600 transition-colors duration-200">
               {title}
             </h3>
           </div>

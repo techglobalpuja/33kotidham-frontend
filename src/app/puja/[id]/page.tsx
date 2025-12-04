@@ -851,7 +851,7 @@ return (
                   P
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900">Priya Sharma</h4>
+                  <h4 className="font-bold text-gray-900">Premanand Chauhan</h4>
                   <p className="text-sm text-gray-500">Delhi, NCR</p>
                 </div>
               </div>

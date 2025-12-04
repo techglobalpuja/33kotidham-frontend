@@ -99,7 +99,7 @@ const MeetupsPage: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Priya Sharma",
+      name: "Premanand Chauhan",
       text: "The group meditation meetup was transformative. The collective energy was incredible!",
       role: "Spiritual Seeker"
     },
