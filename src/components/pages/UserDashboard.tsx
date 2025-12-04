@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { logout, fetchUserInfo, updateUserInfo } from '@/store/slices/authSlice';
+import { fetchUserInfo, updateUserInfo } from '@/store/slices/authSlice';
 import { apiService } from '@/services/api';
 import { BookingResponse } from '@/types';
 import Button from '@/components/ui/Button';
@@ -169,10 +169,6 @@ const UserDashboard: React.FC = () => {
     }
   }, [user]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push('/');
-  };
 
   const handleProfileUpdate = async () => {
     try {
