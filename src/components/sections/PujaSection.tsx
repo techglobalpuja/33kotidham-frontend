@@ -37,7 +37,7 @@ const PujaSection: React.FC = () => {
             <div className="flex flex-col justify-start items-center w-full lg:w-5/6 mb-[14px] sm:mb-[16px] md:mb-[18px]">
               <div className="flex flex-col justify-start items-center w-full mr-[62px] sm:mr-[72px] md:mr-[82px] ml-[62px] sm:ml-[72px] md:ml-[82px]">
                 <div className="flex justify-center items-start w-full px-[6px] sm:px-[7px] md:px-[8px]">
-                  <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-[5px] sm:mb-[6px] md:mb-[6px]">
+                  <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-[5px] sm:mb-[6px] md:mb-[6px]">
                     Participate in Pujas
                   </h2>
                 </div>
@@ -106,7 +106,7 @@ const PujaSection: React.FC = () => {
   return (
     <section
       id="puja-section" // Add ID for scrolling target
-      className="relative w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
+      className="relative w-full py-[40px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px]"
     >
       <Image
         src="/images/img__4.png"
@@ -120,7 +120,7 @@ const PujaSection: React.FC = () => {
           <div className="flex flex-col justify-start items-center w-full lg:w-5/6 mb-[14px] sm:mb-[16px] md:mb-[18px]">
             <div className="flex flex-col justify-start items-center w-full mr-[62px] sm:mr-[72px] md:mr-[82px] ml-[62px] sm:ml-[72px] md:ml-[82px]">
               <div className="flex justify-center items-start w-full px-[6px] sm:px-[7px] md:px-[8px]">
-                <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-[5px] sm:mb-[6px] md:mb-[6px]">
+                <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  mb-4">
                   Participate in Pujas
                 </h2>
               </div>

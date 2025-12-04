@@ -17,7 +17,7 @@ interface TestimonialsSectionProps {
 
 const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials }) => (
   <section
-    className="w-full py-[100px] sm:py-[123px] md:py-[140px] sm:mt-[9px] md:mt-[10px] relative bg-gray-50 overflow-hidden"
+    className="w-full py-[70px] sm:py-[123px] md:py-[140px] sm:mt-[9px] md:mt-[10px] relative bg-gray-50 overflow-hidden"
     style={{
       backgroundImage: "url('/images/img_background_deep_orange_800.svg')",
       backgroundSize: 'contain',
@@ -28,8 +28,8 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials 
     <div className="w-full max-w-[1440px] mx-auto px-8 sm:px-16 md:px-24 relative z-0">
       <div className="flex justify-center items-center w-full">
         <div className="flex flex-col justify-start items-start w-full">
-          <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111]  w-auto">
-            Testimonials from Devotees
+          <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111]  w-auto">
+            Devotees Testimonials
           </h2>
           <p className="text-[15px] mt-3 sm:text-[18px] md:text-[18px] font-normal leading-[21px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d]  w-auto">
             Happy devotees sharing their experience of 33KotiDham with you.

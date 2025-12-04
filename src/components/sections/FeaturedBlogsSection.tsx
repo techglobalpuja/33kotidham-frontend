@@ -62,7 +62,7 @@ const FeaturedBlogsSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="w-full py-16 px-8 bg-white">
+      <section className="w-full py-10 px-8 bg-white">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900  mb-4">
@@ -104,7 +104,7 @@ const FeaturedBlogsSection: React.FC = () => {
 
   if (error) {
     return (
-      <section className="w-full py-16 px-8 bg-white">
+      <section className="w-full py-10 px-8 bg-white">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900  mb-4">
@@ -136,7 +136,7 @@ const FeaturedBlogsSection: React.FC = () => {
   }
 
   return (
-    <section className="w-full py-16 px-8 bg-white">
+    <section className="w-full py-10 px-8 bg-white">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col items-center text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900  mb-4">

@@ -125,10 +125,10 @@ const AllPujasPage: React.FC = () => {
         {/* Sacred Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-10 left-10 text-6xl text-orange-400 animate-float">ॐ</div>
-            <div className="absolute top-20 right-20 text-4xl text-rose-400 animate-pulse">🕊</div>
-            <div className="absolute bottom-20 left-1/4 text-5xl text-yellow-400 animate-float animation-delay-2000">🪔</div>
-            <div className="absolute bottom-10 right-10 text-3xl text-orange-400 animate-pulse animation-delay-4000">🕋</div>
+            {/* <div className="absolute top-10 left-10 text-6xl text-orange-400 animate-float">ॐ</div> */}
+            {/* <div className="absolute top-20 right-20 text-4xl text-rose-400 animate-pulse">🕊</div> */}
+            {/* <div className="absolute bottom-20 left-1/4 text-5xl text-yellow-400 animate-float animation-delay-2000">🪔</div> */}
+            {/* <div className="absolute bottom-10 right-10 text-3xl text-orange-400 animate-pulse animation-delay-4000">🕋</div> */}
           </div>
         </div>
         

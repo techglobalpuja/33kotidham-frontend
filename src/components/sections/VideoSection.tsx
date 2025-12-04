@@ -21,7 +21,7 @@ const VideoSection: React.FC = () => {
 
   return (
     <section className="w-full flex justify-center items-center px-[22px] sm:px-[26px] md:px-[30px]">
-      <div className="relative w-full border border-[#5c4228] rounded-[30px] bg-[#f37335] mt-[66px] sm:mt-[77px] md:mt-[88px] overflow-hidden">
+      <div className="relative w-full border border-[#5c4228] rounded-[30px] bg-[#f37335] mt-[30px] sm:mt-[60px] md:mt-[70px] overflow-hidden">
         {/* keep your 40% height */}
         <div className="relative w-full h-0 pb-[44%] overflow-hidden">
           {!isPlaying ? (

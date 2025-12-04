@@ -17,13 +17,13 @@ interface HoroscopeSectionProps {
 const HoroscopeSection: React.FC<HoroscopeSectionProps> = ({ horoscopeCards }) => (
   <section
     id="horoscope-section" // Add ID for scrolling target
-    className="w-full py-[53px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px] relative z-0"
+    className="w-full py-[40px] sm:py-[62px] md:py-[70px] px-[42px] sm:px-[49px] md:px-[56px] relative z-0"
   >
     <div className="w-full max-w-[1440px] mx-auto">
       <div className="flex justify-center items-center w-full">
         <div className="flex justify-center items-center w-full lg:w-2/3 px-[9px] sm:px-[11px] md:px-[12px] mb-[6px] sm:mb-[7px] md:mb-[8px]">
           <div className="flex flex-col justify-start items-center w-full mt-[6px] sm:mt-[7px] md:mt-[8px]">
-            <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  w-auto">
+            <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-[#111111]  w-auto mb-2">
               Horoscope Forecasts
             </h2>
             <Image

@@ -29,7 +29,7 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ processSteps }) => {
 
   return (
     <section 
-      className="w-full py-[68px] sm:py-[79px] md:py-[90px]"
+      className="w-full py-[40px] sm:py-[79px] md:py-[90px]"
       style={{
         backgroundImage: "url('/images/img_background.svg')",
         backgroundSize: 'cover',
@@ -40,7 +40,7 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({ processSteps }) => {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16 lg:px-[160px] xl:px-[160px]">
         <div className="flex justify-center items-center w-full mt-[39px] sm:mt-[46px] md:mt-[52px]">
           <div className="flex flex-col justify-start items-start w-full">
-            <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111]  w-auto">
+            <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-left text-[#111111]  w-auto">
               Our Puja Process
             </h2>
             <p className="text-[15px] mt-3 sm:text-[18px] md:text-[18px] font-normal leading-[18px] sm:leading-[21px] md:leading-[24px] text-left text-[#6d6d6d]  w-auto">

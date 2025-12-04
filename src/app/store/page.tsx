@@ -337,10 +337,10 @@ const StorePage: React.FC = () => {
         {/* Sacred Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-10 left-10 text-6xl text-orange-400 animate-float">ॐ</div>
-            <div className="absolute top-20 right-20 text-4xl text-rose-400 animate-pulse">🕊</div>
-            <div className="absolute bottom-20 left-1/4 text-5xl text-yellow-400 animate-float animation-delay-2000">🪔</div>
-            <div className="absolute bottom-10 right-10 text-3xl text-orange-400 animate-pulse animation-delay-4000">🛕</div>
+            {/* <div className="absolute top-10 left-10 text-6xl text-orange-400 animate-float">ॐ</div> */}
+            {/* <div className="absolute top-20 right-20 text-4xl text-rose-400 animate-pulse">🕊</div> */}
+            {/* <div className="absolute bottom-20 left-1/4 text-5xl text-yellow-400 animate-float animation-delay-2000">🪔</div> */}
+            {/* <div className="absolute bottom-10 right-10 text-3xl text-orange-400 animate-pulse animation-delay-4000">🛕</div> */}
           </div>
         </div>
         
@@ -363,9 +363,9 @@ const StorePage: React.FC = () => {
             </h1>
             
             <p className="text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[32px] sm:leading-[34px] md:leading-[36px]  max-w-5xl mx-auto text-gray-700 mb-12">
-              Discover authentic spiritual products blessed by experienced priests from sacred temples across India. 
-              <br className="hidden sm:block" />
-              Each item is carefully curated and energized to bring divine blessings into your life.
+              Authentic spiritual products blessed by experienced priests from sacred temples across India. 
+              {/* <br className="hidden sm:block" /> */}
+              {/* Each item is carefully curated and energized to bring divine blessings into your life. */}
             </p>
             
             {/* Sacred Statistics */}
