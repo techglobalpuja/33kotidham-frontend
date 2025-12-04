@@ -114,14 +114,14 @@ const CustomCheckoutPage: React.FC = () => {
       return [];
     }
     
-    const transformed = puja.chadawas.map((chadawa) => ({
+    const transformed = puja.chadawas.map((chadawa, index) => ({
       id: chadawa.id,
       name: chadawa.name,
       description: chadawa.description,
       price: parseFloat(chadawa.price),
       image: chadawa.image_url.startsWith('http') ? chadawa.image_url : `https://api.33kotidham.com/${chadawa.image_url}`,
       icon: '', // We'll leave this empty for now
-      selected: true // Default all to selected
+      selected: index === 0 // Only select the first chadhwa by default
     }));
     
     console.log('Transformed chadhwas:', transformed);
@@ -132,7 +132,11 @@ const CustomCheckoutPage: React.FC = () => {
 
   useEffect(() => {
     if (chadhwas.length > 0) {
-      setSelectedChadhwas(chadhwas.filter((chadhwa) => chadhwa.selected));
+      // Select only the first chadhwa by default
+      const firstChadhwa = chadhwas[0];
+      setSelectedChadhwas([firstChadhwa]);
+    } else {
+      setSelectedChadhwas([]);
     }
   }, [chadhwas]);
 
@@ -386,6 +390,11 @@ const CustomCheckoutPage: React.FC = () => {
 
     if (!planId) {
       alert('Please select a plan');
+      return;
+    }
+    
+    if (selectedChadhwas.length === 0) {
+      alert('Please select at least one sacred offering (chadhwa)');
       return;
     }
     
