@@ -437,8 +437,8 @@ return (
         </div>
 
         {/* Sticky Navigation */}
-        <div ref={navRef} className={`bg-white border-b-2 border-gray-200 ${isNavSticky ? 'fixed top-20 left-0 right-0 z-40 shadow-lg' : ''}`}>
-          <div className="max-w-7xl mx-auto px-4">
+        {/* <div ref={navRef} className={`bg-white border-b-2 border-gray-200 ${isNavSticky ? 'fixed top-20 left-0 right-0 z-40 shadow-lg' : ''}`}> */}
+          <div className=" px-10 border-b-2 border-gray-200 shadow-lg bg-white sticky top-[75px] z-40">
             <div className="flex items-center justify-between overflow-x-auto">
               <button
                 onClick={() => scrollToSection(packagesRef, 'packages')}
@@ -498,7 +498,7 @@ return (
               </button>
             </div>
           </div>
-        </div>
+        {/* </div> */}
 
         {/* Puja Packages Section */}
         <div ref={packagesRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-16 scroll-mt-20">

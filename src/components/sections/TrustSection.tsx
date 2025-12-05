@@ -19,7 +19,7 @@ const TrustSection: React.FC = () => (
           height={114}
           className="w-[80px] h-[86px] sm:w-[93px] sm:h-[100px] md:w-[106px] md:h-[114px]"
         />
-        <div className="flex flex-col gap-[15px] sm:gap-[18px] md:gap-[20px] justify-start items-center w-auto px-[42px] sm:px-[49px] md:px-[56px]">
+        <div className="flex flex-col gap-[15px] sm:gap-[18px] md:gap-[20px] justify-start items-center w-auto">
           <h2 className="text-[30px] sm:text-[42px] md:text-[48px] font-bold leading-[41px] sm:leading-[48px] md:leading-[54px] text-center text-black  mt-[6px] sm:mt-[7px] md:mt-[8px]">
             Trusted by Millions of Devotees
           </h2>
