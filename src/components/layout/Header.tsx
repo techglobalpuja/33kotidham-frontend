@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from '@/hooks';
 import { setLoginModalOpen, setMobileMenuOpen } from '@/store/slices/uiSlice';
 import { logout } from '@/store/slices/authSlice';
 import OtpLoginModal from '@/components/modals/OtpLoginModal';
-import LanguageSwitcher from '@/components/LanguageSwitcher/LanguageSwitcher';
+// import LanguageSwitcher from '@/components/LanguageSwitcher/LanguageSwitcher';
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -257,7 +257,7 @@ const Header: React.FC = () => {
         {/* Right Section */}
         <div className="flex items-center gap-3 ml-4">
           {/* Language Switcher */}
-           <LanguageSwitcher /> 
+           {/* <LanguageSwitcher />  */}
 
           {/* User Profile or Login Button */}
           {user?.isAuthenticated ? (
@@ -421,7 +421,7 @@ const Header: React.FC = () => {
         `}
       >
         <div className="flex flex-col items-center py-6">
-          {menuItems.map((item, index) => (
+          {menuItems.filter(item => item.name !== 'More').map((item, index) => (
             <div key={index} className="relative w-full flex justify-center">
               <button
                 onClick={() => handleMenuItemClick(item.href, item.name)}
