@@ -347,7 +347,7 @@ return (
 
               {/* Right - Content */}
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 leading-tight">
+                <h1 className="text-4xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
                   {selectedPuja.title || 'Baglamukhi-Mahalakshmi 11000 Mool Mantra Jaap + Havan'}
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
