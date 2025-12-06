@@ -393,10 +393,7 @@ const CustomCheckoutPage: React.FC = () => {
       return;
     }
     
-    if (selectedChadhwas.length === 0) {
-      alert('Please select at least one sacred offering (chadhwa)');
-      return;
-    }
+
     
     setIsProcessing(true);
 
