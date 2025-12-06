@@ -62,11 +62,11 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`${
+          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
             index === currentSlide 
-              ? 'block z-10' 
-              : 'hidden z-0'
-          } md:absolute md:inset-0`}
+              ? 'opacity-100 z-10 translate-x-0' 
+              : 'opacity-0 z-0 translate-x-full'
+          }`}
           onClick={handleImageClick}
         >
           {/* Desktop Image */}
@@ -89,7 +89,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({
               alt={slide.alt}
               width={400}
               height={600}
-              className="w-full h-auto"
+              className="w-full h-auto transition-transform duration-1000 ease-in-out"
               priority={index === 0}
               quality={75}
             />
