@@ -721,7 +721,7 @@ const CustomCheckoutPage: React.FC = () => {
                         <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
                           Enter OTP *
                         </label>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2">
                           <input
                             type="text"
                             id="otp"
@@ -736,7 +736,7 @@ const CustomCheckoutPage: React.FC = () => {
                             type="button"
                             onClick={handleVerifyOtp}
                             disabled={isVerifyingOtp || otpCode.length !== 6}
-                            className="px-6 py-3 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                            className="px-6  py-3 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                           >
                             {isVerifyingOtp ? 'Verifying...' : 'Verify OTP'}
                           </button>
