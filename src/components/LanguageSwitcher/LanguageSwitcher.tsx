@@ -30,16 +30,27 @@ const LanguageSwitcher: React.FC = () => {
 
   // Initialize language settings
   useEffect(() => {
-    const cookies = parseCookies();
-    const existingLanguageCookieValue = cookies[COOKIE_NAME];
-
     let languageValue: string | undefined;
+    
+    // Try to get cookie from nookies
+    const cookies = parseCookies();
+    let existingLanguageCookieValue = cookies[COOKIE_NAME];
+    
+    // Fallback: Try to get cookie from document.cookie
+    if (!existingLanguageCookieValue && typeof document !== 'undefined') {
+      const cookieMatch = document.cookie.match(new RegExp('(^| )' + COOKIE_NAME + '=([^;]+)'));
+      if (cookieMatch) {
+        existingLanguageCookieValue = cookieMatch[2];
+      }
+    }
+
     if (existingLanguageCookieValue) {
       const sp = existingLanguageCookieValue.split('/');
       if (sp.length > 2) {
         languageValue = sp[2];
       }
     }
+    
     const googleTranslationConfig = (window as unknown as { __GOOGLE_TRANSLATION_CONFIG__: { languages: LanguageDescriptor[]; defaultLanguage: string; } }).__GOOGLE_TRANSLATION_CONFIG__;
     if (googleTranslationConfig && !languageValue) {
       languageValue = googleTranslationConfig.defaultLanguage;
@@ -72,7 +83,18 @@ const LanguageSwitcher: React.FC = () => {
 
   // Function to switch language
   const switchLanguage = (lang: string) => {
-    setCookie(null, COOKIE_NAME, '/auto/' + lang);
+    const cookieValue = '/auto/' + lang;
+    
+    // Set cookie with proper options for production environment
+    setCookie(null, COOKIE_NAME, cookieValue, {
+      maxAge: 365 * 24 * 60 * 60, // 1 year
+      path: '/',
+      sameSite: 'lax',
+    });
+    
+    // Also set using document.cookie as a fallback
+    document.cookie = `${COOKIE_NAME}=${cookieValue}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
+    
     setCurrentLanguage(lang);
     setShowLanguageDropdown(false);
     
