@@ -61,10 +61,12 @@ const PujaDetailPage: React.FC = () => {
   
   const pujaId = params.id as string;
   const [selectedImageIndex, setSelectedImageIndex] = useState(1);
+  const [isNavSticky, setIsNavSticky] = useState(false);
   const [activeSection, setActiveSection] = useState('packages');
   const [selectedPlans, setSelectedPlans] = useState<Plan[]>([]);
   const [loadingPlans, setLoadingPlans] = useState(false);
   
+  const navRef = useRef<HTMLDivElement>(null);
   const packagesRef = useRef<HTMLDivElement>(null!);
   const aboutRef = useRef<HTMLDivElement>(null!);
   const benefitsRef = useRef<HTMLDivElement>(null!);
@@ -81,6 +83,18 @@ const PujaDetailPage: React.FC = () => {
       dispatch(fetchPujaById(pujaId));
     }
   }, [dispatch, pujaId]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        const navTop = navRef.current.offsetTop;
+        setIsNavSticky(window.scrollY > navTop);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [navRef, setIsNavSticky]);
 
   const nextImage = useCallback(() => {
     if (selectedPuja) {

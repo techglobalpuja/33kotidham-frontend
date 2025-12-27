@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import Header from '../../components/layout/Header';
-import HeroCarousel from '../carousel/HeroCarousel';
+import Header from '@/components/layout/Header';
+import HeroCarousel from '@/components/carousel/HeroCarousel';
 
 const HeroSection: React.FC = () => {
   const heroSlides = [
@@ -26,7 +26,7 @@ const HeroSection: React.FC = () => {
   ];
 
   return (
-    <section className="w-full md:h-screen h-auto relative overflow-hidden">
+    <section className="w-full h-[60vh] md:h-screen relative overflow-hidden">
       <HeroCarousel slides={heroSlides} />
       <div className="absolute top-0 left-0 right-0 z-20">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

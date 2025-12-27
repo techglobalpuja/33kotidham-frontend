@@ -69,7 +69,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({
           }`}
           onClick={handleImageClick}
         >
-          {/* Desktop Image */}
+          {/* Desktop Image - Hidden on mobile */}
           <div className="hidden md:block absolute inset-0 cursor-pointer">
             <Image
               src={slide.desktopImage}
@@ -82,16 +82,16 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({
             />
           </div>
           
-          {/* Mobile Image */}
-          <div className="block md:hidden w-full cursor-pointer bg-gradient-to-r from-orange-100/20 to-orange-200/40">
+          {/* Mobile Image - Shown on mobile and tablet */}
+          <div className="md:hidden block w-full h-full cursor-pointer">
             <Image
               src={slide.mobileImage}
               alt={slide.alt}
-              width={400}
-              height={600}
-              className="w-full h-auto transition-transform duration-1000 ease-in-out"
+              fill
+              className="object-cover"
               priority={index === 0}
               quality={75}
+              sizes="100vw"
             />
           </div>
         </div>
