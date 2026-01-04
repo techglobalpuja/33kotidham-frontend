@@ -110,8 +110,8 @@ const Header: React.FC = () => {
 
   // Dropdown menu items
   const moreMenuItems = [
-    // { name: 'Panchang', href: '/panchang', icon: '📅' },
-    // { name: 'Free Kundli', href: '/free-kundli', icon: '🔮' },
+    { name: 'Panchang', href: '/panchang', icon: '📅' },
+    // { name: 'Kundli', href: '/kundli', icon: '🔮' },
     // { name: 'Match Making', href: '/match-making', icon: '💕' },
     // { name: 'Numerology', href: '/numerology', icon: '🔢' },
     // { name: 'Astro Tools', href: '/astro-tools', icon: '🛠️' },

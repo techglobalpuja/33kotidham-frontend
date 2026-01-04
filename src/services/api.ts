@@ -656,6 +656,48 @@ class ApiService {
       }
     );
   }
+
+  // Panchang API method - Using Next.js API route (server-side)
+  async fetchBasicPanchang(params: {
+    date: string;
+    coordinates: {
+      latitude: number;
+      longitude: number;
+    };
+    timezone: number;
+    time?: string;
+    [key: string]: string | number | { latitude: number; longitude: number } | undefined; // Allow additional parameters
+  }): Promise<{
+    day: string;
+    tithi: string;
+    yog: string;
+    nakshatra: string;
+    karan: string;
+    sunrise: string;
+    sunset: string;
+  }> {
+    try {
+      // Call our Next.js API route
+      const response = await fetch('/api/panchang', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching Panchang data:', error);
+      throw error;
+    }
+  }
 }
 
 export const apiService = new ApiService();
