@@ -10,7 +10,7 @@ import { getHoroscopeCards } from '@/utils/horoscope';
 
 import SectionLoader from '@/components/ui/SectionLoader';
 
-const PujaSection = dynamic(() => import('@/components/sections/PujaSection'), {
+const PopularProductsSection = dynamic(() => import('@/components/sections/PopularProductsSection'), {
   loading: () => <SectionLoader />,
 });
 const HoroscopeSection = dynamic(() => import('@/components/sections/HoroscopeSection'), {
@@ -106,7 +106,7 @@ export default function HomePage() {
     <div className="flex flex-col justify-start items-center w-full bg-white overflow-x-hidden">
       <HeroSection />
       <TrustSection />
-      <PujaSection />
+      <PopularProductsSection />
       <HoroscopeSection horoscopeCards={horoscopeCards} />
       <ProcessSection processSteps={processSteps} />
       <VideoSection />
